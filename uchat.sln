@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat-common", "uchat-common\uchat-common.csproj", "{8C153AE6-A6CA-4F11-9C89-0F1A763CE8FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat-server", "uchat-server\uchat-server.csproj", "{083C6600-CF27-484A-891C-518F5438FF3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat-client", "uchat-client\uchat-client.csproj", "{313902D3-5567-449B-994B-5911DEB8D34E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C153AE6-A6CA-4F11-9C89-0F1A763CE8FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C153AE6-A6CA-4F11-9C89-0F1A763CE8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C153AE6-A6CA-4F11-9C89-0F1A763CE8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C153AE6-A6CA-4F11-9C89-0F1A763CE8FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{083C6600-CF27-484A-891C-518F5438FF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{083C6600-CF27-484A-891C-518F5438FF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{083C6600-CF27-484A-891C-518F5438FF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{083C6600-CF27-484A-891C-518F5438FF3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{313902D3-5567-449B-994B-5911DEB8D34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{313902D3-5567-449B-994B-5911DEB8D34E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{313902D3-5567-449B-994B-5911DEB8D34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{313902D3-5567-449B-994B-5911DEB8D34E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

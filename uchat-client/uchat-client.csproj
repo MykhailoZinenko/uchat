@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>uchat_client</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>uchat</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\uchat-common\uchat-common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Avalonia" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+      <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    </ItemGroup>
+
+</Project>

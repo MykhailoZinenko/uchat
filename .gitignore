@@ -1,0 +1,22 @@
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.idea/
+.vs/
+.vscode/
+
+# Session storage
+.uchat/
+
+# Claude documentation
+CLAUDE.md

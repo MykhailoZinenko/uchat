@@ -1,0 +1,52 @@
+using Microsoft.EntityFrameworkCore;
+using uchat_server.Data.Entities;
+
+namespace uchat_server.Data;
+
+public class UchatDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; }
+    public DbSet<Message> Messages { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+
+    public UchatDbContext(DbContextOptions<UchatDbContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Username).IsUnique();
+            entity.Property(e => e.Username).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.PasswordHash).IsRequired();
+        });
+
+        modelBuilder.Entity<Message>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Content).IsRequired();
+
+            entity.HasOne(e => e.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(e => e.SenderId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Session>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Token).IsUnique();
+            entity.Property(e => e.Token).HasMaxLength(128).IsRequired();
+            entity.Property(e => e.DeviceInfo).HasMaxLength(256);
+
+            entity.HasOne(e => e.User)
+                .WithMany(u => u.Sessions)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+    }
+}
