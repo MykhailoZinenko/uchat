@@ -11,11 +11,15 @@ public static class SessionStorage
         ".uchat"
     );
 
-    private static readonly string SessionFile = Path.Combine(SessionDir, "session.dat");
-    private static readonly IDataProtector _protector;
+    private static string? _instanceId;
+    private static string? _sessionFile;
+    private static IDataProtector? _protector;
 
-    static SessionStorage()
+    public static void Initialize(string instanceId)
     {
+        _instanceId = instanceId;
+        _sessionFile = Path.Combine(SessionDir, $"session-{_instanceId}.dat");
+
         var services = new ServiceCollection();
         services.AddDataProtection()
             .PersistKeysToFileSystem(new DirectoryInfo(SessionDir));
@@ -27,6 +31,9 @@ public static class SessionStorage
 
     public static void SaveSession(string sessionToken)
     {
+        if (_protector == null || _sessionFile == null)
+            throw new InvalidOperationException("SessionStorage not initialized");
+
         try
         {
             if (!Directory.Exists(SessionDir))
@@ -35,7 +42,7 @@ public static class SessionStorage
             }
 
             var protectedToken = _protector.Protect(sessionToken);
-            File.WriteAllText(SessionFile, protectedToken);
+            File.WriteAllText(_sessionFile, protectedToken);
         }
         catch (Exception ex)
         {
@@ -45,12 +52,15 @@ public static class SessionStorage
 
     public static string? LoadSession()
     {
+        if (_protector == null || _sessionFile == null)
+            return null;
+
         try
         {
-            if (!File.Exists(SessionFile))
+            if (!File.Exists(_sessionFile))
                 return null;
 
-            var protectedToken = File.ReadAllText(SessionFile);
+            var protectedToken = File.ReadAllText(_sessionFile);
             return _protector.Unprotect(protectedToken);
         }
         catch (Exception ex)
@@ -62,11 +72,14 @@ public static class SessionStorage
 
     public static void ClearSession()
     {
+        if (_sessionFile == null)
+            return;
+
         try
         {
-            if (File.Exists(SessionFile))
+            if (File.Exists(_sessionFile))
             {
-                File.Delete(SessionFile);
+                File.Delete(_sessionFile);
             }
         }
         catch (Exception ex)
@@ -77,6 +90,6 @@ public static class SessionStorage
 
     public static string GetDeviceInfo()
     {
-        return $"{Environment.OSVersion.Platform} {Environment.OSVersion.Version} - {Environment.MachineName}";
+        return $"{Environment.OSVersion.Platform} {Environment.OSVersion.Version} - {Environment.MachineName} [{_instanceId ?? "unknown"}]";
     }
 }

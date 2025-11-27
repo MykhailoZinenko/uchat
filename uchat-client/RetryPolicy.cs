@@ -6,7 +6,7 @@ public class RetryPolicy : IRetryPolicy
 {
     private readonly TimeSpan[] _retryDelays =
     {
-        TimeSpan.Zero,
+        TimeSpan.FromSeconds(2),
         TimeSpan.FromSeconds(2),
         TimeSpan.FromSeconds(5),
         TimeSpan.FromSeconds(10),

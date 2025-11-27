@@ -4,7 +4,7 @@ using uchat_common.Dtos;
 
 if (args.Length < 2)
 {
-    Console.WriteLine("Usage: uchat <server_ip> <port>");
+    Console.WriteLine("Usage: uchat <server_ip> <port> [instance_id]");
     return 1;
 }
 
@@ -15,6 +15,9 @@ if (!int.TryParse(args[1], out int port) || port < 1 || port > 65535)
     Console.WriteLine("Error: Invalid port number. Port must be between 1 and 65535.");
     return 1;
 }
+
+string instanceId = args.Length > 2 ? args[2] : "default";
+SessionStorage.Initialize(instanceId);
 
 var reconnectPolicy = new RetryPolicy();
 var sessionRevokedFlag = new System.Threading.Tasks.TaskCompletionSource<bool>();
@@ -45,10 +48,31 @@ connection.Reconnecting += error =>
     return Task.CompletedTask;
 };
 
-connection.Reconnected += connectionId =>
+connection.Reconnected += async connectionId =>
 {
     Console.WriteLine($"Reconnected successfully. Connection ID: {connectionId}");
-    return Task.CompletedTask;
+
+    var savedSession = SessionStorage.LoadSession();
+    if (!string.IsNullOrEmpty(savedSession))
+    {
+        try
+        {
+            var reloginResult = await connection.InvokeAsync<LoginResult>("LoginWithSession", savedSession);
+            if (reloginResult.Success)
+            {
+                Console.WriteLine("[DEBUG] Re-authenticated with saved session");
+            }
+            else
+            {
+                Console.WriteLine("[DEBUG] Session expired, you'll need to login again");
+                SessionStorage.ClearSession();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DEBUG] Re-authentication failed: {ex.Message}");
+        }
+    }
 };
 
 connection.Closed += async error =>
@@ -68,6 +92,22 @@ connection.Closed += async error =>
         {
             await connection.StartAsync();
             Console.WriteLine($"[DEBUG] Successfully reconnected to server after {attemptCount} attempts!");
+
+            var savedSession = SessionStorage.LoadSession();
+            if (!string.IsNullOrEmpty(savedSession))
+            {
+                var reloginResult = await connection.InvokeAsync<LoginResult>("LoginWithSession", savedSession);
+                if (reloginResult.Success)
+                {
+                    Console.WriteLine("[DEBUG] Re-authenticated with saved session");
+                }
+                else
+                {
+                    Console.WriteLine("[DEBUG] Session expired, you'll need to login again");
+                    SessionStorage.ClearSession();
+                }
+            }
+
             break;
         }
         catch (Exception ex)

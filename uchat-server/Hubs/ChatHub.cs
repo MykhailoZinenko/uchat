@@ -122,7 +122,17 @@ public class ChatHub : Hub
     {
         if (_connectedUsers.TryRemove(Context.ConnectionId, out var userInfo))
         {
-            _connectionToSession.TryRemove(Context.ConnectionId, out _);
+            if (_connectionToSession.TryRemove(Context.ConnectionId, out var sessionToken))
+            {
+                Console.WriteLine($"[DEBUG] Revoking session for user {userInfo.Username}: {sessionToken[..16]}...");
+                var revoked = await _chatService.RevokeSessionAsync(sessionToken);
+                Console.WriteLine($"[DEBUG] Session revoked: {revoked}");
+            }
+            else
+            {
+                Console.WriteLine($"[DEBUG] No session token found for {userInfo.Username} (ConnectionId: {Context.ConnectionId})");
+            }
+
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "LoggedIn");
             await _chatService.UpdateUserLastSeenAsync(userInfo.UserId);
         }

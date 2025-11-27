@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using uchat_server.Data;
 using uchat_server.Hubs;
 using uchat_server.Services;
@@ -20,6 +21,8 @@ if (!int.TryParse(args[0], out int port) || port < 1 || port > 65535)
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
 
 builder.Services.AddDbContext<UchatDbContext>(options =>
     options.UseSqlite("Data Source=uchat.db"));
