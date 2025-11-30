@@ -2,51 +2,222 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
              x:Class="uchat_client.Views.ChatView"
-             x:DataType="viewModels:ChatViewModel">
+             x:DataType="viewModels:ChatViewModel"
+             Background="#364D70">
 
-    <Grid RowDefinitions="Auto,*,Auto"
-          Margin="24">
+    <!-- Общий layout: слева сайдбар, справа чат -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Сайдбар -->
+            <ColumnDefinition Width="280" />
+            <!-- Основная зона чата -->
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <!-- Header -->
-        <TextBlock Grid.Row="0"
-                   Text="{Binding Header}"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,24" />
+        <!-- ========== LEFT SIDEBAR ========== -->
+        <Border Grid.Column="0"
+                Background="#98B7E4"
+                CornerRadius="0,12,12,0">
+            <Grid Margin="8"
+                  RowDefinitions="Auto,Auto,*,Auto">
 
-        <!-- Messages List -->
-        <ScrollViewer Grid.Row="1"
-                      Margin="0,0,0,12">
-            <ItemsControl ItemsSource="{Binding Messages}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,4">
-                            <TextBlock>
-                                <Run Text="{Binding Sender}" FontWeight="Bold" />
-                                <Run Text=" • " />
-                                <Run Text="{Binding Time}" FontSize="11" />
-                            </TextBlock>
-                            <TextBlock Text="{Binding Text}"
-                                       TextWrapping="Wrap"
-                                       Margin="0,2,0,0" />
+                <!-- 1. BIO-БЛОК -->
+                <Border Grid.Row="0"
+                        Background="#364D70"
+                        CornerRadius="8"
+                        Padding="8"
+                        Margin="0,0,0,16">
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          VerticalAlignment="Center">
+
+                        <!-- Кнопка смены иконки пользователя -->
+                        <Button Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="24"
+                                Content="👤" />
+
+                        <!-- Текст био (плейсхолдер) -->
+                        <StackPanel Grid.Column="1"
+                                    Margin="8,0,8,0">
+                            <TextBlock Text="Username"
+                                       FontWeight="Bold" />
+                            <TextBlock Text="Bio goes here…"
+                                       FontSize="11"
+                                       Opacity="0.8" />
                         </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
 
-        <!-- Message Input -->
-        <Grid Grid.Row="2"
-              ColumnDefinitions="*,Auto">
-            <TextBox Grid.Column="0"
-                     Text="{Binding OutgoingMessage}"
-                     Watermark="Type a message..."
-                     Margin="0,0,8,0" />
-            <Button Grid.Column="1"
-                    Content="Send"
-                    Command="{Binding SendCommand}"
-                    Width="80" />
+                        <!-- Кнопка редактировать био -->
+                        <Button Grid.Column="2"
+                                Width="44"
+                                Height="44"
+                                CornerRadius="24"
+                                Content="✎" />
+                    </Grid>
+                </Border>
+
+                <!-- 2. ПОИСК + ПРАВАЯ КНОПКА (+ ПОТОМ) -->
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="*,Auto"
+                      Margin="0,0,0,16">
+                    <!-- Поле ввода: ширина/высота по ТЗ -->
+                    <TextBox Grid.Column="0"
+                             Height="48"
+                             Margin="0,0,8,0"
+                             Background="#ffffff"
+                             Foreground="#364D70"
+                             CornerRadius="8"
+                             Watermark="Search" />
+                    <Button Grid.Column="1"
+                            Width="44"
+                            Height="44"
+                            CornerRadius="24"
+                            Content="+" />
+                </Grid>
+
+                <!-- 3. СПИСОК ПОСЛЕДНИХ ЧАТОВ (пока заглушки) -->
+                <StackPanel Grid.Row="2"
+                            Spacing="8">
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 1                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 2                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 3                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 4                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 5                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 6                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 7                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 8                                          " />
+                    <Button Height="48"
+                            CornerRadius="8"
+                            Content="Contact 9                                          " />
+                </StackPanel>
+
+                <!-- 4. ДВЕ КНОПКИ ВНИЗУ (НАЗАД / НАСТРОЙКИ, как на макете) -->
+                <Grid Grid.Row="3"
+                      ColumnDefinitions="Auto,*,Auto"
+                      Margin="0,16,0,0">
+                    <!-- Левая кнопка (выход / назад) 48x48 -->
+                    <Button Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
+                            Content="◀" />
+
+                    <!-- Пустой спейсер -->
+                    <Border Grid.Column="1" />
+
+                    <!-- Правая кнопка (настройки) 48x48 -->
+                    <Button Grid.Column="2"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
+                            Content="⚙️" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- ========== RIGHT: CHAT AREA ========== -->
+        <Grid Grid.Column="1"
+              Margin="8"
+              RowDefinitions="*,Auto">
+
+            <!-- Зона сообщений -->
+            <ScrollViewer Grid.Row="0">
+                <ItemsControl ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="8"
+                                        HorizontalAlignment="Left">
+                                <Border Background="#B6DBFF"
+                                        Padding="12"
+                                        CornerRadius="12"
+                                        MaxWidth="320">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Sender}"
+                                                   FontWeight="Bold"
+                                                   FontSize="11"
+                                                   Foreground="#364D70" />
+
+                                        <TextBlock Text="{Binding Text}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,4,0,4"
+                                                   Foreground="#364D70" />
+
+                                        <TextBlock Text="{Binding Time}"
+                                                   FontSize="10"
+                                                   Opacity="0.7"
+                                                   HorizontalAlignment="Right"
+                                                   Foreground="#364D70" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Поле ввода сообщения + send-кнопка -->
+            <Grid Grid.Row="1"
+                  Margin="0,8,0,0"
+                  ColumnDefinitions="Auto,*,Auto">
+
+                <!-- Left round upload button -->
+                <Button Grid.Column="0"
+                        Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="#ffffff"
+                        Margin="0,0,8,0">
+                    <TextBlock Text="⬇"
+                               Foreground="#364D70"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Button>
+
+                <!-- Textbox (long, rounded) -->
+                <Border Grid.Column="1"
+                        CornerRadius="20"
+                        Background="#ffffff"
+                        Height="40">
+                    <TextBox Text="{Binding OutgoingMessage}"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Foreground="White"
+                             FontSize="14"
+                             Watermark="Message..."
+                             VerticalContentAlignment="Center"
+                             Padding="12,0"/>
+                </Border>
+
+                <!-- Right round send button -->
+                <Button Grid.Column="2"
+                        Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="#ffffff"
+                        Command="{Binding SendCommand}"
+                        Margin="8,0,0,0">
+                    <TextBlock Text="✈"
+                               Foreground="#364D70"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
