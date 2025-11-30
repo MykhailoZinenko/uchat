@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             x:Class="uchat_client.Views.LoginView"
+             x:DataType="viewModels:LoginViewModel">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+          Margin="24">
+        <TextBlock Grid.Row="0"
+                   Text="uchat login"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+        <TextBlock Grid.Row="1"
+                   Text="Username" />
+        <TextBox Grid.Row="2"
+                 Text="{Binding Username}"
+                 Margin="0,4,0,12" />
+
+        <TextBlock Grid.Row="3"
+                   Text="Password" />
+        <TextBox Grid.Row="4"
+                 PasswordChar="*"
+                 Text="{Binding Password}"
+                 Margin="0,4,0,16" />
+
+        <Button Grid.Row="5"
+                Content="Login"
+                Command="{Binding LoginCommand}"
+                HorizontalAlignment="Center"
+                Width="100"
+                Margin="0,8,0,0" />
+    </Grid>
+</UserControl>
+
+<!--                 EARLIER VERSION
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="uchat_client.Views.LoginView">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+          Margin="24">
+        <TextBlock Text="uchat login"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+        <TextBlock Grid.Row="1"
+                   Text="Username" />
+        <TextBox Grid.Row="1"
+                 Text="{Binding Username}"
+                 Margin="0,4,0,12" />
+
+        <TextBlock Grid.Row="2"
+                   Text="Password" />
+        <TextBox Grid.Row="3"
+                 PasswordChar="*"
+                 Text="{Binding Password}"
+                 Margin="0,4,0,16" />
+
+        <Button Grid.Row="4"
+                Content="Login"
+                Command="{Binding LoginCommand}"
+                HorizontalAlignment="Center"
+                Width="100"
+                Margin="0,8,0,0" />
+    </Grid>
+</UserControl>
+-->

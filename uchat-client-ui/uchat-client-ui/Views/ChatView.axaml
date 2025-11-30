@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             x:Class="uchat_client.Views.ChatView"
+             x:DataType="viewModels:ChatViewModel">
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          Margin="24">
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Header}"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+        <!-- Messages List -->
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,0,0,12">
+            <ItemsControl ItemsSource="{Binding Messages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,4">
+                            <TextBlock>
+                                <Run Text="{Binding Sender}" FontWeight="Bold" />
+                                <Run Text=" • " />
+                                <Run Text="{Binding Time}" FontSize="11" />
+                            </TextBlock>
+                            <TextBlock Text="{Binding Text}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Message Input -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto">
+            <TextBox Grid.Column="0"
+                     Text="{Binding OutgoingMessage}"
+                     Watermark="Type a message..."
+                     Margin="0,0,8,0" />
+            <Button Grid.Column="1"
+                    Content="Send"
+                    Command="{Binding SendCommand}"
+                    Width="80" />
+        </Grid>
+    </Grid>
+</UserControl>
