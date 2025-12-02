@@ -21,8 +21,16 @@ public class UchatDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.Username).IsUnique();
+            entity.HasIndex(e => e.Email).IsUnique();
+            entity.HasIndex(e => e.IsOnline);
             entity.Property(e => e.Username).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.PasswordHash).IsRequired();
+            entity.Property(e => e.DisplayName).HasMaxLength(100);
+            entity.Property(e => e.Bio).HasMaxLength(500);
+            entity.Property(e => e.AvatarUrl).HasMaxLength(500);
+            entity.Property(e => e.StatusText).HasMaxLength(200);
+            entity.Property(e => e.CreatedAt).IsRequired();
         });
 
         modelBuilder.Entity<Message>(entity =>

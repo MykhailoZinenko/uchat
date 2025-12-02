@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using uchat_server.Data;
 
@@ -10,9 +11,11 @@ using uchat_server.Data;
 namespace uchat_server.Migrations
 {
     [DbContext(typeof(UchatDbContext))]
-    partial class UchatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202195504_UpdateUserSchema")]
+    partial class UpdateUserSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -43,7 +46,7 @@ namespace uchat_server.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Session", b =>
@@ -84,7 +87,7 @@ namespace uchat_server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.User", b =>
@@ -144,7 +147,7 @@ namespace uchat_server.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Message", b =>
