@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using uchat_server.Data;
 using uchat_server.Hubs;
+using uchat_server.Repositories;
 using uchat_server.Services;
 
 if (args.Length == 0)
@@ -27,7 +28,12 @@ builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
 builder.Services.AddDbContext<UchatDbContext>(options =>
     options.UseSqlite("Data Source=uchat.db"));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<IMapperService, MapperService>();
 
 builder.Services.AddSignalR(options =>
 {

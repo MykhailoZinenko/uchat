@@ -14,33 +14,6 @@ public class ChatService
         _db = db;
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string username)
-    {
-        return await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
-    }
-
-    public async Task<User> CreateUserAsync(string username, string password)
-    {
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
-
-        var user = new User
-        {
-            Username = username,
-            PasswordHash = passwordHash,
-            CreatedAt = DateTime.UtcNow
-        };
-
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
-
-        return user;
-    }
-
-    public bool VerifyPassword(User user, string password)
-    {
-        return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-    }
-
     public async Task<List<Message>> GetRecentMessagesAsync(int limit = 50)
     {
         return await _db.Messages
