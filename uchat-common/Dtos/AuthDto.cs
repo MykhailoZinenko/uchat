@@ -2,5 +2,5 @@ namespace uchat_common.Dtos;
 
 public class AuthDto
 {
-    public string RefreshToken { get; set; } = string.Empty;
+    public string SessionToken { get; set; } = string.Empty;
 }

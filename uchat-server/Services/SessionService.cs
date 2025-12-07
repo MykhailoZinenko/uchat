@@ -30,6 +30,11 @@ public class SessionService : ISessionService
         return session;
     }
 
+    public async Task<Session?> GetSessionByTokenAsync(string sessionToken)
+    {
+        return await _sessionRepository.GetSessionByTokenAsync(sessionToken);
+    }
+
     public async Task<List<Session>> GetActiveSessionsByUserIdAsync(int userId)
     {
         return await _sessionRepository.GetActiveSessionsByUserIdAsync(userId);

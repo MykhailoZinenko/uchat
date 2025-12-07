@@ -32,7 +32,7 @@ const result = await connection.invoke("Register", username, password, deviceInf
   success: boolean,
   message: string,
   data: {
-    refreshToken: string  // JWT токен (30 дней)
+    sessionToken: string  // Криптографически стойкий токен сессии (не меняется)
   }
 }
 ```
@@ -58,7 +58,7 @@ const result = await connection.invoke("Login", username, password, deviceInfo, 
   success: boolean,
   message: string,
   data: {
-    refreshToken: string  // JWT токен (30 дней)
+    sessionToken: string  // Новая сессия = новый токен
   }
 }
 ```
@@ -66,14 +66,14 @@ const result = await connection.invoke("Login", username, password, deviceInfo, 
 ---
 
 ### 3. LoginWithRefreshToken
-**Silent login - обновление refresh token**
+**Silent login - продление активной сессии**
 
 ```javascript
-const result = await connection.invoke("LoginWithRefreshToken", refreshToken, deviceInfo, ipAddress);
+const result = await connection.invoke("LoginWithRefreshToken", sessionToken, deviceInfo, ipAddress);
 ```
 
 **Параметры:**
-- `refreshToken` (string, required) - refresh токен
+- `sessionToken` (string, required) - токен сессии
 - `deviceInfo` (string, optional) - обновить информацию об устройстве
 - `ipAddress` (string, optional) - обновить IP адрес
 
@@ -83,12 +83,15 @@ const result = await connection.invoke("LoginWithRefreshToken", refreshToken, de
   success: boolean,
   message: string,
   data: {
-    refreshToken: string   // новый refresh токен
+    sessionToken: string   // Тот же токен (НЕ меняется!)
   }
 }
 ```
 
-**Важно:** Старый refresh токен становится недействительным!
+**Важно:** 
+- Токен **не меняется** при использовании этого метода
+- Автоматически продлевает срок действия сессии (ExpiresAt)
+- Обновляет LastActivityAt
 
 ---
 
@@ -96,11 +99,11 @@ const result = await connection.invoke("LoginWithRefreshToken", refreshToken, de
 **Получить список активных сессий пользователя**
 
 ```javascript
-const result = await connection.invoke("GetActiveSessions", refreshToken);
+const result = await connection.invoke("GetActiveSessions", sessionToken);
 ```
 
 **Параметры:**
-- `refreshToken` (string, required) - refresh токен
+- `sessionToken` (string, required) - токен сессии
 
 **Возвращает:**
 ```typescript
@@ -109,7 +112,7 @@ const result = await connection.invoke("GetActiveSessions", refreshToken);
   message: string,
   data: [
     {
-      token: string,           // refresh токен сессии
+      token: string,           // токен сессии
       deviceInfo: string,      // информация об устройстве
       createdAt: DateTime,     // дата создания
       lastActivityAt: DateTime,// последняя активность
@@ -125,11 +128,11 @@ const result = await connection.invoke("GetActiveSessions", refreshToken);
 **Отозвать конкретную сессию**
 
 ```javascript
-const result = await connection.invoke("RevokeSession", refreshToken, sessionId);
+const result = await connection.invoke("RevokeSession", sessionToken, sessionId);
 ```
 
 **Параметры:**
-- `refreshToken` (string, required) - refresh токен
+- `sessionToken` (string, required) - токен сессии
 - `sessionId` (int, required) - ID сессии для отзыва
 
 **Возвращает:**
@@ -147,11 +150,11 @@ const result = await connection.invoke("RevokeSession", refreshToken, sessionId)
 **Выход - отзыв текущей сессии**
 
 ```javascript
-const result = await connection.invoke("Logout", refreshToken);
+const result = await connection.invoke("Logout", sessionToken);
 ```
 
 **Параметры:**
-- `refreshToken` (string, required) - refresh токен
+- `sessionToken` (string, required) - токен сессии
 
 **Возвращает:**
 ```typescript
@@ -162,7 +165,7 @@ const result = await connection.invoke("Logout", refreshToken);
 }
 ```
 
-**Важно:** После logout refresh токен становится недействительным!
+**Важно:** После logout токен сессии становится недействительным!
 
 ---
 
@@ -170,11 +173,11 @@ const result = await connection.invoke("Logout", refreshToken);
 **Отправить сообщение в чат**
 
 ```javascript
-await connection.invoke("SendMessage", refreshToken, message);
+await connection.invoke("SendMessage", sessionToken, message);
 ```
 
 **Параметры:**
-- `refreshToken` (string, required) - refresh токен
+- `sessionToken` (string, required) - токен сессии
 - `message` (string, required) - текст сообщения
 
 **Возвращает:** void (ничего)
@@ -223,16 +226,17 @@ const authResult = await connection.invoke("Register", "user123", "pass123", "Ch
 const authResult = await connection.invoke("Login", "user123", "pass123", "Chrome/Windows");
 
 // 2. Сохранить токен
-localStorage.setItem('refreshToken', authResult.data.refreshToken);
+localStorage.setItem('sessionToken', authResult.data.sessionToken);
 ```
 
 ### Автоматический вход (Silent Login)
 ```javascript
-const refreshToken = localStorage.getItem('refreshToken');
-const result = await connection.invoke("LoginWithRefreshToken", refreshToken);
+const sessionToken = localStorage.getItem('sessionToken');
+const result = await connection.invoke("LoginWithRefreshToken", sessionToken);
 
 if (result.success) {
-  localStorage.setItem('refreshToken', result.data.refreshToken);
+  // Токен остался тот же, но сессия продлена
+  console.log('Session extended');
 } else {
   // Перенаправить на страницу логина
 }
@@ -240,16 +244,16 @@ if (result.success) {
 
 ### Отправка сообщения
 ```javascript
-const refreshToken = localStorage.getItem('refreshToken');
-await connection.invoke("SendMessage", refreshToken, "Hello, World!");
+const sessionToken = localStorage.getItem('sessionToken');
+await connection.invoke("SendMessage", sessionToken, "Hello, World!");
 ```
 
 ### Выход
 ```javascript
-const refreshToken = localStorage.getItem('refreshToken');
-await connection.invoke("Logout", refreshToken);
+const sessionToken = localStorage.getItem('sessionToken');
+await connection.invoke("Logout", sessionToken);
 
-localStorage.removeItem('refreshToken');
+localStorage.removeItem('sessionToken');
 ```
 
 ---
@@ -261,7 +265,9 @@ localStorage.removeItem('refreshToken');
 - `false` - произошла ошибка (см. поле `message`)
 
 **Типичные ошибки:**
-- `"Invalid or expired refresh token"` - refresh токен недействителен или истек
+- `"Invalid or expired refresh token"` - токен сессии недействителен или истёк
+- `"Session has expired"` - сессия истекла
+- `"Invalid session token"` - токен не найден
 - `"User not found or invalid password"` - неверные учетные данные
 - `"Username already exists"` - пользователь уже существует
 - `"Session expired or not found"` - сессия истекла или удалена
@@ -271,9 +277,14 @@ localStorage.removeItem('refreshToken');
 
 ## Время жизни токена
 
-- **Refresh Token**: 30 дней (2592000000 ms)
+- **Session Token**: 30 дней (2592000000 ms)
+
+**Автоматическое продление:**
+- При каждом использовании токена (любой метод API) срок действия автоматически продлевается на 30 дней
+- Таким образом, пока пользователь активен - сессия не истекает
+- Если пользователь не использует приложение 30 дней - сессия истекает
 
 **Рекомендации:**
-- Используйте `LoginWithRefreshToken` периодически для продления сессии
-- Используйте `LoginWithRefreshToken` при запуске приложения
-- Храните refresh token безопасно (HttpOnly cookie или secure storage)
+- Используйте `LoginWithRefreshToken` при запуске приложения для проверки токена
+- Храните session token безопасно (HttpOnly cookie или secure storage)
+- Не нужно обновлять токен вручную - он продлевается автоматически

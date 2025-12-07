@@ -1,7 +1,6 @@
 using uchat_common.Dtos;
 using uchat_server.Data.Entities;
 using uchat_server.Exceptions;
-using uchat_server.Models;
 using uchat_server.Repositories;
 
 namespace uchat_server.Services;
@@ -10,18 +9,18 @@ public class AuthService : IAuthService
 {
     private readonly IUserService _userService;
     private readonly IHashService _hashService;
-    private readonly IJwtService _jwtService;
+    private readonly ICryptographyService _cryptographyService;
     private readonly ISessionService _sessionService;
 
     public AuthService(
         IUserService userService,
         IHashService hashService,
-        IJwtService jwtService,
+        ICryptographyService cryptographyService,
         ISessionService sessionService)
     {
         _userService = userService;
         _hashService = hashService;
-        _jwtService = jwtService;
+        _cryptographyService = cryptographyService;
         _sessionService = sessionService;
     }
 
@@ -40,27 +39,24 @@ public class AuthService : IAuthService
 
         var createdUser = await _userService.CreateUserAsync(user);
 
+        var sessionToken = _cryptographyService.GenerateSessionToken();
+
         var session = new Session
         {
-            RefreshToken = string.Empty,
+            SessionToken = sessionToken,
             UserId = createdUser.Id,
             DeviceInfo = deviceInfo,
             IpAddress = ipAddress,
             CreatedAt = DateTime.UtcNow,
-            ExpiresAt = DateTime.UtcNow.AddMilliseconds(_jwtService.GetRefreshTokenLifetimeMs()),
+            ExpiresAt = DateTime.UtcNow.AddMilliseconds(_cryptographyService.GetSessionLifetimeMs()),
             LastActivityAt = DateTime.UtcNow
         };
 
-        var createdSession = await _sessionService.CreateSessionAsync(session);
-
-        var refreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(createdUser.Id, createdSession.Id));
-
-        createdSession.RefreshToken = refreshToken;
-        await _sessionService.UpdateSessionAsync(createdSession);
+        await _sessionService.CreateSessionAsync(session);
 
         return new AuthDto
         {
-            RefreshToken = refreshToken
+            SessionToken = sessionToken
         };
     }
 
@@ -77,57 +73,46 @@ public class AuthService : IAuthService
             throw new AppException("User not found or invalid password");
         }
 
+        var sessionToken = _cryptographyService.GenerateSessionToken();
+
         var session = new Session
         {
-            RefreshToken = string.Empty,
+            SessionToken = sessionToken,
             UserId = user.Id,
             DeviceInfo = deviceInfo,
             IpAddress = ipAddress,
             CreatedAt = DateTime.UtcNow,
-            ExpiresAt = DateTime.UtcNow.AddMilliseconds(_jwtService.GetRefreshTokenLifetimeMs()),
+            ExpiresAt = DateTime.UtcNow.AddMilliseconds(_cryptographyService.GetSessionLifetimeMs()),
             LastActivityAt = DateTime.UtcNow
         };
 
-        var createdSession = await _sessionService.CreateSessionAsync(session);
-
-        var refreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(user.Id, createdSession.Id));
-
-        createdSession.RefreshToken = refreshToken;
-        await _sessionService.UpdateSessionAsync(createdSession);
+        await _sessionService.CreateSessionAsync(session);
 
         return new AuthDto
         {
-            RefreshToken = refreshToken
+            SessionToken = sessionToken
         };
     }
 
-    public async Task<AuthDto> LoginWithRefreshTokenAsync(string refreshToken, string? deviceInfo = null, string? ipAddress = null)
+    public async Task<AuthDto> LoginWithRefreshTokenAsync(string sessionToken, string? deviceInfo = null, string? ipAddress = null)
     {
-        RefreshTokenPayload payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
-
-        Session session = await _sessionService.GetSessionByIdAsync(payload.SessionId);
-
-        string newRefreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(session.UserId, session.Id));
-
-        session.RefreshToken = newRefreshToken;
-        session.LastActivityAt = DateTime.UtcNow;
-        session.ExpiresAt = DateTime.UtcNow.AddMilliseconds(_jwtService.GetRefreshTokenLifetimeMs());
+        var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
         
         if (deviceInfo != null)
         {
             session.DeviceInfo = deviceInfo;
+            await _sessionService.UpdateSessionAsync(session);
         }
         
         if (ipAddress != null)
         {
             session.IpAddress = ipAddress;
+            await _sessionService.UpdateSessionAsync(session);
         }
-
-        await _sessionService.UpdateSessionAsync(session);
 
         return new AuthDto
         {
-            RefreshToken = newRefreshToken
+            SessionToken = sessionToken
         };
     }
 }

@@ -28,6 +28,13 @@ public class SessionRepository : ISessionRepository
             .FirstOrDefaultAsync(s => s.Id == sessionId);
     }
 
+    public async Task<Session?> GetSessionByTokenAsync(string sessionToken)
+    {
+        return await _context.Sessions
+            .Include(s => s.User)
+            .FirstOrDefaultAsync(s => s.SessionToken == sessionToken);
+    }
+
     public async Task<List<Session>> GetActiveSessionsByUserIdAsync(int userId)
     {
         return await _context.Sessions

@@ -46,8 +46,8 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         Assert.True(result.Success);
         Assert.Equal("Account created successfully", result.Message);
         Assert.NotNull(result.Data);
-        Assert.NotNull(result.Data.RefreshToken);
-        Assert.NotEmpty(result.Data.RefreshToken);
+        Assert.NotNull(result.Data.SessionToken);
+        Assert.NotEmpty(result.Data.SessionToken);
     }
 
     [Fact]
@@ -73,12 +73,12 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         Assert.True(loginResult.Success);
         Assert.Equal("Logged in successfully", loginResult.Message);
         Assert.NotNull(loginResult.Data);
-        Assert.NotNull(loginResult.Data.RefreshToken);
-        Assert.NotEqual(registerResult.Data!.RefreshToken, loginResult.Data.RefreshToken);
+        Assert.NotNull(loginResult.Data.SessionToken);
+        Assert.NotEqual(registerResult.Data!.SessionToken, loginResult.Data.SessionToken);
     }
 
     [Fact]
-    public async Task Test03_SendMessage_WithValidRefreshToken_ShouldSucceed()
+    public async Task Test03_SendMessage_WithValidSessionToken_ShouldSucceed()
     {
         // Arrange
         var registerResult = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
@@ -87,10 +87,10 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             TestPassword, 
             "Chrome/Windows", 
             (string?)null);
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
         // Act & Assert - Should not throw
-        await _connection.InvokeAsync("SendMessage", refreshToken, "Test message");
+        await _connection.InvokeAsync("SendMessage", sessionToken, "Test message");
     }
 
     [Fact]
@@ -111,12 +111,12 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             "Firefox/Windows", 
             (string?)null);
 
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
         // Act
         var sessionsResult = await _connection.InvokeAsync<ApiResponse<List<SessionInfo>>>(
             "GetActiveSessions", 
-            refreshToken);
+            sessionToken);
 
         // Assert
         Assert.True(sessionsResult.Success);
@@ -132,7 +132,7 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Test05_LoginWithRefreshToken_ShouldRotateTokens()
+    public async Task Test05_LoginWithRefreshToken_ShouldNotRotateToken()
     {
         // Arrange
         var registerResult = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
@@ -141,25 +141,25 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             TestPassword, 
             "Chrome/Windows", 
             (string?)null);
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
         // Act
         var silentLoginResult = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
             "LoginWithRefreshToken", 
-            refreshToken, 
+            sessionToken, 
             (string?)null, 
             (string?)null);
 
-        // Assert
+        // Assert - Токен НЕ должен меняться!
         Assert.True(silentLoginResult.Success);
         Assert.Equal("Tokens refreshed successfully", silentLoginResult.Message);
         Assert.NotNull(silentLoginResult.Data);
-        Assert.NotNull(silentLoginResult.Data.RefreshToken);
-        Assert.NotEqual(refreshToken, silentLoginResult.Data.RefreshToken);
+        Assert.NotNull(silentLoginResult.Data.SessionToken);
+        Assert.Equal(sessionToken, silentLoginResult.Data.SessionToken);
     }
 
     [Fact]
-    public async Task Test06_LoginWithRefreshToken_WithOldToken_ShouldFail()
+    public async Task Test06_LoginWithRefreshToken_WithSameToken_ShouldSucceed()
     {
         // Arrange
         var registerResult = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
@@ -168,25 +168,24 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             TestPassword, 
             "Chrome/Windows", 
             (string?)null);
-        var oldRefreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
-        // Rotate tokens
+        // Используем токен первый раз
         await _connection.InvokeAsync<ApiResponse<AuthDto>>(
             "LoginWithRefreshToken", 
-            oldRefreshToken, 
+            sessionToken, 
             (string?)null, 
             (string?)null);
 
-        // Act
+        // Act - Используем тот же токен ещё раз
         var result = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
             "LoginWithRefreshToken", 
-            oldRefreshToken, 
+            sessionToken, 
             (string?)null, 
             (string?)null);
 
-        // Assert
-        Assert.False(result.Success);
-        Assert.Equal("Invalid or expired refresh token", result.Message);
+        // Assert - Должно успешно работать!
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -199,12 +198,12 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             TestPassword, 
             "Chrome/Windows", 
             (string?)null);
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
         // Act
         var logoutResult = await _connection.InvokeAsync<ApiResponse<bool>>(
             "Logout", 
-            refreshToken);
+            sessionToken);
 
         // Assert
         Assert.True(logoutResult.Success);
@@ -222,14 +221,14 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
             TestPassword, 
             "Chrome/Windows", 
             (string?)null);
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
-        await _connection.InvokeAsync<ApiResponse<bool>>("Logout", refreshToken);
+        await _connection.InvokeAsync<ApiResponse<bool>>("Logout", sessionToken);
 
         // Act
         var result = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
             "LoginWithRefreshToken", 
-            refreshToken,
+            sessionToken,
             (string?)null,
             (string?)null);
 
@@ -244,45 +243,39 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         var registerResult = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
             "Register", _testUsername, TestPassword, "Chrome/Windows", (string?)null);
         Assert.True(registerResult.Success);
-        var refreshToken = registerResult.Data!.RefreshToken;
+        var sessionToken = registerResult.Data!.SessionToken;
 
         // 2. Login (creates 2nd session)
         var loginResult = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
             "Login", _testUsername, TestPassword, "Firefox/Windows", (string?)null);
         Assert.True(loginResult.Success);
-        refreshToken = loginResult.Data!.RefreshToken;
+        var sessionToken2 = loginResult.Data!.SessionToken;
 
         // 3. Send message
-        await _connection.InvokeAsync("SendMessage", refreshToken, "Test message");
+        await _connection.InvokeAsync("SendMessage", sessionToken, "Test message");
 
         // 4. Get active sessions (should be 2)
         var sessionsResult = await _connection.InvokeAsync<ApiResponse<List<SessionInfo>>>(
-            "GetActiveSessions", refreshToken);
+            "GetActiveSessions", sessionToken);
         Assert.Equal(2, sessionsResult.Data!.Count);
 
-        // 5. Silent login (rotate refresh token)
+        // 5. Silent login - токен НЕ меняется
         var silentLoginResult = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
-            "LoginWithRefreshToken", refreshToken, (string?)null, (string?)null);
+            "LoginWithRefreshToken", sessionToken, (string?)null, (string?)null);
         Assert.True(silentLoginResult.Success);
-        var oldRefreshToken = refreshToken;
-        refreshToken = silentLoginResult.Data!.RefreshToken;
+        Assert.Equal(sessionToken, silentLoginResult.Data!.SessionToken);
 
-        // 6. Verify old refresh token is invalid
-        var oldTokenResult = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
-            "LoginWithRefreshToken", oldRefreshToken, (string?)null, (string?)null);
-        Assert.False(oldTokenResult.Success);
+        // 6. Send message with same token
+        await _connection.InvokeAsync("SendMessage", sessionToken, "Message with same token");
 
-        // 7. Send message with rotated refresh token
-        await _connection.InvokeAsync("SendMessage", refreshToken, "Message with rotated token");
-
-        // 8. Logout
+        // 7. Logout
         var logoutResult = await _connection.InvokeAsync<ApiResponse<bool>>(
-            "Logout", refreshToken);
+            "Logout", sessionToken);
         Assert.True(logoutResult.Success);
 
-        // 9. Verify refresh token fails after logout
+        // 8. Verify token fails after logout
         var afterLogoutRefresh = await _connection.InvokeAsync<ApiResponse<AuthDto>>(
-            "LoginWithRefreshToken", refreshToken, (string?)null, (string?)null);
+            "LoginWithRefreshToken", sessionToken, (string?)null, (string?)null);
         Assert.False(afterLogoutRefresh.Success);
     }
 }

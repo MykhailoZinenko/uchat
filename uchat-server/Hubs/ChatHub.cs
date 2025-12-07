@@ -10,7 +10,7 @@ public class ChatHub : Hub
     private readonly IAuthService _authService;
     private readonly ChatService _chatService;
     private readonly ISessionService _sessionService;
-    private readonly IJwtService _jwtService;
+    private readonly ICryptographyService _cryptographyService;
     private readonly IUserService _userService;
     private readonly IErrorMapper _errorMapper;
 
@@ -18,14 +18,14 @@ public class ChatHub : Hub
         IAuthService authService, 
         ChatService chatService, 
         ISessionService sessionService, 
-        IJwtService jwtService,
+        ICryptographyService cryptographyService,
         IUserService userService,
         IErrorMapper errorMapper)
     {
         _authService = authService;
         _chatService = chatService;
         _sessionService = sessionService;
-        _jwtService = jwtService;
+        _cryptographyService = cryptographyService;
         _userService = userService;
         _errorMapper = errorMapper;
     }
@@ -101,12 +101,12 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<bool>> Logout(string refreshToken)
+    public async Task<ApiResponse<bool>> Logout(string sessionToken)
     {
         try
         {
-            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
-            var success = await _sessionService.RevokeSessionAsync(payload.SessionId);
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var success = await _sessionService.RevokeSessionAsync(session.Id);
 
             return new ApiResponse<bool>
             {
@@ -121,15 +121,15 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string refreshToken)
+    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string sessionToken)
     {
         try
         {
-            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
-            var sessions = await _sessionService.GetActiveSessionsByUserIdAsync(payload.UserId);
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var sessions = await _sessionService.GetActiveSessionsByUserIdAsync(session.UserId);
             var sessionInfos = sessions.Select(s => new SessionInfo
             {
-                Token = s.RefreshToken,
+                Token = s.SessionToken,
                 DeviceInfo = s.DeviceInfo,
                 CreatedAt = s.CreatedAt,
                 LastActivityAt = s.LastActivityAt,
@@ -148,11 +148,11 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<bool>> RevokeSession(string refreshToken, int sessionId)
+    public async Task<ApiResponse<bool>> RevokeSession(string sessionToken, int sessionId)
     {
         try
         {
-            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var success = await _sessionService.RevokeSessionAsync(sessionId);
 
             return new ApiResponse<bool>
@@ -168,12 +168,12 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task SendMessage(string refreshToken, string message)
+    public async Task SendMessage(string sessionToken, string message)
     {
         try
         {
-            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
-            var user = await _userService.GetUserByIdAsync(payload.UserId);
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var user = await _userService.GetUserByIdAsync(session.UserId);
             
             if (user == null)
             {

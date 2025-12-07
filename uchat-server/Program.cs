@@ -28,8 +28,8 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
 
 // Настройка конфигурации из appsettings.json с валидацией
-builder.Services.AddOptions<JwtSettings>()
-    .Bind(builder.Configuration.GetSection("Jwt"))
+builder.Services.AddOptions<SessionSettings>()
+    .Bind(builder.Configuration.GetSection("Session"))
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
@@ -47,7 +47,7 @@ builder.Services.AddDbContext<UchatDbContext>((serviceProvider, options) =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IHashService, HashService>();
-builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<ICryptographyService, CryptographyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
