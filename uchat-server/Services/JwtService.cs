@@ -31,6 +31,7 @@ public class JwtService : IJwtService
 
         var claims = new[]
         {
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // для уникальности токена
             new Claim("userId", payload.UserId.ToString()),
             new Claim("sessionId", payload.SessionId.ToString())
         };
@@ -55,6 +56,7 @@ public class JwtService : IJwtService
 
         var claims = new[]
         {
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // для уникальности токена
             new Claim("userId", payload.UserId.ToString()),
             new Claim("sessionId", payload.SessionId.ToString())
         };

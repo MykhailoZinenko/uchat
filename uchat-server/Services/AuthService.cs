@@ -105,7 +105,7 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<AuthDto?> LoginWithRefreshTokenAsync(string refreshToken, string? deviceInfo = null, string? ipAddress = null)
+    public async Task<AuthDto> LoginWithRefreshTokenAsync(string refreshToken, string? deviceInfo = null, string? ipAddress = null)
     {
         RefreshTokenPayload payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
 

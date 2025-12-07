@@ -12,19 +12,22 @@ public class ChatHub : Hub
     private readonly ISessionService _sessionService;
     private readonly IJwtService _jwtService;
     private readonly IUserService _userService;
+    private readonly IErrorMapper _errorMapper;
 
     public ChatHub(
         IAuthService authService, 
         ChatService chatService, 
         ISessionService sessionService, 
         IJwtService jwtService,
-        IUserService userService)
+        IUserService userService,
+        IErrorMapper errorMapper)
     {
         _authService = authService;
         _chatService = chatService;
         _sessionService = sessionService;
         _jwtService = jwtService;
         _userService = userService;
+        _errorMapper = errorMapper;
     }
 
     public async Task<ApiResponse<AuthDto>> Register(string username, string password, string? deviceInfo = null, string? ipAddress = null)
@@ -43,21 +46,9 @@ public class ChatHub : Hub
                 Data = authDto
             };
         }
-        catch (AppException ex) 
+        catch (Exception ex)
         {
-            return new ApiResponse<AuthDto>
-            {
-                Success = false,
-                Message = ex.Message
-            };
-        }
-        catch (Exception)
-        {
-            return new ApiResponse<AuthDto>
-            {
-                Success = false,
-                Message = "Internal server error"
-            };
+            return _errorMapper.MapException<AuthDto>(ex);
         }
     }
 
@@ -77,22 +68,9 @@ public class ChatHub : Hub
                 Data = authDto
             };
         }
-        catch (AppException ex) 
+        catch (Exception ex)
         {
-            return new ApiResponse<AuthDto>
-            {
-                Success = false,
-                Message = ex.Message
-            };
-
-        }
-        catch (Exception)
-        {
-            return new ApiResponse<AuthDto>
-            {
-                Success = false,
-                Message = "Internal server error"
-            };
+            return _errorMapper.MapException<AuthDto>(ex);
         }
     }
 
@@ -100,7 +78,7 @@ public class ChatHub : Hub
     {
         try
         {
-            AuthDto? authDto = await _authService.LoginWithRefreshTokenAsync(refreshToken, deviceInfo, ipAddress);
+            AuthDto authDto = await _authService.LoginWithRefreshTokenAsync(refreshToken, deviceInfo, ipAddress);
             if (authDto == null)
             {
                 return new ApiResponse<AuthDto>
@@ -117,13 +95,9 @@ public class ChatHub : Hub
                 Data = authDto
             };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return new ApiResponse<AuthDto>
-            {
-                Success = false,
-                Message = "Internal server error"
-            };
+            return _errorMapper.MapException<AuthDto>(ex);
         }
     }
 
@@ -143,11 +117,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
-            return new ApiResponse<string>
-            {
-                Success = false,
-                Message = ex.Message
-            };
+            return _errorMapper.MapException<string>(ex);
         }
     }
 
@@ -167,11 +137,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
-            return new ApiResponse<bool>
-            {
-                Success = false,
-                Message = ex.Message
-            };
+            return _errorMapper.MapException<bool>(ex);
         }
     }
 
@@ -198,11 +164,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
-            return new ApiResponse<List<SessionInfo>>
-            {
-                Success = false,
-                Message = ex.Message
-            };
+            return _errorMapper.MapException<List<SessionInfo>>(ex);
         }
     }
 
@@ -222,11 +184,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
-            return new ApiResponse<bool>
-            {
-                Success = false,
-                Message = ex.Message
-            };
+            return _errorMapper.MapException<bool>(ex);
         }
     }
 

@@ -53,6 +53,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<IMapperService, MapperService>();
+builder.Services.AddScoped<IErrorMapper, ErrorMapper>();
 
 builder.Services.AddSignalR(options =>
 {
