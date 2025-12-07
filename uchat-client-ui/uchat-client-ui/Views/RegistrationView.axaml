@@ -1,0 +1,45 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             x:Class="uchat_client.Views.RegistrationView"
+             x:DataType="viewModels:RegistrationViewModel">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+          Margin="24">
+        <TextBlock Grid.Row="0"
+                   Text="uchat registration"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+        <TextBlock Grid.Row="1"
+                   Text="Username" />
+        <TextBox Grid.Row="2"
+                 Text="{Binding Username}"
+                 Margin="0,4,0,12" />
+
+        <TextBlock Grid.Row="3"
+                   Text="Password" />
+        <TextBox Grid.Row="4"
+                 PasswordChar="*"
+                 Text="{Binding Password}"
+                 Margin="0,4,0,16" />
+
+        <Button Grid.Row="5"
+                Content="Sign Up"
+                Command="{Binding RegisterCommand}"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Width="120"
+                Margin="0,8,0,0" />
+
+        <Button Grid.Row="6"
+                Content="Back to Login"
+                Command="{Binding BackToLoginCommand}"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Width="120"
+                Margin="0,8,0,0" />
+    </Grid>
+</UserControl>

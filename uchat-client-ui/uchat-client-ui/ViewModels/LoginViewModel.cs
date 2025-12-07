@@ -8,11 +8,13 @@ public class LoginViewModel
     public string Password { get; set; } = string.Empty;
 
     public RelayCommand LoginCommand { get; }
+    public RelayCommand ShowRegisterCommand { get; }
 
     public LoginViewModel(MainWindowViewModel mainWindow)
     {
         _mainWindow = mainWindow;
         LoginCommand = new RelayCommand(Login);
+        ShowRegisterCommand = new RelayCommand(ShowRegister);
     }
 
     private void Login()
@@ -21,5 +23,10 @@ public class LoginViewModel
             return;
 
         _mainWindow.ShowChat(Username);
+    }
+
+    private void ShowRegister()
+    {
+        _mainWindow.ShowRegistration();
     }
 }

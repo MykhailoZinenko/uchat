@@ -124,8 +124,10 @@
                         <StackPanel Grid.Column="1"
                                     Margin="8,0,8,0">
                             <TextBlock Text="Username"
+                                       FontFamily="{StaticResource InterFont}"
                                        FontWeight="Bold" />
                             <TextBlock Text="Bio goes here…"
+                                       FontFamily="{StaticResource PoppinsFont}"
                                        FontSize="11"
                                        Opacity="0.8" />
                         </StackPanel>
@@ -291,10 +293,9 @@
                         <StackPanel.Styles>
                             <Style Selector="Button">
                                 <Setter Property="Width" Value="240" /> 
-            
                                 <Setter Property="HorizontalContentAlignment" Value="Left" />
-            
                                 <Setter Property="Padding" Value="15,0" />
+                                <Setter Property="FontFamily" Value="{StaticResource InterFont}" />
                             </Style>
                         </StackPanel.Styles>
                         <Button Height="48"
@@ -404,11 +405,13 @@
                                         MaxWidth="320">
                                     <StackPanel>
                                         <TextBlock Text="{Binding Sender}"
+                                                   FontFamily="{StaticResource InterFont}"
                                                    FontWeight="Bold"
                                                    FontSize="11"
                                                    Foreground="#364D70" />
 
                                         <TextBlock Text="{Binding Text}"
+                                                   FontFamily="{StaticResource PoppinsFont}"
                                                    TextWrapping="Wrap"
                                                    Margin="0,4,0,4"
                                                    Foreground="#364D70" />

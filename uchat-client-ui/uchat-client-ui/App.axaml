@@ -4,7 +4,12 @@
              xmlns:local="using:uchat_client_ui"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+    
+    <Application.Resources>
+        <FontFamily x:Key="PoppinsFont">avares://uchat-client-ui/Assets/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
+        <FontFamily x:Key="InterFont">Inter</FontFamily>
+    </Application.Resources>
+             
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>

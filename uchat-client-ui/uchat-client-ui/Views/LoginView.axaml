@@ -4,8 +4,9 @@
              x:Class="uchat_client.Views.LoginView"
              x:DataType="viewModels:LoginViewModel">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
           Margin="24">
+        
         <TextBlock Grid.Row="0"
                    Text="uchat login"
                    FontSize="24"
@@ -30,6 +31,15 @@
                 Content="Login"
                 Command="{Binding LoginCommand}"
                 HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Width="100"
+                Margin="0,8,0,0" />
+
+        <Button Grid.Row="6"
+                Content="Sign Up"
+                Command="{Binding ShowRegisterCommand}"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
                 Width="100"
                 Margin="0,8,0,0" />
     </Grid>

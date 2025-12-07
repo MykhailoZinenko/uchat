@@ -8,17 +8,18 @@
         Title="uchat">
 
     <Window.DataTemplates>
-        <!-- When DataContext is LoginViewModel, show LoginView -->
         <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
             <views:LoginView />
         </DataTemplate>
 
-        <!-- When DataContext is ChatViewModel, show ChatView -->
+        <DataTemplate DataType="{x:Type viewModels:RegistrationViewModel}">
+            <views:RegistrationView />
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type viewModels:ChatViewModel}">
             <views:ChatView />
         </DataTemplate>
     </Window.DataTemplates>
-
-    <!-- This will show either LoginView or ChatView depending on CurrentView -->
+    
     <ContentControl Content="{Binding CurrentView}" />
 </Window>

@@ -22,14 +22,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public MainWindowViewModel()
     {
-        var loginVm = new LoginViewModel(this);
-        CurrentView = loginVm;
+        ShowLogin();
     }
 
     public void ShowChat(string username)
     {
-        var chatVm = new ChatViewModel(username);
-        CurrentView = chatVm;
+        CurrentView = new ChatViewModel(username);
+    }
+
+    public void ShowLogin()
+    {
+        CurrentView = new LoginViewModel(this);
+    }
+
+    public void ShowRegistration()
+    {
+        CurrentView = new RegistrationViewModel(this);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
