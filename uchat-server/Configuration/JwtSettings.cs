@@ -15,6 +15,6 @@ public class JwtSettings
     [Range(1, int.MaxValue, ErrorMessage = "JWT AccessTokenLifetimeMs must be greater than 0")]
     public int AccessTokenLifetimeMs { get; set; }
 
-    [Range(1, int.MaxValue, ErrorMessage = "JWT RefreshTokenLifetimeMs must be greater than 0")]
-    public int RefreshTokenLifetimeMs { get; set; }
+    [Range(1, long.MaxValue, ErrorMessage = "JWT RefreshTokenLifetimeMs must be greater than 0")]
+    public long RefreshTokenLifetimeMs { get; set; }
 }

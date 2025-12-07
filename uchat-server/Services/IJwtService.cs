@@ -8,5 +8,5 @@ public interface IJwtService
     string GenerateRefreshToken(RefreshTokenPayload payload);
     Task<AccessTokenPayload> ValidateAccessTokenAsync(string token);
     Task<RefreshTokenPayload> ValidateRefreshTokenAsync(string token);
-    int GetRefreshTokenLifetimeMs();
+    long GetRefreshTokenLifetimeMs();
 }

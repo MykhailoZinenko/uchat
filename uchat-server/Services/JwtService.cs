@@ -22,7 +22,7 @@ public class JwtService : IJwtService
         _sessionService = sessionService;
     }
 
-    public int GetRefreshTokenLifetimeMs() => _settings.RefreshTokenLifetimeMs;
+    public long GetRefreshTokenLifetimeMs() => _settings.RefreshTokenLifetimeMs;
 
     public string GenerateAccessToken(AccessTokenPayload payload)
     {
