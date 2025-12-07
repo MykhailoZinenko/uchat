@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using uchat_server.Configuration;
 using uchat_server.Data;
 using uchat_server.Hubs;
 using uchat_server.Repositories;
@@ -25,12 +27,29 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
 
-builder.Services.AddDbContext<UchatDbContext>(options =>
-    options.UseSqlite("Data Source=uchat.db"));
+// Настройка конфигурации из appsettings.json с валидацией
+builder.Services.AddOptions<JwtSettings>()
+    .Bind(builder.Configuration.GetSection("Jwt"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddOptions<DatabaseSettings>()
+    .Bind(builder.Configuration.GetSection("Database"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddDbContext<UchatDbContext>((serviceProvider, options) =>
+{
+    DatabaseSettings? dbSettings = builder.Configuration.GetSection("Database").Get<DatabaseSettings>();
+    options.UseSqlite(dbSettings?.ConnectionString);
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<IMapperService, MapperService>();

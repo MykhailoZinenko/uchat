@@ -36,6 +36,11 @@ public class UserService : IUserService
         return await _userRepository.GetByUsernameAsync(username);
     }
 
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        return await _userRepository.GetByIdAsync(userId);
+    }
+
     public async Task<User> SetUserOfflineAsync(int userId)
     {
         var user = await _userRepository.GetByIdAsync(userId);

@@ -1,10 +1,11 @@
+using uchat_common.Dtos;
 using uchat_server.Data.Entities;
-using uchat_server.Exceptions;
 
 namespace uchat_server.Services;
 
 public interface IAuthService
 {
-    Task<User> RegisterAsync(string username, string password, string? email = null);
-    Task<User?> LoginAsync(string username, string password);
+    Task<AuthDto> RegisterAsync(string username, string password, string deviceInfo, string? ipAddress = null, string? email = null);
+    Task<AuthDto> LoginAsync(string username, string password, string deviceInfo, string? ipAddress = null);
+    Task<AuthDto?> LoginWithRefreshTokenAsync(string refreshToken, string? deviceInfo = null, string? ipAddress = null);
 }

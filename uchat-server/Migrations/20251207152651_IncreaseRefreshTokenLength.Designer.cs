@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using uchat_server.Data;
 
@@ -10,9 +11,11 @@ using uchat_server.Data;
 namespace uchat_server.Migrations
 {
     [DbContext(typeof(UchatDbContext))]
-    partial class UchatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251207152651_IncreaseRefreshTokenLength")]
+    partial class IncreaseRefreshTokenLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -66,6 +69,9 @@ namespace uchat_server.Migrations
                     b.Property<string>("IpAddress")
                         .HasMaxLength(45)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastActivityAt")
                         .HasColumnType("TEXT");

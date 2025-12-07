@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
 using uchat_server.Services;
 using uchat_common.Dtos;
 using uchat_server.Exceptions;
@@ -8,51 +7,53 @@ namespace uchat_server.Hubs;
 
 public class ChatHub : Hub
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly ChatService _chatService;
-    private readonly IMapperService _mapperService;
-    private static readonly ConcurrentDictionary<string, (int UserId, string Username)> _connectedUsers = new();
-    private static readonly ConcurrentDictionary<string, string> _connectionToSession = new();
+    private readonly ISessionService _sessionService;
+    private readonly IJwtService _jwtService;
+    private readonly IUserService _userService;
 
-    public ChatHub(AuthService authService, ChatService chatService, IMapperService mapperService)
+    public ChatHub(
+        IAuthService authService, 
+        ChatService chatService, 
+        ISessionService sessionService, 
+        IJwtService jwtService,
+        IUserService userService)
     {
         _authService = authService;
         _chatService = chatService;
-        _mapperService = mapperService;
+        _sessionService = sessionService;
+        _jwtService = jwtService;
+        _userService = userService;
     }
 
-    public async Task<ApiResponse<UserDto>> Register(string username, string password, string deviceInfo = "Unknown")
+    public async Task<ApiResponse<AuthDto>> Register(string username, string password, string? deviceInfo = null, string? ipAddress = null)
     {
         try
         {
-            var user = await _authService.RegisterAsync(username, password);
+            string finalDeviceInfo = deviceInfo ?? "Unknown";
+            string finalIpAddress = ipAddress ?? Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
             
-            _connectedUsers[Context.ConnectionId] = (user.Id, user.Username);
-            await Groups.AddToGroupAsync(Context.ConnectionId, "LoggedIn");
-            await _chatService.UpdateUserLastSeenAsync(user.Id);
-
-            var session = await _chatService.CreateSessionAsync(user.Id, deviceInfo);
-            _connectionToSession[Context.ConnectionId] = session.Token;
-
-            return new ApiResponse<UserDto>
+            AuthDto authDto = await _authService.RegisterAsync(username, password, finalDeviceInfo, finalIpAddress);
+            
+            return new ApiResponse<AuthDto>
             {
                 Success = true,
                 Message = "Account created successfully",
-                Data = _mapperService.MapToUserDto(user)
+                Data = authDto
             };
         }
         catch (AppException ex) 
         {
-            return new ApiResponse<UserDto>
+            return new ApiResponse<AuthDto>
             {
                 Success = false,
                 Message = ex.Message
             };
-
         }
         catch (Exception)
         {
-            return new ApiResponse<UserDto>
+            return new ApiResponse<AuthDto>
             {
                 Success = false,
                 Message = "Internal server error"
@@ -60,38 +61,25 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<UserDto>> Login(string username, string password, string deviceInfo = "Unknown")
+    public async Task<ApiResponse<AuthDto>> Login(string username, string password, string? deviceInfo = null, string? ipAddress = null)
     {
         try
         {
-            var user = await _authService.LoginAsync(username, password);
+            string finalDeviceInfo = deviceInfo ?? "Unknown";
+            string finalIpAddress = ipAddress ?? Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+            
+            AuthDto authDto = await _authService.LoginAsync(username, password, finalDeviceInfo, finalIpAddress);
 
-            if (user == null)
-            {
-                return new ApiResponse<UserDto>
-                {
-                    Success = false,
-                    Message = "User not found or invalid password"
-                };
-            }
-
-            _connectedUsers[Context.ConnectionId] = (user.Id, user.Username);
-            await Groups.AddToGroupAsync(Context.ConnectionId, "LoggedIn");
-            await _chatService.UpdateUserLastSeenAsync(user.Id);
-
-            var newSession = await _chatService.CreateSessionAsync(user.Id, deviceInfo);
-            _connectionToSession[Context.ConnectionId] = newSession.Token;
-
-            return new ApiResponse<UserDto>
+            return new ApiResponse<AuthDto>
             {
                 Success = true,
                 Message = "Logged in successfully",
-                Data = _mapperService.MapToUserDto(user)
+                Data = authDto
             };
         }
         catch (AppException ex) 
         {
-            return new ApiResponse<UserDto>
+            return new ApiResponse<AuthDto>
             {
                 Success = false,
                 Message = ex.Message
@@ -100,7 +88,7 @@ public class ChatHub : Hub
         }
         catch (Exception)
         {
-            return new ApiResponse<UserDto>
+            return new ApiResponse<AuthDto>
             {
                 Success = false,
                 Message = "Internal server error"
@@ -108,149 +96,173 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<UserDto>> LoginWithSession(string sessionToken)
+    public async Task<ApiResponse<AuthDto>> LoginWithRefreshToken(string refreshToken, string? deviceInfo = null, string? ipAddress = null)
     {
-        var (isValid, user) = await _chatService.ValidateSessionAsync(sessionToken);
-
-        if (!isValid || user == null)
+        try
         {
-            return new ApiResponse<UserDto>
+            AuthDto? authDto = await _authService.LoginWithRefreshTokenAsync(refreshToken, deviceInfo, ipAddress);
+            if (authDto == null)
             {
-                Success = false,
-                Message = "Invalid or expired session"
-            };
-        }
-
-        _connectedUsers[Context.ConnectionId] = (user.Id, user.Username);
-        _connectionToSession[Context.ConnectionId] = sessionToken;
-        await Groups.AddToGroupAsync(Context.ConnectionId, "LoggedIn");
-        await _chatService.UpdateUserLastSeenAsync(user.Id);
-
-        return new ApiResponse<UserDto>
-        {
-            Success = true,
-            Message = "Logged in with session successfully",
-            Data = _mapperService.MapToUserDto(user)
-        };
-    }
-
-    public async Task Logout()
-    {
-        if (_connectedUsers.TryRemove(Context.ConnectionId, out var userInfo))
-        {
-            if (_connectionToSession.TryRemove(Context.ConnectionId, out var sessionToken))
-            {
-                await _chatService.RevokeSessionAsync(sessionToken);
+                return new ApiResponse<AuthDto>
+                {
+                    Success = false,
+                    Message = "Invalid or expired refresh token"
+                };
             }
 
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "LoggedIn");
-            await _chatService.UpdateUserLastSeenAsync(userInfo.UserId);
-        }
-    }
-
-    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions()
-    {
-        if (!_connectedUsers.TryGetValue(Context.ConnectionId, out var userInfo))
-        {
-            return new ApiResponse<List<SessionInfo>>
+            return new ApiResponse<AuthDto>
             {
-                Success = false,
-                Message = "Not logged in"
+                Success = true,
+                Message = "Tokens refreshed successfully",
+                Data = authDto
             };
         }
-
-        var sessions = await _chatService.GetUserSessionsAsync(userInfo.UserId);
-        var sessionInfos = sessions.Select(s => new SessionInfo
+        catch (Exception)
         {
-            Token = s.Token,
-            DeviceInfo = s.DeviceInfo,
-            CreatedAt = s.CreatedAt,
-            LastActivityAt = s.LastActivityAt,
-            ExpiresAt = s.ExpiresAt
-        }).ToList();
-
-        return new ApiResponse<List<SessionInfo>>
-        {
-            Success = true,
-            Data = sessionInfos
-        };
+            return new ApiResponse<AuthDto>
+            {
+                Success = false,
+                Message = "Internal server error"
+            };
+        }
     }
 
-    public async Task<ApiResponse<bool>> RevokeSession(string sessionToken)
+    public async Task<ApiResponse<string>> RefreshAccessToken(string refreshToken)
     {
-        if (!_connectedUsers.TryGetValue(Context.ConnectionId, out _))
+        try
+        {
+            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
+            var newAccessToken = _jwtService.GenerateAccessToken(new Models.AccessTokenPayload(payload.UserId, payload.SessionId));
+
+            return new ApiResponse<string>
+            {
+                Success = true,
+                Message = "Access token refreshed successfully",
+                Data = newAccessToken
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<string>
+            {
+                Success = false,
+                Message = ex.Message
+            };
+        }
+    }
+
+    public async Task<ApiResponse<bool>> Logout(string accessToken)
+    {
+        try
+        {
+            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var success = await _sessionService.RevokeSessionAsync(payload.SessionId);
+
+            return new ApiResponse<bool>
+            {
+                Success = success,
+                Message = success ? "Logged out successfully" : "Failed to logout",
+                Data = success
+            };
+        }
+        catch (Exception ex)
         {
             return new ApiResponse<bool>
             {
                 Success = false,
-                Message = "Not logged in"
+                Message = ex.Message
             };
         }
-
-        var success = await _chatService.RevokeSessionAsync(sessionToken);
-
-        if (success)
-        {
-            var connectionWithSession = _connectionToSession.FirstOrDefault(kvp => kvp.Value == sessionToken);
-
-            if (!connectionWithSession.Equals(default(KeyValuePair<string, string>)))
-            {
-                var connectionId = connectionWithSession.Key;
-                await Clients.Client(connectionId).SendAsync("SessionRevoked", "Your session has been revoked");
-
-                _connectedUsers.TryRemove(connectionId, out var userInfo);
-                _connectionToSession.TryRemove(connectionId, out _);
-                await Groups.RemoveFromGroupAsync(connectionId, "LoggedIn");
-
-                if (userInfo.UserId > 0)
-                {
-                    await _chatService.UpdateUserLastSeenAsync(userInfo.UserId);
-                }
-            }
-        }
-
-        return new ApiResponse<bool>
-        {
-            Success = success,
-            Message = success ? "Session revoked" : "Failed to revoke session",
-            Data = success
-        };
     }
 
-    public async Task SendMessage(string message)
+    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string accessToken)
     {
-        if (!_connectedUsers.TryGetValue(Context.ConnectionId, out var userInfo))
+        try
         {
-            await Clients.Caller.SendAsync("Error", "You must login first");
-            return;
+            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var sessions = await _sessionService.GetActiveSessionsByUserIdAsync(payload.UserId);
+            var sessionInfos = sessions.Select(s => new SessionInfo
+            {
+                Token = s.RefreshToken,
+                DeviceInfo = s.DeviceInfo,
+                CreatedAt = s.CreatedAt,
+                LastActivityAt = s.LastActivityAt,
+                ExpiresAt = s.ExpiresAt
+            }).ToList();
+
+            return new ApiResponse<List<SessionInfo>>
+            {
+                Success = true,
+                Data = sessionInfos
+            };
         }
-
-        var savedMessage = await _chatService.SaveMessageAsync(userInfo.UserId, message);
-
-        var messageDto = new MessageDto
+        catch (Exception ex)
         {
-            ConnectionId = Context.ConnectionId,
-            Username = userInfo.Username,
-            Content = message,
-            SentAt = savedMessage.SentAt
-        };
+            return new ApiResponse<List<SessionInfo>>
+            {
+                Success = false,
+                Message = ex.Message
+            };
+        }
+    }
 
-        await Clients.Group("LoggedIn").SendAsync("ReceiveMessage", messageDto);
+    public async Task<ApiResponse<bool>> RevokeSession(string accessToken, int sessionId)
+    {
+        try
+        {
+            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var success = await _sessionService.RevokeSessionAsync(sessionId);
+
+            return new ApiResponse<bool>
+            {
+                Success = success,
+                Message = success ? "Session revoked" : "Failed to revoke session",
+                Data = success
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<bool>
+            {
+                Success = false,
+                Message = ex.Message
+            };
+        }
+    }
+
+    public async Task SendMessage(string accessToken, string message)
+    {
+        try
+        {
+            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var user = await _userService.GetUserByIdAsync(payload.UserId);
+            
+            if (user == null)
+            {
+                await Clients.Caller.SendAsync("Error", "User not found");
+                return;
+            }
+
+            var savedMessage = await _chatService.SaveMessageAsync(user.Id, message);
+
+            var messageDto = new MessageDto
+            {
+                ConnectionId = Context.ConnectionId,
+                Username = user.Username,
+                Content = message,
+                SentAt = savedMessage.SentAt
+            };
+
+            await Clients.Group("LoggedIn").SendAsync("ReceiveMessage", messageDto);
+        }
+        catch (Exception ex)
+        {
+            await Clients.Caller.SendAsync("Error", ex.Message);
+        }
     }
 
     public override async Task OnConnectedAsync()
     {
         await base.OnConnectedAsync();
-    }
-
-    public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        if (_connectedUsers.TryRemove(Context.ConnectionId, out var userInfo))
-        {
-            _connectionToSession.TryRemove(Context.ConnectionId, out _);
-            await _chatService.UpdateUserLastSeenAsync(userInfo.UserId);
-        }
-
-        await base.OnDisconnectedAsync(exception);
     }
 }

@@ -47,9 +47,10 @@ public class UchatDbContext : DbContext
         modelBuilder.Entity<Session>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.Token).IsUnique();
-            entity.Property(e => e.Token).HasMaxLength(128).IsRequired();
+            entity.HasIndex(e => e.RefreshToken).IsUnique();
+            entity.Property(e => e.RefreshToken).HasMaxLength(512).IsRequired();
             entity.Property(e => e.DeviceInfo).HasMaxLength(256);
+            entity.Property(e => e.IpAddress).HasMaxLength(45);
 
             entity.HasOne(e => e.User)
                 .WithMany(u => u.Sessions)
