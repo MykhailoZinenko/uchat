@@ -101,31 +101,11 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<string>> RefreshAccessToken(string refreshToken)
+    public async Task<ApiResponse<bool>> Logout(string refreshToken)
     {
         try
         {
             var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
-            var newAccessToken = _jwtService.GenerateAccessToken(new Models.AccessTokenPayload(payload.UserId, payload.SessionId));
-
-            return new ApiResponse<string>
-            {
-                Success = true,
-                Message = "Access token refreshed successfully",
-                Data = newAccessToken
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<string>(ex);
-        }
-    }
-
-    public async Task<ApiResponse<bool>> Logout(string accessToken)
-    {
-        try
-        {
-            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
             var success = await _sessionService.RevokeSessionAsync(payload.SessionId);
 
             return new ApiResponse<bool>
@@ -141,11 +121,11 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string accessToken)
+    public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string refreshToken)
     {
         try
         {
-            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
             var sessions = await _sessionService.GetActiveSessionsByUserIdAsync(payload.UserId);
             var sessionInfos = sessions.Select(s => new SessionInfo
             {
@@ -168,11 +148,11 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<bool>> RevokeSession(string accessToken, int sessionId)
+    public async Task<ApiResponse<bool>> RevokeSession(string refreshToken, int sessionId)
     {
         try
         {
-            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
             var success = await _sessionService.RevokeSessionAsync(sessionId);
 
             return new ApiResponse<bool>
@@ -188,11 +168,11 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task SendMessage(string accessToken, string message)
+    public async Task SendMessage(string refreshToken, string message)
     {
         try
         {
-            var payload = await _jwtService.ValidateAccessTokenAsync(accessToken);
+            var payload = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
             var user = await _userService.GetUserByIdAsync(payload.UserId);
             
             if (user == null)

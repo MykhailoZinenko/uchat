@@ -32,7 +32,6 @@ const result = await connection.invoke("Register", username, password, deviceInf
   success: boolean,
   message: string,
   data: {
-    accessToken: string,  // JWT токен (15 мин)
     refreshToken: string  // JWT токен (30 дней)
   }
 }
@@ -59,8 +58,7 @@ const result = await connection.invoke("Login", username, password, deviceInfo, 
   success: boolean,
   message: string,
   data: {
-    accessToken: string,
-    refreshToken: string
+    refreshToken: string  // JWT токен (30 дней)
   }
 }
 ```
@@ -68,7 +66,7 @@ const result = await connection.invoke("Login", username, password, deviceInfo, 
 ---
 
 ### 3. LoginWithRefreshToken
-**Silent login - обновление обоих токенов по refresh token**
+**Silent login - обновление refresh token**
 
 ```javascript
 const result = await connection.invoke("LoginWithRefreshToken", refreshToken, deviceInfo, ipAddress);
@@ -85,7 +83,6 @@ const result = await connection.invoke("LoginWithRefreshToken", refreshToken, de
   success: boolean,
   message: string,
   data: {
-    accessToken: string,   // новый access токен
     refreshToken: string   // новый refresh токен
   }
 }
@@ -95,38 +92,15 @@ const result = await connection.invoke("LoginWithRefreshToken", refreshToken, de
 
 ---
 
-### 4. RefreshAccessToken
-**Быстрое обновление только access токена**
+### 4. GetActiveSessions
+**Получить список активных сессий пользователя**
 
 ```javascript
-const result = await connection.invoke("RefreshAccessToken", refreshToken);
+const result = await connection.invoke("GetActiveSessions", refreshToken);
 ```
 
 **Параметры:**
 - `refreshToken` (string, required) - refresh токен
-
-**Возвращает:**
-```typescript
-{
-  success: boolean,
-  message: string,
-  data: string  // новый access токен
-}
-```
-
-**Важно:** Refresh токен остается прежним, сессия не обновляется.
-
----
-
-### 5. GetActiveSessions
-**Получить список активных сессий пользователя**
-
-```javascript
-const result = await connection.invoke("GetActiveSessions", accessToken);
-```
-
-**Параметры:**
-- `accessToken` (string, required) - access токен
 
 **Возвращает:**
 ```typescript
@@ -147,15 +121,15 @@ const result = await connection.invoke("GetActiveSessions", accessToken);
 
 ---
 
-### 6. RevokeSession
+### 5. RevokeSession
 **Отозвать конкретную сессию**
 
 ```javascript
-const result = await connection.invoke("RevokeSession", accessToken, sessionId);
+const result = await connection.invoke("RevokeSession", refreshToken, sessionId);
 ```
 
 **Параметры:**
-- `accessToken` (string, required) - access токен
+- `refreshToken` (string, required) - refresh токен
 - `sessionId` (int, required) - ID сессии для отзыва
 
 **Возвращает:**
@@ -169,15 +143,15 @@ const result = await connection.invoke("RevokeSession", accessToken, sessionId);
 
 ---
 
-### 7. Logout
+### 6. Logout
 **Выход - отзыв текущей сессии**
 
 ```javascript
-const result = await connection.invoke("Logout", accessToken);
+const result = await connection.invoke("Logout", refreshToken);
 ```
 
 **Параметры:**
-- `accessToken` (string, required) - access токен
+- `refreshToken` (string, required) - refresh токен
 
 **Возвращает:**
 ```typescript
@@ -188,19 +162,19 @@ const result = await connection.invoke("Logout", accessToken);
 }
 ```
 
-**Важно:** После logout все токены этой сессии становятся недействительными!
+**Важно:** После logout refresh токен становится недействительным!
 
 ---
 
-### 8. SendMessage
+### 7. SendMessage
 **Отправить сообщение в чат**
 
 ```javascript
-await connection.invoke("SendMessage", accessToken, message);
+await connection.invoke("SendMessage", refreshToken, message);
 ```
 
 **Параметры:**
-- `accessToken` (string, required) - access токен
+- `refreshToken` (string, required) - refresh токен
 - `message` (string, required) - текст сообщения
 
 **Возвращает:** void (ничего)
@@ -248,8 +222,7 @@ const authResult = await connection.invoke("Register", "user123", "pass123", "Ch
 // или
 const authResult = await connection.invoke("Login", "user123", "pass123", "Chrome/Windows");
 
-// 2. Сохранить токены
-localStorage.setItem('accessToken', authResult.data.accessToken);
+// 2. Сохранить токен
 localStorage.setItem('refreshToken', authResult.data.refreshToken);
 ```
 
@@ -259,35 +232,23 @@ const refreshToken = localStorage.getItem('refreshToken');
 const result = await connection.invoke("LoginWithRefreshToken", refreshToken);
 
 if (result.success) {
-  localStorage.setItem('accessToken', result.data.accessToken);
   localStorage.setItem('refreshToken', result.data.refreshToken);
 } else {
   // Перенаправить на страницу логина
 }
 ```
 
-### Обновление access токена
-```javascript
-const refreshToken = localStorage.getItem('refreshToken');
-const result = await connection.invoke("RefreshAccessToken", refreshToken);
-
-if (result.success) {
-  localStorage.setItem('accessToken', result.data);
-}
-```
-
 ### Отправка сообщения
 ```javascript
-const accessToken = localStorage.getItem('accessToken');
-await connection.invoke("SendMessage", accessToken, "Hello, World!");
+const refreshToken = localStorage.getItem('refreshToken');
+await connection.invoke("SendMessage", refreshToken, "Hello, World!");
 ```
 
 ### Выход
 ```javascript
-const accessToken = localStorage.getItem('accessToken');
-await connection.invoke("Logout", accessToken);
+const refreshToken = localStorage.getItem('refreshToken');
+await connection.invoke("Logout", refreshToken);
 
-localStorage.removeItem('accessToken');
 localStorage.removeItem('refreshToken');
 ```
 
@@ -300,7 +261,6 @@ localStorage.removeItem('refreshToken');
 - `false` - произошла ошибка (см. поле `message`)
 
 **Типичные ошибки:**
-- `"Invalid or expired access token"` - access токен недействителен или истек
 - `"Invalid or expired refresh token"` - refresh токен недействителен или истек
 - `"User not found or invalid password"` - неверные учетные данные
 - `"Username already exists"` - пользователь уже существует
@@ -309,12 +269,11 @@ localStorage.removeItem('refreshToken');
 
 ---
 
-## Время жизни токенов
+## Время жизни токена
 
-- **Access Token**: 15 минут (900000 ms)
 - **Refresh Token**: 30 дней (2592000000 ms)
 
 **Рекомендации:**
-- Обновляйте access token каждые 10-12 минут через `RefreshAccessToken`
+- Используйте `LoginWithRefreshToken` периодически для продления сессии
 - Используйте `LoginWithRefreshToken` при запуске приложения
 - Храните refresh token безопасно (HttpOnly cookie или secure storage)

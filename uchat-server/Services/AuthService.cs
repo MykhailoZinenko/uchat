@@ -53,7 +53,6 @@ public class AuthService : IAuthService
 
         var createdSession = await _sessionService.CreateSessionAsync(session);
 
-        var accessToken = _jwtService.GenerateAccessToken(new AccessTokenPayload(createdUser.Id, createdSession.Id));
         var refreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(createdUser.Id, createdSession.Id));
 
         createdSession.RefreshToken = refreshToken;
@@ -61,7 +60,6 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
-            AccessToken = accessToken,
             RefreshToken = refreshToken
         };
     }
@@ -92,7 +90,6 @@ public class AuthService : IAuthService
 
         var createdSession = await _sessionService.CreateSessionAsync(session);
 
-        var accessToken = _jwtService.GenerateAccessToken(new AccessTokenPayload(user.Id, createdSession.Id));
         var refreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(user.Id, createdSession.Id));
 
         createdSession.RefreshToken = refreshToken;
@@ -100,7 +97,6 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
-            AccessToken = accessToken,
             RefreshToken = refreshToken
         };
     }
@@ -111,7 +107,6 @@ public class AuthService : IAuthService
 
         Session session = await _sessionService.GetSessionByIdAsync(payload.SessionId);
 
-        string newAccessToken = _jwtService.GenerateAccessToken(new AccessTokenPayload(session.UserId, session.Id));
         string newRefreshToken = _jwtService.GenerateRefreshToken(new RefreshTokenPayload(session.UserId, session.Id));
 
         session.RefreshToken = newRefreshToken;
@@ -132,7 +127,6 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
-            AccessToken = newAccessToken,
             RefreshToken = newRefreshToken
         };
     }
