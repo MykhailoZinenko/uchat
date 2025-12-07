@@ -140,7 +140,10 @@ public class JwtService : IJwtService
                 sessionIdClaim != null && int.TryParse(sessionIdClaim.Value, out int sessionId))
             {
                 Session session = await _sessionService.GetSessionByIdAsync(sessionId);
-
+                if (session.RefreshToken != token)
+                {
+                    throw new ValidateRefreshTokenException("Refresh token does not match the stored token");
+                }
                 return new RefreshTokenPayload(userId, sessionId);
             }
 
