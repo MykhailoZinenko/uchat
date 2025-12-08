@@ -4,7 +4,7 @@
         xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
         x:Class="uchat_client.MainWindow"
         x:DataType="viewModels:MainWindowViewModel"
-        Width="400" Height="600"
+        Width="900" Height="650"
         Title="uchat">
 
     <Window.DataTemplates>

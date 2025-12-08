@@ -7,6 +7,8 @@
     
     <Application.Resources>
         <FontFamily x:Key="PoppinsFont">avares://uchat-client-ui/Assets/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
+        <FontFamily x:Key="LibraFont">avares://uchat-client-ui/Assets/Fonts/LibraSerifModern-Regular.otf#Libra Serif Modern</FontFamily>
+        <FontFamily x:Key="LibraFontBold">avares://uchat-client-ui/Assets/Fonts/LibraSerifModern-Bold.otf#Libra Serif Modern</FontFamily>
         <FontFamily x:Key="InterFont">Inter</FontFamily>
     </Application.Resources>
              

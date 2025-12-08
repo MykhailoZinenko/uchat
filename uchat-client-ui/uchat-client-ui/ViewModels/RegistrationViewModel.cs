@@ -6,6 +6,7 @@ public class RegistrationViewModel : ViewModelBase
 
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
+    public string ConfirmPassword { get; set; } = string.Empty;
 
     public RelayCommand RegisterCommand { get; }
     public RelayCommand BackToLoginCommand { get; }
@@ -19,7 +20,12 @@ public class RegistrationViewModel : ViewModelBase
 
     private void Register()
     {
-        if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+        if (string.IsNullOrWhiteSpace(Username) ||
+            string.IsNullOrWhiteSpace(Password) ||
+            string.IsNullOrWhiteSpace(ConfirmPassword))
+            return;
+
+        if (Password != ConfirmPassword)
             return;
         
         _mainWindow.ShowChat(Username);

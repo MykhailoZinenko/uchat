@@ -4,42 +4,148 @@
              x:Class="uchat_client.Views.RegistrationView"
              x:DataType="viewModels:RegistrationViewModel">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-          Margin="24">
-        <TextBlock Grid.Row="0"
-                   Text="uchat registration"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,24" />
-
-        <TextBlock Grid.Row="1"
-                   Text="Username" />
-        <TextBox Grid.Row="2"
-                 Text="{Binding Username}"
-                 Margin="0,4,0,12" />
-
-        <TextBlock Grid.Row="3"
-                   Text="Password" />
-        <TextBox Grid.Row="4"
-                 PasswordChar="*"
-                 Text="{Binding Password}"
-                 Margin="0,4,0,16" />
-
-        <Button Grid.Row="5"
-                Content="Sign Up"
-                Command="{Binding RegisterCommand}"
+    <Grid Background="#98B7E4">
+        
+        <Border Background="White"
+                CornerRadius="20"
+                MinWidth="450"
+                MaxWidth="700"
+                Padding = "20"
+                Margin="20"
+                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                Width="120"
-                Margin="0,8,0,0" />
+                BoxShadow="0 4 10 0 #40000000">
+            <StackPanel>
+                
+                <Image Source="/Assets/WaveLogo1.png"
+                       Height = "60"
+                       HorizontalAlignment="Center"
+                       Margin="0, 0, 0, 0"/>
 
-        <Button Grid.Row="6"
-                Content="Back to Login"
-                Command="{Binding BackToLoginCommand}"
-                HorizontalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                Width="120"
-                Margin="0,8,0,0" />
+                <Border Background="#B6DBFF"
+                        CornerRadius="15"
+                        Margin="0,15,0,0"
+                        Padding="20"
+                        HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="15">
+                        
+                        <StackPanel Spacing="5"
+                                    Margin="0,0, 100, 0">
+                            <TextBlock Text="Enter your username:"
+                                       Foreground="#364D70"
+                                       FontFamily="{StaticResource LibraFontBold}"/>
+                            <TextBox Text="{Binding Username}"
+                                     CornerRadius="15"
+                                     Background="#98B7E4"
+                                     BorderThickness="0"
+                                     Height="35">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5"
+                                    Margin="0,0, 100, 0">
+                            <TextBlock Text="Enter your password:"
+                                       Foreground="#364D70"
+                                       FontFamily="{StaticResource LibraFontBold}"/>
+                            <TextBox Text="{Binding Password}"
+                                     PasswordChar="*"
+                                     CornerRadius="15"
+                                     Background="#98B7E4"
+                                     BorderThickness="0"
+                                     Height="35">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </StackPanel>
+                        
+                        <StackPanel Spacing="5"
+                                    Margin="0,0, 100, 0">
+                            <TextBlock Text="Enter your password again:"
+                                       Foreground="#364D70"
+                                       FontWeight="Bold"
+                                       FontFamily="{StaticResource LibraFontBold}"/>
+                            <TextBox Text="{Binding ConfirmPassword}"
+                                     PasswordChar="*"
+                                     CornerRadius="15"
+                                     Background="#98B7E4"
+                                     BorderThickness="0"
+                                     Height="35">
+                                
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                        <Setter Property="BorderBrush" Value="#364D70"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                            
+                        </StackPanel>
+
+                        <Grid Margin="0,10,0,0">
+        
+                            <Button Content="Back"
+                                    FontFamily="{StaticResource LibraFontBold}"
+                                    Command="{Binding BackToLoginCommand}"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Width="100"
+                                    Height="40"
+                                    CornerRadius="20"
+                                    Background="White"
+                                    Foreground="#364D70">
+                                <Button.Styles>
+                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                    </Style>
+                                </Button.Styles>
+                            </Button>
+
+                            <Button Content="Register"
+                                    FontFamily="{StaticResource LibraFontBold}"
+                                    Command="{Binding RegisterCommand}"
+                                    HorizontalAlignment="Right"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Width="140"
+                                    Height="40"
+                                    CornerRadius="20"
+                                    Background="White"
+                                    Foreground="#364D70">
+                                    
+                                <Button.Styles>
+                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                        <Setter Property="Background" Value="#364D70"/>
+                                    </Style>
+                                </Button.Styles>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
