@@ -90,7 +90,8 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         var sessionToken = registerResult.Data!.SessionToken;
 
         // Act & Assert - Should not throw
-        await _connection.InvokeAsync("SendMessage", sessionToken, "Test message");
+        var result = await _connection.InvokeAsync<ApiResponse<MessageDto>>("SendMessage", sessionToken, 1, "Test message", (int?)null);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -252,7 +253,8 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         var sessionToken2 = loginResult.Data!.SessionToken;
 
         // 3. Send message
-        await _connection.InvokeAsync("SendMessage", sessionToken, "Test message");
+        var sendResult = await _connection.InvokeAsync<ApiResponse<MessageDto>>("SendMessage", sessionToken, 1, "Test message", (int?)null);
+        Assert.True(sendResult.Success);
 
         // 4. Get active sessions (should be 2)
         var sessionsResult = await _connection.InvokeAsync<ApiResponse<List<SessionInfo>>>(
@@ -266,7 +268,8 @@ public class AuthFlowIntegrationTests : IAsyncLifetime
         Assert.Equal(sessionToken, silentLoginResult.Data!.SessionToken);
 
         // 6. Send message with same token
-        await _connection.InvokeAsync("SendMessage", sessionToken, "Message with same token");
+        var sendResult2 = await _connection.InvokeAsync<ApiResponse<MessageDto>>("SendMessage", sessionToken, 1, "Message with same token", (int?)null);
+        Assert.True(sendResult2.Success);
 
         // 7. Logout
         var logoutResult = await _connection.InvokeAsync<ApiResponse<bool>>(

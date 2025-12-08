@@ -13,3 +13,17 @@ public class NotFoundException : AppException
     {
     }
 }
+
+public class ValidationException : AppException
+{
+    public ValidationException(string message) : base(message)
+    {
+    }
+}
+
+public class ForbiddenException : AppException
+{
+    public ForbiddenException(string message) : base(message)
+    {
+    }
+}

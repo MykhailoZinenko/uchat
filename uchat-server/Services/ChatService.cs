@@ -13,22 +13,23 @@ public class ChatService
         _db = db;
     }
 
-    public async Task<List<Message>> GetRecentMessagesAsync(int limit = 50)
+    public async Task<List<Message>> GetRecentMessagesAsync(int roomId, int limit = 50)
     {
         return await _db.Messages
             .Include(m => m.Sender)
-            .Where(m => !m.IsDeleted)
+            .Where(m => m.RoomId == roomId)
             .OrderByDescending(m => m.SentAt)
             .Take(limit)
             .OrderBy(m => m.SentAt)
             .ToListAsync();
     }
 
-    public async Task<Message> SaveMessageAsync(int senderId, string content)
+    public async Task<Message> SaveMessageAsync(int roomId, int senderId, string content)
     {
         var message = new Message
         {
-            SenderId = senderId,
+            RoomId = roomId,
+            SenderUserId = senderId,
             Content = content,
             SentAt = DateTime.UtcNow
         };
@@ -51,3 +52,4 @@ public class ChatService
         }
     }
 }
+
