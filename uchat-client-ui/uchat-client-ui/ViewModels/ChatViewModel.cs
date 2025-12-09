@@ -1,13 +1,89 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace uchat_client.ViewModels;
 
-public class ChatMessage
+public class ChatMessage : INotifyPropertyChanged
 {
-    public string Sender { get; set; } = string.Empty;
-    public string Text { get; set; } = string.Empty;
-    public string Time { get; set; } = string.Empty;
+    private string _sender = string.Empty;
+    private string _text = string.Empty;
+    private string _time = string.Empty;
+    private bool _isEditing = false;
+    private bool _isOutgoing = false;
+
+    public string Sender
+    {
+        get => _sender;
+        set
+        {
+            if (_sender != value)
+            {
+                _sender = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public string Text
+    {
+        get => _text;
+        set
+        {
+            if (_text != value)
+            {
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public string Time
+    {
+        get => _time;
+        set
+        {
+            if (_time != value)
+            {
+                _time = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public bool IsEditing
+    {
+        get => _isEditing;
+        set
+        {
+            if (_isEditing != value)
+            {
+                _isEditing = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public bool IsOutgoing
+    {
+        get => _isOutgoing;
+        set
+        {
+            if (_isOutgoing != value)
+            {
+                _isOutgoing = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string? name = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 }
 
 public class ChatViewModel : ViewModelBase
@@ -30,37 +106,277 @@ public class ChatViewModel : ViewModelBase
         }
     }
 
-    public RelayCommand SendCommand { get; }
+    private ChatMessage? _editingMessage;
+    public ChatMessage? EditingMessage
+    {
+        get => _editingMessage;
+        set
+        {
+            if (_editingMessage != value)
+            {
+                // Close previous editing popup
+                if (_editingMessage != null)
+                {
+                    _editingMessage.IsEditing = false;
+                }
 
-    private readonly string _username;
+                _editingMessage = value;
+
+                // Open new editing popup
+                if (_editingMessage != null)
+                {
+                    _editingMessage.IsEditing = true;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string _username = "Username";
+    public string Username
+    {
+        get => _username;
+        set
+        {
+            // Limit to 16 characters
+            var newValue = value.Length > 16 ? value.Substring(0, 16) : value;
+            if (_username != newValue)
+            {
+                _username = newValue;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string _bio = "Bio goes here…";
+    public string Bio
+    {
+        get => _bio;
+        set
+        {
+            // Limit to 80 characters
+            var newValue = value.Length > 80 ? value.Substring(0, 80) : value;
+            if (_bio != newValue)
+            {
+                _bio = newValue;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _isEditingProfile = false;
+    public bool IsEditingProfile
+    {
+        get => _isEditingProfile;
+        set
+        {
+            if (_isEditingProfile != value)
+            {
+                _isEditingProfile = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string? _profilePicturePath;
+    public string? ProfilePicturePath
+    {
+        get => _profilePicturePath;
+        set
+        {
+            if (_profilePicturePath != value)
+            {
+                _profilePicturePath = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _isSidebarCollapsed = false;
+    public bool IsSidebarCollapsed
+    {
+        get => _isSidebarCollapsed;
+        set
+        {
+            if (_isSidebarCollapsed != value)
+            {
+                _isSidebarCollapsed = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (_searchText != value)
+            {
+                _searchText = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public RelayCommand SendCommand { get; }
+    public RelayCommand<ChatMessage> EditMessageCommand { get; }
+    public RelayCommand<ChatMessage> DeleteMessageCommand { get; }
+    public RelayCommand CloseEditingCommand { get; }
+    public RelayCommand ToggleEditProfileCommand { get; }
+    public RelayCommand ToggleSidebarCommand { get; }
+    public RelayCommand SearchCommand { get; }
+    public RelayCommand OpenAddContactCommand { get; }
+
+    private bool _isAddContactOpen = false;
+    public bool IsAddContactOpen
+    {
+        get => _isAddContactOpen;
+        set
+        {
+            if (_isAddContactOpen != value)
+            {
+                _isAddContactOpen = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private AddContactViewModel? _addContactViewModel;
+    public AddContactViewModel? AddContactViewModel
+    {
+        get => _addContactViewModel;
+        set
+        {
+            if (_addContactViewModel != value)
+            {
+                _addContactViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private readonly string _usernameForMessages;
 
     public ChatViewModel(string username)
     {
-        _username = username;
-        Header = $"Chat – {_username}";
+        _usernameForMessages = username;
+        Header = $"Chat – {_usernameForMessages}";
         SendCommand = new RelayCommand(Send);
+        EditMessageCommand = new RelayCommand<ChatMessage>(StartEditMessage);
+        DeleteMessageCommand = new RelayCommand<ChatMessage>(DeleteMessage);
+        CloseEditingCommand = new RelayCommand(CloseEditing);
+        ToggleEditProfileCommand = new RelayCommand(ToggleEditProfile);
+        ToggleSidebarCommand = new RelayCommand(ToggleSidebar);
+        SearchCommand = new RelayCommand(PerformSearch);
+        OpenAddContactCommand = new RelayCommand(OpenAddContact);
+
+        // Initialize with default values
+        Username = username;
 
         // Fake initial messages
         Messages.Add(new ChatMessage
         {
             Sender = "system",
             Text = "Welcome to uchat 👋",
-            Time = DateTime.Now.ToShortTimeString()
+            Time = DateTime.Now.ToShortTimeString(),
+            IsOutgoing = false
         });
     }
 
-    private void Send()
+    public void Send()
     {
         if (string.IsNullOrWhiteSpace(OutgoingMessage))
             return;
 
         Messages.Add(new ChatMessage
         {
-            Sender = _username,
+            Sender = _usernameForMessages,
             Text = OutgoingMessage,
-            Time = DateTime.Now.ToShortTimeString()
+            Time = DateTime.Now.ToShortTimeString(),
+            IsOutgoing = true
         });
 
         OutgoingMessage = string.Empty;
+    }
+
+    private void StartEditMessage(ChatMessage? message)
+    {
+        if (message != null && message.Sender == _usernameForMessages)
+        {
+            EditingMessage = message;
+        }
+    }
+
+    private void DeleteMessage(ChatMessage? message)
+    {
+        if (message != null && message.Sender == _usernameForMessages)
+        {
+            Messages.Remove(message);
+            EditingMessage = null;
+        }
+    }
+
+    private void CloseEditing()
+    {
+        EditingMessage = null;
+    }
+
+    private void ToggleEditProfile()
+    {
+        IsEditingProfile = !IsEditingProfile;
+    }
+
+    private void ToggleSidebar()
+    {
+        IsSidebarCollapsed = !IsSidebarCollapsed;
+    }
+
+    public void PerformSearch()
+    {
+        // TODO: Implement contact filtering based on SearchText
+        // For now, this is a placeholder
+    }
+
+    public void ToggleEditingPopup(ChatMessage message)
+    {
+        if (message.Sender != _usernameForMessages)
+            return;
+
+        if (EditingMessage == message)
+        {
+            EditingMessage = null;
+        }
+        else
+        {
+            EditingMessage = message;
+        }
+    }
+
+    private void OpenAddContact()
+    {
+        AddContactViewModel = new AddContactViewModel(CloseAddContact, OpenChatWithContact);
+        IsAddContactOpen = true;
+    }
+
+    private void CloseAddContact()
+    {
+        IsAddContactOpen = false;
+        AddContactViewModel = null;
+    }
+
+    private void OpenChatWithContact(string contactName)
+    {
+        // TODO: Implement switching to chat with specific contact
+        // For now, just add a system message
+        Messages.Add(new ChatMessage
+        {
+            Sender = "system",
+            Text = $"Opening chat with {contactName}...",
+            Time = DateTime.Now.ToShortTimeString(),
+            IsOutgoing = false
+        });
     }
 }

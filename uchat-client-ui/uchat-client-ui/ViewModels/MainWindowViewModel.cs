@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿// MainWindowViewModel.cs
+
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace uchat_client.ViewModels;
