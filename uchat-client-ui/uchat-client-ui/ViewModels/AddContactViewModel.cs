@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 //AddContactViewModel.cs
 
 
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -53,6 +56,7 @@ public class AddContactViewModel : ViewModelBase
             {
                 _groupPicturePath = value;
                 OnPropertyChanged();
+<<<<<<< HEAD
                 OnPropertyChanged(nameof(HasGroupPicture));
             }
         }
@@ -70,11 +74,14 @@ public class AddContactViewModel : ViewModelBase
             {
                 _isOpen = value;
                 OnPropertyChanged();
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
             }
         }
     }
 
     public ObservableCollection<Contact> RecentContacts { get; } = new();
+<<<<<<< HEAD
     public ObservableCollection<Contact> FilteredRecentContacts { get; } = new();
 
     private string _groupContactSearch = string.Empty;
@@ -91,6 +98,8 @@ public class AddContactViewModel : ViewModelBase
             }
         }
     }
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 
     private string _errorMessage = string.Empty;
     public string ErrorMessage
@@ -114,7 +123,10 @@ public class AddContactViewModel : ViewModelBase
     public RelayCommand<Contact> ToggleSelectContactCommand { get; }
     public RelayCommand CreateGroupCommand { get; }
     public RelayCommand UploadGroupPictureCommand { get; }
+<<<<<<< HEAD
     public RelayCommand ToggleGroupImageCommand { get; }
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 
     private readonly Action _closeAction;
     private readonly Action<string> _openChatAction;
@@ -145,7 +157,12 @@ public class AddContactViewModel : ViewModelBase
         var contacts = new[]
         {
             "Joy", "Mäelise", "Jennie", "Alice", "Bob",
+<<<<<<< HEAD
             "Charlie", "Diana", "Eve", "Frank", "Grace"
+=======
+            "Charlie", "Diana", "Eve", "Frank", "Grace",
+            "Charlie", "Diana"
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
         };
 
         foreach (var name in contacts)
@@ -153,12 +170,16 @@ public class AddContactViewModel : ViewModelBase
             var contact = new Contact { Username = name };
             AllContacts.Add(contact);
             RecentContacts.Add(contact);
+<<<<<<< HEAD
             FilteredRecentContacts.Add(contact);
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
         }
 
         FilterSearchResults();
     }
 
+<<<<<<< HEAD
     private void FilterGroupContacts()
     {
         FilteredRecentContacts.Clear();
@@ -173,6 +194,8 @@ public class AddContactViewModel : ViewModelBase
         }
     }
 
+=======
+>>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
     private void FilterSearchResults()
     {
         SearchResults.Clear();
