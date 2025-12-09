@@ -10,6 +10,8 @@ public class UchatDbContext : DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<RoomMember> RoomMembers { get; set; }
+    public DbSet<MessageEdit> MessageEdits { get; set; }
+    public DbSet<MessageDeletion> MessageDeletions { get; set; }
 
     public UchatDbContext(DbContextOptions<UchatDbContext> options) : base(options)
     {
@@ -102,6 +104,41 @@ public class UchatDbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull);
         });
 
+        modelBuilder.Entity<MessageEdit>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.OldContent).IsRequired();
+            entity.Property(e => e.NewContent).IsRequired();
+            entity.Property(e => e.EditedAt).IsRequired();
+
+            entity.HasOne(e => e.Message)
+                .WithMany(m => m.Edits)
+                .HasForeignKey(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.EditedBy)
+                .WithMany()
+                .HasForeignKey(e => e.EditedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<MessageDeletion>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.MessageId).IsUnique();
+            entity.Property(e => e.DeletedAt).IsRequired();
+
+            entity.HasOne(e => e.Message)
+                .WithOne(m => m.Deletion)
+                .HasForeignKey<MessageDeletion>(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.DeletedBy)
+                .WithMany()
+                .HasForeignKey(e => e.DeletedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         modelBuilder.Entity<Session>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -117,3 +154,4 @@ public class UchatDbContext : DbContext
         });
     }
 }
+

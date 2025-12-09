@@ -438,23 +438,10 @@ public class ChatHub : Hub
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var messages = await _messageService.GetMessagesAsync(roomId, session.UserId, limit, beforeMessageId);
 
-            var messageDtos = messages.Select(m => new MessageDto
-            {
-                Id = m.Id,
-                RoomId = m.RoomId,
-                SenderUserId = m.SenderUserId,
-                SenderUsername = m.Sender?.Username,
-                MessageType = m.MessageType,
-                ServiceAction = m.ServiceAction,
-                ReplyToMessageId = m.ReplyToMessageId,
-                Content = m.Content,
-                SentAt = m.SentAt
-            }).ToList();
-
             return new ApiResponse<List<MessageDto>>
             {
                 Success = true,
-                Data = messageDtos
+                Data = messages
             };
         }
         catch (Exception ex)
@@ -462,6 +449,47 @@ public class ChatHub : Hub
             return _errorMapper.MapException<List<MessageDto>>(ex);
         }
     }
+
+    public async Task<ApiResponse<bool>> EditMessage(string sessionToken, int messageId, string newContent)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _messageService.EditMessageAsync(messageId, session.UserId, newContent);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Message edited",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> DeleteMessage(string sessionToken, int messageId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _messageService.DeleteMessageAsync(messageId, session.UserId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Message deleted",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
     public async Task<ApiResponse<bool>> JoinRoom(string sessionToken, int roomId)
     {
         try

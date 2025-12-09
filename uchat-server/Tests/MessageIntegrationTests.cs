@@ -255,14 +255,145 @@ public class MessageIntegrationTests : IAsyncLifetime
     [Fact]
     public async Task Test12_GetMessages_NonExistentRoom_ShouldFail()
     {
-        // Arrange
         var sessionToken = await GetSessionTokenAsync();
 
-        // Act
         var result = await _connection!.InvokeAsync<ApiResponse<List<MessageDto>>>(
             "GetMessages", sessionToken, 999999, 50, (int?)null);
 
-        // Assert
         Assert.False(result.Success);
     }
+
+    [Fact]
+    public async Task Test13_EditMessage_ShouldSucceed()
+    {
+        var sessionToken = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken, 1, "Original content", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        var editResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "EditMessage", sessionToken, messageId, "Edited content");
+
+        Assert.True(editResult.Success);
+
+        var messages = await _connection!.InvokeAsync<ApiResponse<List<MessageDto>>>(
+            "GetMessages", sessionToken, 1, 50, (int?)null);
+        var editedMessage = messages.Data!.FirstOrDefault(m => m.Id == messageId);
+
+        Assert.NotNull(editedMessage);
+        Assert.Equal("Edited content", editedMessage.Content);
+        Assert.True(editedMessage.IsEdited);
+        Assert.NotNull(editedMessage.EditedAt);
+    }
+
+    [Fact]
+    public async Task Test14_DeleteMessage_ShouldSucceed()
+    {
+        var sessionToken = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken, 1, "Message to delete", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        var deleteResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "DeleteMessage", sessionToken, messageId);
+
+        Assert.True(deleteResult.Success);
+
+        var messages = await _connection!.InvokeAsync<ApiResponse<List<MessageDto>>>(
+            "GetMessages", sessionToken, 1, 50, (int?)null);
+        var deletedMessage = messages.Data!.FirstOrDefault(m => m.Id == messageId);
+
+        Assert.Null(deletedMessage);
+    }
+
+    [Fact]
+    public async Task Test15_EditOtherUserMessage_ShouldFail()
+    {
+        var sessionToken1 = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken1, 1, "Original message", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        var user2Username = $"msgtest_edit_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+        var user2Result = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
+            "Register", user2Username, TestPassword, "Test/Windows", (string?)null);
+        var sessionToken2 = user2Result.Data!.SessionToken;
+
+        var editResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "EditMessage", sessionToken2, messageId, "Hacked content");
+
+        Assert.False(editResult.Success);
+    }
+
+    [Fact]
+    public async Task Test16_DeleteOtherUserMessage_ShouldFail()
+    {
+        var sessionToken1 = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken1, 1, "My message", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        var user2Username = $"msgtest_del_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+        var user2Result = await _connection!.InvokeAsync<ApiResponse<AuthDto>>(
+            "Register", user2Username, TestPassword, "Test/Windows", (string?)null);
+        var sessionToken2 = user2Result.Data!.SessionToken;
+
+        var deleteResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "DeleteMessage", sessionToken2, messageId);
+
+        Assert.False(deleteResult.Success);
+    }
+
+    [Fact]
+    public async Task Test17_EditDeletedMessage_ShouldFail()
+    {
+        var sessionToken = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken, 1, "Will be deleted", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        await _connection!.InvokeAsync<ApiResponse<bool>>("DeleteMessage", sessionToken, messageId);
+
+        var editResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "EditMessage", sessionToken, messageId, "Try to edit");
+
+        Assert.False(editResult.Success);
+    }
+
+    [Fact]
+    public async Task Test18_DeleteAlreadyDeletedMessage_ShouldFail()
+    {
+        var sessionToken = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken, 1, "Delete me twice", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        await _connection!.InvokeAsync<ApiResponse<bool>>("DeleteMessage", sessionToken, messageId);
+        var deleteResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
+            "DeleteMessage", sessionToken, messageId);
+
+        Assert.False(deleteResult.Success);
+    }
+
+    [Fact]
+    public async Task Test19_MultipleEdits_ShouldShowLatestContent()
+    {
+        var sessionToken = await GetSessionTokenAsync();
+        var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
+            "SendMessage", sessionToken, 1, "Version 1", (int?)null);
+        var messageId = sendResult.Data!.Id;
+
+        await _connection!.InvokeAsync<ApiResponse<bool>>("EditMessage", sessionToken, messageId, "Version 2");
+        await _connection!.InvokeAsync<ApiResponse<bool>>("EditMessage", sessionToken, messageId, "Version 3");
+        await _connection!.InvokeAsync<ApiResponse<bool>>("EditMessage", sessionToken, messageId, "Version 4");
+
+        var messages = await _connection!.InvokeAsync<ApiResponse<List<MessageDto>>>(
+            "GetMessages", sessionToken, 1, 50, (int?)null);
+        var editedMessage = messages.Data!.FirstOrDefault(m => m.Id == messageId);
+
+        Assert.NotNull(editedMessage);
+        Assert.Equal("Version 4", editedMessage.Content);
+        Assert.True(editedMessage.IsEdited);
+    }
 }
+

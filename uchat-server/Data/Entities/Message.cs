@@ -18,5 +18,8 @@ public class Message
     public User? Sender { get; set; }
     public Message? ReplyToMessage { get; set; }
     public Message? ForwardedFromMessage { get; set; }
+    public ICollection<MessageEdit> Edits { get; set; } = new List<MessageEdit>();
+    public MessageDeletion? Deletion { get; set; }
 }
+
 

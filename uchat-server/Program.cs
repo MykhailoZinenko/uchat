@@ -49,6 +49,8 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomMemberRepository, RoomMemberRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageEditRepository, MessageEditRepository>();
+builder.Services.AddScoped<IMessageDeletionRepository, MessageDeletionRepository>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<ICryptographyService, CryptographyService>();
