@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-// ValueConverters.cs
-
-
-=======
->>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Layout;
-<<<<<<< HEAD
-using Avalonia.Media;
-=======
->>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 
 namespace uchat_client.Converters;
 
@@ -190,8 +180,6 @@ public class BoolToTextColorConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-<<<<<<< HEAD
-=======
 }
 
 /// <summary>
@@ -214,5 +202,4 @@ public class BoolToSelectionColorConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
->>>>>>> b2e1f1d159670b48aece400aff99ea955c3b1b0d
 }

@@ -1,13 +1,29 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:uchat_client.Views"
+        xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
         x:Class="uchat_client.MainWindow"
-        Title="uchat"
-        Width="800"
-        Height="600">
-    <Grid>
-        <TextBlock Text="HelloWorld"
-                   FontSize="48"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-    </Grid>
+        x:DataType="viewModels:MainWindowViewModel"
+        Width="900" Height="650"
+        Title="uchat">
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+            <views:LoginView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:RegistrationViewModel}">
+            <views:RegistrationView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:ChatViewModel}">
+            <views:ChatView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:AddContactViewModel}">
+            <views:AddContactView />
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <ContentControl Content="{Binding CurrentView}" />
 </Window>

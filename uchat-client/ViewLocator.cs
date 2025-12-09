@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using uchat_client.ViewModels;
 
-namespace uchat_client_ui;
+namespace uchat_client;
 
 [RequiresUnreferencedCode(
     "Default implementation of ViewLocator involves reflection which may be trimmed away.",
