@@ -51,6 +51,9 @@ builder.Services.AddScoped<IRoomMemberRepository, RoomMemberRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageEditRepository, MessageEditRepository>();
 builder.Services.AddScoped<IMessageDeletionRepository, MessageDeletionRepository>();
+builder.Services.AddScoped<IPinnedMessageRepository, PinnedMessageRepository>();
+builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+builder.Services.AddScoped<IBlockedUserRepository, BlockedUserRepository>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<ICryptographyService, CryptographyService>();
@@ -60,8 +63,13 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomMemberService, RoomMemberService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IPinnedMessageService, PinnedMessageService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IBlockedUserService, BlockedUserService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IMapperService, MapperService>();
 builder.Services.AddScoped<IErrorMapper, ErrorMapper>();
+
 
 builder.Services.AddSignalR(options =>
 {

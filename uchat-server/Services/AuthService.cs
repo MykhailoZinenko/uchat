@@ -56,6 +56,7 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
+            UserId = createdUser.Id,
             SessionToken = sessionToken
         };
     }
@@ -90,6 +91,7 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
+            UserId = user.Id,
             SessionToken = sessionToken
         };
     }
@@ -112,6 +114,7 @@ public class AuthService : IAuthService
 
         return new AuthDto
         {
+            UserId = session.UserId,
             SessionToken = sessionToken
         };
     }
