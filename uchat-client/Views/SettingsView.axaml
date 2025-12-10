@@ -1,0 +1,139 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             xmlns:views="clr-namespace:uchat_client.Views"
+             x:Class="uchat_client.Views.SettingsView"
+             x:DataType="viewModels:SettingsViewModel"
+             Background="#364D70">
+    
+    <UserControl.Resources>
+        <StreamGeometry x:Key="ChevronRightIcon">
+            M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z
+        </StreamGeometry>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- REUSABLE SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                          DataContext="{Binding SidebarViewModel}" />
+
+        <!-- SETTINGS CONTENT AREA -->
+        <Grid Grid.Column="1"
+              Margin="24, 120, 24, 24">
+            
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="20"
+                            MaxWidth="700">
+
+                    <!-- My Account Section -->
+                    <Button Height="64"
+                            CornerRadius="30"
+                            Background="#98B7E4"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Padding="24,0"
+                            Command="{Binding OpenMyAccountCommand}">
+                        
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#A8C7F4"/>
+                            </Style>
+                        </Button.Styles>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0"
+                                       Text="My Account"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       FontFamily="{StaticResource LibraFont}"
+                                       Foreground="#364D70"
+                                       VerticalAlignment="Center" />
+                            
+                            <Path Grid.Column="1"
+                                  Fill="#364D70"
+                                  Stretch="Uniform"
+                                  Width="28"
+                                  Height="28"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChevronRightIcon}"/>
+                        </Grid>
+                    </Button>
+
+                    <!-- Current Session Section -->
+                    <Button Height="64"
+                            CornerRadius="30"
+                            Background="#98B7E4"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Padding="24,0"
+                            Command="{Binding OpenCurrentSessionCommand}">
+                        
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#A8C7F4"/>
+                            </Style>
+                        </Button.Styles>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0"
+                                       Text="Current Session"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       FontFamily="{StaticResource LibraFont}"
+                                       Foreground="#364D70"
+                                       VerticalAlignment="Center" />
+                            
+                            <Path Grid.Column="1"
+                                  Fill="#364D70"
+                                  Stretch="Uniform"
+                                  Width="28"
+                                  Height="28"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChevronRightIcon}"/>
+                        </Grid>
+                    </Button>
+
+                    <!-- Sound and Notifications Section -->
+                    <Button Height="64"
+                            CornerRadius="30"
+                            Background="#98B7E4"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Padding="24,0"
+                            Command="{Binding OpenSoundNotificationCommand}">
+                        
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#A8C7F4"/>
+                            </Style>
+                        </Button.Styles>
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0"
+                                       Text="Sound and Notification"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       FontFamily="{StaticResource LibraFont}"
+                                       Foreground="#364D70"
+                                       VerticalAlignment="Center" />
+                            
+                            <Path Grid.Column="1"
+                                  Fill="#364D70"
+                                  Stretch="Uniform"
+                                  Width="28"
+                                  Height="28"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChevronRightIcon}"/>
+                        </Grid>
+                    </Button>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
