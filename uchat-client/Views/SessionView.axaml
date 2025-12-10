@@ -1,0 +1,179 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             xmlns:views="clr-namespace:uchat_client.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="uchat_client.Views.SessionView"
+             x:DataType="viewModels:SessionViewModel"
+             Background="#364D70">
+
+    <UserControl.Resources>
+        <StreamGeometry x:Key="LaptopIcon">
+            M1577 2663 c-13 -12 -7 -42 11 -51 9 -5 60 -12 112 -15 52 -4 113
+            -11 135 -17 231 -61 386 -146 537 -294 154 -153 242 -317 305 -566 7 -28 14
+            -36 36 -38 24 -3 27 0 27 26 0 47 -36 175 -76 267 -41 96 -115 212 -189 299
+            -122 143 -337 282 -525 341 -129 40 -353 69 -373 48z
+            M1300 2629 c-100 -27 -248 -94 -340 -154 -97 -64 -263 -230 -325
+            -324 -118 -183 -192 -424 -183 -596 3 -56 4 -60 28 -60 24 0 25 3 32 82 19
+            230 87 416 216 588 155 208 395 363 645 415 60 12 81 28 71 54 -8 21 -50 20
+            -144 -5z
+            M1005 2035 l-25 -24 0 -371 0 -371 25 -24 c13 -14 32 -25 42 -25 15
+            -1 14 -4 -7 -21 -117 -98 -130 -112 -130 -143 1 -78 -22 -76 700 -76 l641 0
+            24 25 c48 47 35 74 -83 172 l-43 36 30 18 c16 10 35 27 40 38 7 13 11 143 11
+            376 l0 357 -29 29 -29 29 -572 0 -571 0 -24 -25z m1153 -392 l3 -292 -23 -6
+            c-13 -3 -261 -4 -553 -3 l-530 3 -3 285 c-1 157 0 290 2 296 3 9 143 12 553
+            11 l548 -2 3 -292z
+            M2707 1546 c-9 -9 -16 -49 -20 -113 -24 -372 -259 -714 -608 -883
+            -75 -36 -175 -71 -279 -97 -25 -6 -36 -15 -38 -31 -5 -34 21 -37 118 -13 454
+            111 789 477 865 944 21 130 20 184 -4 197 -15 7 -23 6 -34 -4z
+            M470 1355 c-24 -29 32 -214 112 -367 128 -247 339 -434 606 -537 102
+            -39 189 -58 313 -70 117 -11 131 -8 127 28 -3 26 -5 26 -102 34 -364 28 -683
+            226 -869 539 -45 75 -91 193 -116 293 -10 40 -22 78 -25 84 -10 15 -31 14 -46
+            -4z
+        </StreamGeometry>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="PathIcon.IconShape">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="RenderTransform" Value="scale(1, -1)"/>
+            <Setter Property="Width" Value="48"/> 
+            <Setter Property="Height" Value="48"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <views:SidebarView Grid.Column="0"
+                           DataContext="{Binding SidebarViewModel}" />
+        
+        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+            
+            <!-- Header with back button and title -->
+            <StackPanel Grid.Row="0" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center"
+                        Spacing="15"
+                        Margin="0,60,50,15">
+                
+                <Button Command="{Binding BackCommand}"
+                        Width="40" Height="40"
+                        CornerRadius="20"
+                        Padding="0"
+                        Background="Transparent"
+                        VerticalAlignment="Center">
+                    
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#4CFFFFFF"/>
+                        </Style>
+                    </Button.Styles>
+
+                    <Path Fill="White" 
+                          Stretch="Uniform" 
+                          Width="20" Height="20"
+                          HorizontalAlignment="Center" 
+                          VerticalAlignment="Center"
+                          Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/>
+                </Button>
+
+                <TextBlock Text="Current Session"
+                           Foreground="White" 
+                           FontSize="26" 
+                           FontFamily="{StaticResource LibraFontBold}"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Content area -->
+            <Border Grid.Row="1" 
+                    Background="#98B7E4"
+                    CornerRadius="25"
+                    Padding="30"
+                    MaxWidth="500"
+                    VerticalAlignment="Top"
+                    Margin="30,0,30,30">
+                
+                <StackPanel Spacing="15">
+                    
+                    <TextBlock Text="This device"
+                               Foreground="#364D70"
+                               FontSize="20"
+                               FontFamily="{StaticResource LibraFontBold}"
+                               Margin="0,0,0,5"/>
+
+                    <Border Background="#BAD6FA"
+                            CornerRadius="20"
+                            Padding="20">
+    
+                        <StackPanel Spacing="10">
+        
+                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                                <Border Classes="DeviceIcon">
+                                    <PathIcon Data="{StaticResource LaptopIcon}" Classes="IconShape"/>
+                                </Border>
+            
+                                <TextBlock Text="{Binding CurrentSession.DeviceName}" 
+                                           VerticalAlignment="Center" 
+                                           FontSize="16" 
+                                           FontWeight="SemiBold"
+                                           FontFamily="{StaticResource LibraFont}"
+                                           Foreground="#364D70"/>
+                            </StackPanel>
+
+                            <Button Command="{Binding TerminateAllSessionsCommand}"
+                                    Content="Terminate all other sessions"
+                                    Foreground="#FF4444"
+                                    Background="Transparent"
+                                    FontFamily="{StaticResource LibraFontBold}"
+                                    FontSize="14"
+                                    HorizontalAlignment="Left"
+                                    Padding="0" 
+                                    BorderThickness="0"
+                                    Margin="5,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <TextBlock Text="Active sessions"
+                               Foreground="#364D70"
+                               FontSize="20"
+                               FontFamily="{StaticResource LibraFontBold}"
+                               Margin="0,10,0,5"/>
+
+                    <ItemsControl ItemsSource="{Binding ActiveSessions}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" Spacing="10"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#BAD6FA" CornerRadius="20" Padding="15">
+                                    <StackPanel Orientation="Horizontal" Spacing="15">
+                                        <Border Classes="DeviceIcon">
+                                            <PathIcon Data="{StaticResource LaptopIcon}" Classes="IconShape"/>
+                                        </Border>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding DeviceName}" 
+                                                       FontWeight="SemiBold" 
+                                                       Foreground="#364D70"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

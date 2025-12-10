@@ -1,0 +1,335 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             xmlns:converters="clr-namespace:uchat_client.Converters"
+             x:Class="uchat_client.Views.AddContactView"
+             x:DataType="viewModels:AddContactViewModel">
+
+    <UserControl.Resources>
+        <converters:BoolToSelectionColorConverter x:Key="BoolToSelectionColorConverter"/>
+        <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+
+        <StreamGeometry x:Key="SearchIcon">
+            M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59
+            14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41
+            11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12
+            7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
+        </StreamGeometry>
+
+        <StreamGeometry x:Key="ProfileIcon">
+            M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0
+            12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38
+            16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36
+            7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5
+            7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4
+            20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56
+            8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56
+            13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1
+            12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z
+        </StreamGeometry>
+
+        <StreamGeometry x:Key="GroupIcon">
+            M16,13C15.71,13 15.38,13 15.03,13.05C16.19,13.89 17,15 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M8,11A3,3 0 0,0 11,8A3,3 0 0,0 8,5A3,3 0 0,0 5,8A3,3 0 0,0 8,11M16,11A3,3 0 0,0 19,8A3,3 0 0,0 16,5A3,3 0 0,0 13,8A3,3 0 0,0 16,11Z
+        </StreamGeometry>
+
+        <StreamGeometry x:Key="CloudIcon">
+            M808 2645 c-233 -59 -423 -252 -474 -484 -16 -72 -15 -210 2 -298 5
+            -25 2 -32 -13 -37 -71 -23 -203 -159 -253 -261 -79 -161 -81 -367 -6 -530 53
+            -114 166 -229 283 -289 113 -56 135 -59 571 -64 l402 -4 0 251 0 251 -120 0
+            c-66 0 -120 3 -120 8 1 8 395 581 413 599 9 9 49 -42 167 -215 85 -124 178
+            -260 207 -301 29 -42 52 -79 53 -83 0 -5 -54 -8 -120 -8 l-120 0 0 -251 0
+            -250 368 3 c408 4 421 6 560 76 184 92 316 255 366 453 22 91 21 246 -3 341
+            -68 264 -292 468 -562 512 -34 6 -35 8 -47 66 -73 352 -478 521 -777 324 -28
+            -18 -59 -41 -70 -52 -20 -19 -21 -18 -83 49 -71 76 -163 139 -261 176 -55 22
+            -86 27 -186 29 -81 2 -138 -1 -177 -11z m-37 -164 c47 -59 2 -206 -93 -307
+            -165 -176 -310 -84 -209 131 48 104 137 188 216 205 41 9 62 2 86 -29z
+        </StreamGeometry>
+    </UserControl.Resources>
+
+    <!-- Main container with semi-transparent background -->
+    <Border Background="#CC000000" PointerPressed="Background_Click">
+        <Border Background="#B6DBFF"
+                CornerRadius="16"
+                MaxWidth="900"
+                MaxHeight="650"
+                Margin="40"
+                Padding="24"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                PointerPressed="Content_Click">
+
+            <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- UPPER SECTION: Find Individual Contact -->
+                <Border Grid.Row="0"
+                        Background="#364D70"
+                        CornerRadius="12"
+                        Padding="20"
+                        Margin="0,0,0,16">
+                    <Grid RowDefinitions="Auto,Auto,*">
+
+                        <!-- Search Bar and Profile Icon -->
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="*,Auto"
+                              Margin="0,0,0,16">
+
+                            <Border Grid.Column="0"
+                                    Background="White"
+                                    CornerRadius="24"
+                                    Height="48"
+                                    Margin="0,0,16,0">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Path Grid.Column="0"
+                                          Fill="#364D70"
+                                          Stretch="Uniform"
+                                          Width="24"
+                                          Height="24"
+                                          Margin="16,0,8,0"
+                                          Data="{StaticResource SearchIcon}"/>
+
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding SearchUsername}"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             Foreground="#364D70"
+                                             CaretBrush="#364D70"
+                                             FontSize="16"
+                                             VerticalContentAlignment="Center"
+                                             Watermark="Enter the username"
+                                             Padding="0,0,16,0">
+                                        <TextBox.Styles>
+                                            <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                            </Style>
+                                            <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                            </Style>
+                                        </TextBox.Styles>
+                                    </TextBox>
+                                </Grid>
+                            </Border>
+
+                            <!-- Profile Icon Indicator -->
+                            <Border Grid.Column="1"
+                                    Width="64"
+                                    Height="64"
+                                    CornerRadius="32"
+                                    Background="White">
+                                <Path Fill="#364D70"
+                                      Stretch="Uniform"
+                                      Width="48"
+                                      Height="48"
+                                      Data="{StaticResource ProfileIcon}"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Search Results -->
+                        <ScrollViewer Grid.Row="2"
+                                      MaxHeight="150"
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding SearchResults}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding $parent[ItemsControl].((viewModels:AddContactViewModel)DataContext).OpenChatCommand}"
+                                                CommandParameter="{Binding}"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Padding="8"
+                                                Margin="8">
+                                            <StackPanel Spacing="8" Width="80">
+                                                <Border Width="64"
+                                                        Height="64"
+                                                        CornerRadius="32"
+                                                        Background="White"
+                                                        HorizontalAlignment="Center">
+                                                    <Path Fill="#364D70"
+                                                          Stretch="Uniform"
+                                                          Width="48"
+                                                          Height="48"
+                                                          Data="{StaticResource ProfileIcon}"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Username}"
+                                                           Foreground="White"
+                                                           FontSize="12"
+                                                           TextAlignment="Center"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <!-- LOWER SECTION: Create Group -->
+                <Border Grid.Row="1"
+                        Background="#364D70"
+                        CornerRadius="12"
+                        Padding="20">
+                    <Grid RowDefinitions="Auto,*,Auto,Auto">
+
+                        <!-- Header -->
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="*,Auto"
+                              Margin="0,0,0,16">
+                            <TextBlock Grid.Column="0"
+                                       Text="Select contacts"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"/>
+
+                            <Border Grid.Column="1"
+                                    Width="48"
+                                    Height="48"
+                                    CornerRadius="24"
+                                    Background="White">
+                                <Path Fill="#364D70"
+                                      Stretch="Uniform"
+                                      Width="36"
+                                      Height="36"
+                                      Data="{StaticResource GroupIcon}"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Contact Selection Grid -->
+                        <ScrollViewer Grid.Row="1"
+                                      MaxHeight="180"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Margin="0,0,0,16">
+                            <ItemsControl ItemsSource="{Binding RecentContacts}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding $parent[ItemsControl].((viewModels:AddContactViewModel)DataContext).ToggleSelectContactCommand}"
+                                                CommandParameter="{Binding}"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Padding="8"
+                                                Margin="8">
+                                            <StackPanel Spacing="8" Width="80">
+                                                <Border Width="64"
+                                                        Height="64"
+                                                        CornerRadius="32"
+                                                        Background="{Binding IsSelected, Converter={StaticResource BoolToSelectionColorConverter}}"
+                                                        HorizontalAlignment="Center">
+                                                    <Path Fill="#364D70"
+                                                          Stretch="Uniform"
+                                                          Width="48"
+                                                          Height="48"
+                                                          Data="{StaticResource ProfileIcon}"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Username}"
+                                                           Foreground="White"
+                                                           FontSize="12"
+                                                           TextAlignment="Center"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- Group Name and Picture Upload -->
+                        <Grid Grid.Row="2"
+                              ColumnDefinitions="*,Auto"
+                              Margin="0,0,0,16">
+
+                            <Border Grid.Column="0"
+                                    Background="White"
+                                    CornerRadius="24"
+                                    Height="48"
+                                    Margin="0,0,16,0">
+                                <TextBox Text="{Binding GroupName}"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="#364D70"
+                                         CaretBrush="#364D70"
+                                         FontSize="16"
+                                         VerticalContentAlignment="Center"
+                                         Watermark="Enter the name of the group"
+                                         Padding="20,0">
+                                    <TextBox.Styles>
+                                        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                        </Style>
+                                        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                        </Style>
+                                    </TextBox.Styles>
+                                </TextBox>
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Background="White"
+                                    CornerRadius="24"
+                                    Width="180"
+                                    Height="48"
+                                    HorizontalContentAlignment="Center"
+                                    Click="UploadGroupPicture_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="Upload a photo"
+                                               Foreground="#364D70"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"/>
+                                    <Path Fill="#364D70"
+                                          Stretch="Uniform"
+                                          Width="24"
+                                          Height="24"
+                                          RenderTransform="scale(1,-1)"
+                                          Margin="0, 0, 0, 8"
+                                          Data="{StaticResource CloudIcon}"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <!-- Error Message -->
+                        <TextBlock Grid.Row="3"
+                                   Text="{Binding ErrorMessage}"
+                                   Foreground="#FF6B6B"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   TextAlignment="Center"
+                                   IsVisible="{Binding HasError}"
+                                   Margin="0,0,0,8"/>
+                    </Grid>
+                </Border>
+
+                <!-- Create Group Button -->
+                <Button Grid.Row="2"
+                        Content="Create a group"
+                        Background="#2C3E5A"
+                        Foreground="White"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Height="56"
+                        CornerRadius="28"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding CreateGroupCommand}"
+                        Margin="0,16,0,0">
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#3D4F6B"/>
+                        </Style>
+                    </Button.Styles>
+                </Button>
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>

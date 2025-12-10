@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="uchat_client.App"
+             xmlns:local="using:uchat_client"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <FontFamily x:Key="PoppinsFont">avares://uchat/Assets/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
+        <FontFamily x:Key="LibraFont">avares://uchat/Assets/Fonts/LibraSerifModern-Regular.otf#Libra Serif Modern</FontFamily>
+        <FontFamily x:Key="LibraFontBold">avares://uchat/Assets/Fonts/LibraSerifModern-Bold.otf#Libra Serif Modern</FontFamily>
+        <FontFamily x:Key="InterFont">Inter</FontFamily>
+    </Application.Resources>
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+</Application>

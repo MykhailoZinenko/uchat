@@ -1,0 +1,535 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
+             x:Class="uchat_client.Views.SidebarView"
+             x:DataType="viewModels:SidebarViewModel">
+    
+    <UserControl.Resources>
+        <StreamGeometry x:Key="ChangeProfilePictureIcon">
+            M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 
+            12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 
+            16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 
+            7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 
+            7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 
+            20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56
+            8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 
+            13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 
+            12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="SettingsIcon">
+            M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 
+            15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 
+            19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 
+            21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 
+            15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 
+            9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 
+            4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 
+            4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 
+            2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 
+            8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 
+            14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 
+            19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="CloseSidebarIcon">
+            M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="OpenSidebarIcon">
+            M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="SearchIcon">
+            M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 
+            14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 
+            11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 
+            7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="PlusIcon">
+            M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z
+        </StreamGeometry>
+        
+        <StreamGeometry x:Key="EditIcon">
+            M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 
+            21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 
+            17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 
+            20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 
+            17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
+        </StreamGeometry>
+        
+
+        <StreamGeometry x:Key="ChatIcon">
+            M20 12C20 16.4183 16.4183 20 12 20C10.5937 20 9.27223 19.6372 8.12398 
+            19C7.53267 18.6719 4.48731 20.4615 3.99998 20C3.44096 19.4706 5.4583 
+            16.6708 5.07024 16C4.38956 14.8233 3.99999 13.4571 3.99999 12C3.99999 
+            7.58172 7.58171 4 12 4C16.4183 4 20 7.58172 20 12Z
+        </StreamGeometry>
+    </UserControl.Resources>
+
+    <!-- ========== LEFT SIDEBAR (EXPANDED) ========== -->
+        <Grid>
+        
+        <Border Grid.Column="0"
+                Width = "280"
+                Background="#98B7E4"
+                CornerRadius="0,12,12,0"
+                IsVisible="{Binding !IsSidebarCollapsed}">
+            <Grid Margin="8"
+                  RowDefinitions="Auto,Auto,*,Auto">
+
+                <Border Grid.Row="0"
+                        Background="#364D70"
+                        CornerRadius="8"
+                        Padding="8"
+                        Margin="0,0,0,16">
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          VerticalAlignment="Center">
+
+                        <Button Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                CornerRadius="24"
+                                Padding="0"
+                                Click="ProfilePictureButton_Click">
+
+                            <Button.Styles>
+                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Button.Styles>
+
+                            <Path Fill="White"
+                                  Stretch="Uniform"
+                                  Width="48"
+                                  Height="48"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChangeProfilePictureIcon}"/>
+                        </Button>
+
+                        <StackPanel Grid.Column="1"
+                                    Margin="8,0,8,0"
+                                    IsVisible="{Binding !IsEditingProfile}">
+                            <TextBlock Text="{Binding Username}"
+                                       FontWeight="Bold"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="140"
+                                       Foreground="White" />
+                            <TextBlock Text="{Binding Bio}"
+                                       FontSize="11"
+                                       Opacity="0.8"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="140"
+                                       Foreground="White"
+                                       IsVisible="{Binding Bio, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    Margin="8,0,8,0"
+                                    Spacing="4"
+                                    IsVisible="{Binding IsEditingProfile}">
+                            <TextBox Text="{Binding Username}"
+                                     FontWeight="Bold"
+                                     FontSize="12"
+                                     MaxLength="16"
+                                     Watermark="Username"
+                                     Background="#4A6491"
+                                     Foreground="White"
+                                     BorderThickness="0"
+                                     Padding="4,2"
+                                     CornerRadius="4"
+                                     MaxWidth="140">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#4A6491"/> <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#4A6491"/> <Setter Property="BorderBrush" Value="#98B7E4"/> <Setter Property="BorderThickness" Value="1"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+
+                            <TextBox Text="{Binding Bio}"
+                                     FontSize="11"
+                                     MaxLength="80"
+                                     TextWrapping="Wrap"
+                                     Watermark="Bio"
+                                     Background="#4A6491"
+                                     Foreground="White"
+                                     BorderThickness="0"
+                                     Padding="4,2"
+                                     CornerRadius="4"
+                                     MinHeight="40"
+                                     MaxWidth="140">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#4A6491"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="#4A6491"/>
+                                        <Setter Property="BorderBrush" Value="#98B7E4"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </StackPanel>
+
+                        <Button Grid.Column="2"
+                                Width="24"
+                                Height="24"
+                                CornerRadius="24"
+                                Background="Transparent"
+                                Command="{Binding ToggleEditProfileCommand}"
+                                Margin="0,0,4,8">
+
+                            <Button.Styles>
+                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Button.Styles>
+
+                            <Path Fill="White"
+                                  Stretch="Uniform"
+                                  Width="20"
+                                  Height="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource EditIcon}"/>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="*,Auto"
+                      Margin="0,0,0,16">
+
+                    <Border Grid.Column="0"
+                            CornerRadius="20"
+                            Background="#ffffff"
+                            Height="40"
+                            Margin="0,0,8,0">
+
+                        <Grid ColumnDefinitions="Auto, *">
+
+                            <Button Grid.Column="0"
+                                    Width="32"
+                                    Height="32"
+                                    CornerRadius="16"
+                                    Background="Transparent"
+                                    Margin="4,0,0,0"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding SearchCommand}">
+
+                                <Button.Styles>
+                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Style>
+                                </Button.Styles>
+
+                                <Path Fill="#364D70"
+                                      Stretch="Uniform"
+                                      Width="24"
+                                      Height="24"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="{StaticResource SearchIcon}"/>
+                            </Button>
+
+                            <TextBox Grid.Column="1"
+                                     Name="SearchTextBox"
+                                     Text="{Binding SearchText}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="#364D70"
+                                     CaretBrush="#364D70"
+                                     FontSize="14"
+                                     VerticalContentAlignment="Center"
+                                     Padding="4, 0,12,0"
+                                     Watermark="Search"
+                                     KeyDown="SearchTextBox_KeyDown">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+        
+                                    <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
+                                        <Setter Property="Foreground" Value="#80364D70"/>
+                                    </Style>
+                                    <Style Selector="TextBox:focus /template/ TextBlock#PART_Watermark">
+                                        <Setter Property="Foreground" Value="#80364D70"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </Grid>
+                    </Border>
+
+                    <Button Grid.Column="1"
+                            Width="40"
+                            Height="40"
+                            CornerRadius="20"
+                            Background="Transparent"
+                            Padding="0"
+                            Command="{Binding OpenAddContactCommand}">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Path Fill="White"
+                              Stretch="Uniform"
+                              Width="24"
+                              Height="24"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{StaticResource PlusIcon}"/>
+                    </Button>
+                </Grid>
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer.Resources>
+                        <SolidColorBrush x:Key="ScrollBarTrackFill" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarTrackFillPointerOver" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarTrackFillPressed" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarTrackStroke" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarBackgroundPointerOver" Color="Transparent" />
+                        <SolidColorBrush x:Key="ScrollBarBackgroundPressed" Color="Transparent" />
+                    </ScrollViewer.Resources>
+
+                    <ScrollViewer.Styles>
+                        <Style Selector="ScrollBar /template/ RepeatButton">
+                            <Setter Property="IsVisible" Value="False" />
+                        </Style>
+
+                        <Style Selector="ScrollBar">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Width" Value="10" />
+                            <Setter Property="MinWidth" Value="10" /> 
+                        </Style>
+
+                        <Style Selector="ScrollBar /template/ Thumb">
+                            <Setter Property="Background" Value="#99FFFFFF" />
+                            <Setter Property="CornerRadius" Value="10" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+
+                        <Style Selector="ScrollBar /template/ Thumb:pointerover">
+                            <Setter Property="Background" Value="#B2FFFFFF" />
+                        </Style>
+
+                        <Style Selector="ScrollBar /template/ Thumb:pressed">
+                            <Setter Property="Background" Value="#CCFFFFFF" />
+                            <Setter Property="CornerRadius" Value="10" />
+                        </Style>
+                    </ScrollViewer.Styles>
+                    <StackPanel Spacing="8">
+                         <StackPanel.Styles>
+                            <Style Selector="Button">
+                                <Setter Property="Width" Value="240" />
+                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                <Setter Property="Padding" Value="15,0" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <Button Height="48" CornerRadius="24" Content="Contact 1" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 2" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 3" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 4" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 5" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 6" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 7" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 8" />
+                        <Button Height="48" CornerRadius="24" Content="Contact 9" />
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid Grid.Row="3"
+                      ColumnDefinitions="Auto,*,Auto"
+                      Margin="0,16,0,0">
+                    <Button Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding ToggleSidebarCommand}"
+                            Margin="0,16,0,0">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Path Fill="White"
+                              Stretch="Uniform"
+                              Width="32"
+                              Height="32"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{StaticResource CloseSidebarIcon}"/>
+                    </Button>
+
+                    <Border Grid.Column="1" />
+
+                    <Button Grid.Column="2" Width="48" Height="48" CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding OpenSettingsCommand}"
+                            IsVisible="{Binding !IsOnSettingsPage}"
+                            Margin="0,16,0,0">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Data="{StaticResource SettingsIcon}"/>
+                    </Button>
+
+                    <Button Grid.Column="2" Width="48" Height="48" CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding BackCommand}"
+                            IsVisible="{Binding IsOnSettingsPage}"
+                            Margin="0,16,0,0">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Data="{StaticResource ChatIcon}"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+            <!-- Sidebar collapsed -->
+        <Border Grid.Column="0"
+                Width="80"
+                Background="#98B7E4"
+                CornerRadius="0,12,12,0"
+                IsVisible="{Binding IsSidebarCollapsed}">
+            <Grid Margin="8"
+                  RowDefinitions="Auto,Auto,*,Auto">
+
+                <Button Grid.Row="0"
+                        Width="48"
+                        Height="48"
+                        CornerRadius="24"
+                        Padding="0"
+                        Margin="0,0,0,16"
+                        HorizontalAlignment="Center"
+                        Click="ProfilePictureButton_Click">
+                     <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </Button.Styles>
+                    <Path Fill="White"
+                          Stretch="Uniform"
+                          Width="48"
+                          Height="48"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="{StaticResource ChangeProfilePictureIcon}"/>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="White"
+                        Padding="0"
+                        Margin="0,0,0,16"
+                        HorizontalAlignment="Center"
+                        Command="{Binding SearchCommand}">
+                    <Path Fill="#364D70"
+                          Stretch="Uniform"
+                          Width="24"
+                          Height="24"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="{StaticResource SearchIcon}"/>
+                </Button>
+
+                <ScrollViewer Grid.Row="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Center">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <Button Width="48" Height="48" CornerRadius="24" Padding="0" Background="White">
+                            <Path Fill="#364D70" Stretch="Uniform" Width="32" Height="32" Data="{StaticResource ChangeProfilePictureIcon}"/>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid Grid.Row="3"
+                      RowDefinitions="Auto,Auto"
+                      Margin="0,16,0,0"
+                      HorizontalAlignment="Center">
+                    <Button Grid.Row="0"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding ToggleSidebarCommand}"
+                            Margin="0,0,0,8">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Path Fill="White"
+                              Stretch="Uniform"
+                              Width="32"
+                              Height="32"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="10, 0, 0, 0"
+                              Data="{StaticResource OpenSidebarIcon}"/>
+                    </Button>
+
+                    <Button Grid.Row = "1" Width="48" Height="48" CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding OpenSettingsCommand}"
+                            IsVisible="{Binding !IsOnSettingsPage}">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Data="{StaticResource SettingsIcon}"/>
+                    </Button>
+
+                    <Button Grid.Row="1" Width="48" Height="48" CornerRadius="24"
+                            Background="Transparent"
+                            Command="{Binding BackCommand}"
+                            IsVisible="{Binding IsOnSettingsPage}">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </Button.Styles>
+                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Data="{StaticResource ChatIcon}"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
