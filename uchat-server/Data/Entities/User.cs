@@ -17,4 +17,6 @@ public class User
 
     public ICollection<Message> SentMessages { get; set; } = new List<Message>();
     public ICollection<Session> Sessions { get; set; } = new List<Session>();
+    public ICollection<RoomMember> RoomMemberships { get; set; } = new List<RoomMember>();
+    public ICollection<Room> CreatedRooms { get; set; } = new List<Room>();
 }

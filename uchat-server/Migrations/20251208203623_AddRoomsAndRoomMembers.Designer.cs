@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using uchat_server.Data;
 
@@ -10,9 +11,11 @@ using uchat_server.Data;
 namespace uchat_server.Migrations
 {
     [DbContext(typeof(UchatDbContext))]
-    partial class UchatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251208203623_AddRoomsAndRoomMembers")]
+    partial class AddRoomsAndRoomMembers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -62,63 +65,6 @@ namespace uchat_server.Migrations
                     b.HasIndex("SenderUserId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageDeletion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DeletedByUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MessageId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeletedByUserId");
-
-                    b.HasIndex("MessageId")
-                        .IsUnique();
-
-                    b.ToTable("MessageDeletions");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageEdit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("EditedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("EditedByUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MessageId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NewContent")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OldContent")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EditedByUserId");
-
-                    b.HasIndex("MessageId");
-
-                    b.ToTable("MessageEdits");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
@@ -338,44 +284,6 @@ namespace uchat_server.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageDeletion", b =>
-                {
-                    b.HasOne("uchat_server.Data.Entities.User", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("DeletedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("uchat_server.Data.Entities.Message", "Message")
-                        .WithOne("Deletion")
-                        .HasForeignKey("uchat_server.Data.Entities.MessageDeletion", "MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("Message");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageEdit", b =>
-                {
-                    b.HasOne("uchat_server.Data.Entities.User", "EditedBy")
-                        .WithMany()
-                        .HasForeignKey("EditedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("uchat_server.Data.Entities.Message", "Message")
-                        .WithMany("Edits")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EditedBy");
-
-                    b.Navigation("Message");
-                });
-
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
                 {
                     b.HasOne("uchat_server.Data.Entities.User", "CreatedBy")
@@ -421,13 +329,6 @@ namespace uchat_server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.Message", b =>
-                {
-                    b.Navigation("Deletion");
-
-                    b.Navigation("Edits");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
