@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:uchat_client.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="uchat_client.Views.SessionView"
+             x:Name="SessionViewRoot"
              x:DataType="viewModels:SessionViewModel"
              Background="#364D70">
 
@@ -103,7 +104,7 @@
                 
                 <StackPanel Spacing="15">
                     
-                    <TextBlock Text="This device"
+                    <TextBlock Text="{Binding CurrentSessionTitle}"
                                Foreground="#364D70"
                                FontSize="20"
                                FontFamily="{StaticResource LibraFontBold}"
@@ -165,7 +166,22 @@
                                             <TextBlock Text="{Binding DeviceName}" 
                                                        FontWeight="SemiBold" 
                                                        Foreground="#364D70"/>
+                                            <TextBlock Text="{Binding CreatedAt, StringFormat='Created: {0:G}'}"
+                                                       FontSize="12"
+                                                       Foreground="#4A5775"/>
+                                            <TextBlock Text="{Binding LastActivityAt, StringFormat='Last active: {0:G}'}"
+                                                       FontSize="12"
+                                                       Foreground="#4A5775"/>
                                         </StackPanel>
+                                        <Button Content="{Binding IsCurrent, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Current,Terminate'}"
+                                                Command="{Binding DataContext.TerminateSessionCommand, ElementName=SessionViewRoot}"
+                                                CommandParameter="{Binding}"
+                                                Background="#E06C75"
+                                                Foreground="White"
+                                                Padding="10,6"
+                                                CornerRadius="12"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using Microsoft.AspNetCore.SignalR;
 using uchat_server.Configuration;
 using uchat_server.Data;
 using uchat_server.Hubs;
@@ -21,11 +23,29 @@ if (!int.TryParse(args[0], out int port) || port < 1 || port > 65535)
     return 1;
 }
 
-var builder = WebApplication.CreateBuilder(args);
+var contentRoot = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                  ?? Directory.GetCurrentDirectory();
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = contentRoot
+});
 
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
+builder.Logging
+    .ClearProviders()
+    .AddSimpleConsole(options =>
+    {
+        options.SingleLine = true;
+        options.TimestampFormat = "HH:mm:ss ";
+    })
+    .SetMinimumLevel(LogLevel.Debug)
+    .AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning)
+    .AddFilter("Microsoft", LogLevel.Debug)
+    .AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug)
+    .AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 
 // Настройка конфигурации из appsettings.json с валидацией
 builder.Services.AddOptions<SessionSettings>()
@@ -41,7 +61,29 @@ builder.Services.AddOptions<DatabaseSettings>()
 builder.Services.AddDbContext<UchatDbContext>((serviceProvider, options) =>
 {
     DatabaseSettings? dbSettings = builder.Configuration.GetSection("Database").Get<DatabaseSettings>();
-    options.UseSqlite(dbSettings?.ConnectionString);
+    var connectionString = dbSettings?.ConnectionString ?? "Data Source=uchat.db";
+
+    const string prefix = "Data Source=";
+    if (connectionString.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+    {
+        var dbFile = connectionString[prefix.Length..].Trim();
+        if (!Path.IsPathRooted(dbFile))
+        {
+            dbFile = Path.Combine(contentRoot, dbFile);
+        }
+
+        var dbDir = Path.GetDirectoryName(dbFile);
+        if (!string.IsNullOrEmpty(dbDir))
+        {
+            Directory.CreateDirectory(dbDir);
+        }
+
+        connectionString = $"{prefix}{dbFile}";
+    }
+
+    Console.WriteLine($"Using SQLite at: {connectionString}");
+
+    options.UseSqlite(connectionString);
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -68,7 +110,11 @@ builder.Services.AddSignalR(options =>
     options.KeepAliveInterval = TimeSpan.FromSeconds(10);
     options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
     options.HandshakeTimeout = TimeSpan.FromSeconds(15);
+}).AddHubOptions<ChatHub>(options =>
+{
+    options.EnableDetailedErrors = true;
 });
+builder.Services.AddSingleton<IHubFilter, LoggingHubFilter>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

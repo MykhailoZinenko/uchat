@@ -74,13 +74,21 @@
                                 </TextBox.Styles>
                             </TextBox>
                         </StackPanel>
-                        
+
+                        <!-- Error Message -->
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                   Foreground="#FF0000"
+                                   FontWeight="Bold"
+                                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,5,0,0"/>
 
                         <Grid Margin="0,10,0,0">
         
                             <Button Content="Login"
                                     FontFamily="{StaticResource LibraFontBold}"
                                     Command="{Binding LoginCommand}"
+                                    IsEnabled="{Binding !IsLoading}"
                                     HorizontalAlignment="Left"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"

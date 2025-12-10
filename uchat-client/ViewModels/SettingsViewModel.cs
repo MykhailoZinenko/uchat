@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace uchat_client.ViewModels;
 
 public class SettingsViewModel : ViewModelBase
@@ -10,6 +12,7 @@ public class SettingsViewModel : ViewModelBase
     public RelayCommand OpenMyAccountCommand { get; }
     public RelayCommand OpenCurrentSessionCommand { get; }
     public RelayCommand OpenSoundNotificationCommand { get; }
+    public RelayCommand LogoutCommand { get; }
     
     public SettingsViewModel(MainWindowViewModel mainWindowViewModel, SidebarViewModel sidebarViewModel, string username)
     {
@@ -20,6 +23,7 @@ public class SettingsViewModel : ViewModelBase
         OpenMyAccountCommand = new RelayCommand(OpenMyAccount);
         OpenCurrentSessionCommand = new RelayCommand(OpenCurrentSession);
         OpenSoundNotificationCommand = new RelayCommand(OpenSoundNotification);
+        LogoutCommand = new RelayCommand(async () => await LogoutAsync());
     }
 
     private void OpenMyAccount()
@@ -35,5 +39,10 @@ public class SettingsViewModel : ViewModelBase
     private void OpenSoundNotification()
     {
        _mainWindowViewModel.ShowSoundNotifications();
+    }
+
+    private async Task LogoutAsync()
+    {
+        await _mainWindowViewModel.LogoutAsync();
     }
 }

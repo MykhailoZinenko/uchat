@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using uchat_server.Services;
 using uchat_common.Dtos;
 using uchat_common.Enums;
@@ -16,16 +17,18 @@ public class ChatHub : Hub
     private readonly IRoomService _roomService;
     private readonly IRoomMemberService _roomMemberService;
     private readonly IMessageService _messageService;
+    private readonly ILogger<ChatHub> _logger;
 
     public ChatHub(
-        IAuthService authService, 
-        ISessionService sessionService, 
+        IAuthService authService,
+        ISessionService sessionService,
         ICryptographyService cryptographyService,
         IUserService userService,
         IErrorMapper errorMapper,
         IRoomService roomService,
         IRoomMemberService roomMemberService,
-        IMessageService messageService)
+        IMessageService messageService,
+        ILogger<ChatHub> logger)
     {
         _authService = authService;
         _sessionService = sessionService;
@@ -35,6 +38,7 @@ public class ChatHub : Hub
         _roomService = roomService;
         _roomMemberService = roomMemberService;
         _messageService = messageService;
+        _logger = logger;
     }
 
     // ==================== AUTH ENDPOINTS ====================
@@ -45,9 +49,12 @@ public class ChatHub : Hub
         {
             string finalDeviceInfo = deviceInfo ?? "Unknown";
             string finalIpAddress = ipAddress ?? Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-            
+            _logger.LogInformation("Register attempt Username={Username} Device={Device} Ip={Ip}", username, finalDeviceInfo, finalIpAddress);
+
             AuthDto authDto = await _authService.RegisterAsync(username, password, finalDeviceInfo, finalIpAddress);
-            
+
+            _logger.LogInformation("Register succeeded Username={Username}", username);
+
             return new ApiResponse<AuthDto>
             {
                 Success = true,
@@ -57,6 +64,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Register failed for Username={Username} Device={DeviceInfo} Ip={IpAddress}", username, deviceInfo, ipAddress);
             return _errorMapper.MapException<AuthDto>(ex);
         }
     }
@@ -67,7 +75,7 @@ public class ChatHub : Hub
         {
             string finalDeviceInfo = deviceInfo ?? "Unknown";
             string finalIpAddress = ipAddress ?? Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-            
+
             AuthDto authDto = await _authService.LoginAsync(username, password, finalDeviceInfo, finalIpAddress);
 
             return new ApiResponse<AuthDto>
@@ -116,6 +124,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var success = await _sessionService.RevokeSessionAsync(session.Id);
+            _logger.LogInformation("Logout requested. UserId={UserId} SessionId={SessionId} Success={Success}", session.UserId, session.Id, success);
 
             return new ApiResponse<bool>
             {
@@ -136,8 +145,10 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var sessions = await _sessionService.GetActiveSessionsByUserIdAsync(session.UserId);
+            _logger.LogDebug("GetActiveSessions for UserId={UserId} Count={Count}", session.UserId, sessions.Count);
             var sessionInfos = sessions.Select(s => new SessionInfo
             {
+                Id = s.Id,
                 Token = s.SessionToken,
                 DeviceInfo = s.DeviceInfo,
                 CreatedAt = s.CreatedAt,
@@ -163,6 +174,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var success = await _sessionService.RevokeSessionAsync(sessionId);
+            _logger.LogInformation("RevokeSession requested by UserId={UserId} TargetSessionId={SessionId} Success={Success}", session.UserId, sessionId, success);
 
             return new ApiResponse<bool>
             {
@@ -183,6 +195,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var rooms = await _roomService.GetAccessibleRoomsAsync(session.UserId);
+            _logger.LogDebug("GetAccessibleRooms for UserId={UserId} Count={Count}", session.UserId, rooms.Count);
 
             var roomDtos = rooms.Select(r => new RoomDto
             {
@@ -213,7 +226,7 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            
+
             if (!Enum.TryParse<RoomType>(type, true, out var roomType))
             {
                 return new ApiResponse<RoomDto>
@@ -224,6 +237,7 @@ public class ChatHub : Hub
             }
 
             var room = await _roomService.CreateRoomAsync(session.UserId, roomType, name, description);
+            _logger.LogInformation("Room created: RoomId={RoomId} Type={RoomType} CreatorUserId={UserId}", room.Id, room.RoomType, session.UserId);
 
             return new ApiResponse<RoomDto>
             {
@@ -254,6 +268,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var room = await _roomService.UpdateRoomAsync(roomId, session.UserId, name, description, avatarUrl);
+            _logger.LogInformation("Room updated: RoomId={RoomId} ByUserId={UserId}", room.Id, session.UserId);
 
             return new ApiResponse<RoomDto>
             {
@@ -284,6 +299,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomService.DeleteRoomAsync(roomId, session.UserId);
+            _logger.LogWarning("Room deleted: RoomId={RoomId} ByUserId={UserId}", roomId, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -304,6 +320,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomMemberService.AddMembersAsync(roomId, session.UserId, userIds);
+            _logger.LogInformation("Members added: RoomId={RoomId} ByUserId={UserId} Count={Count}", roomId, session.UserId, userIds.Count);
 
             return new ApiResponse<bool>
             {
@@ -324,6 +341,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomMemberService.RemoveMembersAsync(roomId, session.UserId, userIds);
+            _logger.LogInformation("Members removed: RoomId={RoomId} ByUserId={UserId} Count={Count}", roomId, session.UserId, userIds.Count);
 
             return new ApiResponse<bool>
             {
@@ -343,7 +361,7 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            
+
             if (!Enum.TryParse<MemberRole>(role, true, out var memberRole))
             {
                 return new ApiResponse<bool>
@@ -354,6 +372,7 @@ public class ChatHub : Hub
             }
 
             await _roomMemberService.UpdateMemberRoleAsync(roomId, session.UserId, userId, memberRole);
+            _logger.LogInformation("Member role updated: RoomId={RoomId} TargetUserId={TargetUserId} NewRole={Role} ByUserId={UserId}", roomId, userId, memberRole, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -374,6 +393,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomMemberService.UpdateMutedStatusAsync(roomId, session.UserId, isMuted);
+            _logger.LogInformation("Member mute updated: RoomId={RoomId} UserId={UserId} Muted={Muted}", roomId, session.UserId, isMuted);
 
             return new ApiResponse<bool>
             {
@@ -394,7 +414,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var user = await _userService.GetUserByIdAsync(session.UserId);
-            
+
             if (user == null)
             {
                 return new ApiResponse<MessageDto>
@@ -405,6 +425,7 @@ public class ChatHub : Hub
             }
 
             var message = await _messageService.SendMessageAsync(roomId, session.UserId, content, replyToMessageId);
+            _logger.LogDebug("Message sent: MessageId={MessageId} RoomId={RoomId} UserId={UserId}", message.Id, roomId, session.UserId);
 
             var messageDto = new MessageDto
             {
@@ -437,6 +458,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var messages = await _messageService.GetMessagesAsync(roomId, session.UserId, limit, beforeMessageId);
+            _logger.LogDebug("Messages fetched: RoomId={RoomId} UserId={UserId} Count={Count}", roomId, session.UserId, messages.Count);
 
             return new ApiResponse<List<MessageDto>>
             {
@@ -456,6 +478,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _messageService.EditMessageAsync(messageId, session.UserId, newContent);
+            _logger.LogInformation("Message edited: MessageId={MessageId} UserId={UserId}", messageId, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -476,6 +499,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _messageService.DeleteMessageAsync(messageId, session.UserId);
+            _logger.LogInformation("Message deleted: MessageId={MessageId} UserId={UserId}", messageId, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -496,6 +520,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomMemberService.JoinRoomAsync(roomId, session.UserId);
+            _logger.LogInformation("User joined room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -516,6 +541,7 @@ public class ChatHub : Hub
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             await _roomMemberService.LeaveRoomAsync(roomId, session.UserId);
+            _logger.LogInformation("User left room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
             return new ApiResponse<bool>
             {
@@ -532,7 +558,18 @@ public class ChatHub : Hub
 
     public override async Task OnConnectedAsync()
     {
+        _logger.LogInformation("Client connected: ConnectionId={ConnectionId} RemoteIp={RemoteIp}",
+            Context.ConnectionId,
+            Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "unknown");
         await base.OnConnectedAsync();
+    }
+
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        _logger.LogInformation("Client disconnected: ConnectionId={ConnectionId} Error={Error}",
+            Context.ConnectionId,
+            exception?.Message ?? "none");
+        await base.OnDisconnectedAsync(exception);
     }
 }
 

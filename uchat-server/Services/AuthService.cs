@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using uchat_common.Dtos;
 using uchat_server.Data.Entities;
 using uchat_server.Exceptions;
@@ -11,21 +12,26 @@ public class AuthService : IAuthService
     private readonly IHashService _hashService;
     private readonly ICryptographyService _cryptographyService;
     private readonly ISessionService _sessionService;
+    private readonly ILogger<AuthService> _logger;
 
     public AuthService(
         IUserService userService,
         IHashService hashService,
         ICryptographyService cryptographyService,
-        ISessionService sessionService)
+        ISessionService sessionService,
+        ILogger<AuthService> logger)
     {
         _userService = userService;
         _hashService = hashService;
         _cryptographyService = cryptographyService;
         _sessionService = sessionService;
+        _logger = logger;
     }
 
     public async Task<AuthDto> RegisterAsync(string username, string password, string deviceInfo, string? ipAddress = null, string? email = null)
     {
+        _logger.LogInformation("AuthService.Register start Username={Username} Device={Device} Ip={Ip}", username, deviceInfo, ipAddress);
+
         var passwordHash = _hashService.Hash(password);
 
         var user = new User
@@ -54,14 +60,20 @@ public class AuthService : IAuthService
 
         await _sessionService.CreateSessionAsync(session);
 
+        _logger.LogInformation("AuthService.Register success Username={Username} SessionId={SessionId}", username, session.Id);
+
         return new AuthDto
         {
-            SessionToken = sessionToken
+            SessionToken = sessionToken,
+            UserId = createdUser.Id,
+            Username = createdUser.Username
         };
     }
 
     public async Task<AuthDto> LoginAsync(string username, string password, string deviceInfo, string? ipAddress = null)
     {
+        _logger.LogInformation("AuthService.Login start Username={Username} Device={Device} Ip={Ip}", username, deviceInfo, ipAddress);
+
         var user = await _userService.GetUserByUsernameAsync(username);
         if (user == null)
         {
@@ -88,31 +100,42 @@ public class AuthService : IAuthService
 
         await _sessionService.CreateSessionAsync(session);
 
+        _logger.LogInformation("AuthService.Login success Username={Username} SessionId={SessionId}", username, session.Id);
+
         return new AuthDto
         {
-            SessionToken = sessionToken
+            SessionToken = sessionToken,
+            UserId = user.Id,
+            Username = user.Username
         };
     }
 
     public async Task<AuthDto> LoginWithRefreshTokenAsync(string sessionToken, string? deviceInfo = null, string? ipAddress = null)
     {
+        _logger.LogInformation("AuthService.LoginWithRefreshToken start");
+
         var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-        
+        var user = await _userService.GetUserByIdAsync(session.UserId);
+
         if (deviceInfo != null)
         {
             session.DeviceInfo = deviceInfo;
             await _sessionService.UpdateSessionAsync(session);
         }
-        
+
         if (ipAddress != null)
         {
             session.IpAddress = ipAddress;
             await _sessionService.UpdateSessionAsync(session);
         }
 
+        _logger.LogInformation("AuthService.LoginWithRefreshToken success SessionId={SessionId}", session.Id);
+
         return new AuthDto
         {
-            SessionToken = sessionToken
+            SessionToken = sessionToken,
+            UserId = user?.Id ?? session.UserId,
+            Username = user?.Username ?? string.Empty
         };
     }
 }

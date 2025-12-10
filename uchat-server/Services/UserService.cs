@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using uchat_server.Data.Entities;
 using uchat_server.Exceptions;
 using uchat_server.Repositories;
@@ -8,22 +9,28 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IHashService _hashService;
+    private readonly ILogger<UserService> _logger;
 
-    public UserService(IUserRepository userRepository, IHashService hashService)
+    public UserService(IUserRepository userRepository, IHashService hashService, ILogger<UserService> logger)
     {
         _userRepository = userRepository;
         _hashService = hashService;
+        _logger = logger;
     }
 
     public async Task<User> CreateUserAsync(User user)
     {
+        _logger.LogDebug("UserService.CreateUser start Username={Username}", user.Username);
         var existingUser = await _userRepository.GetByUsernameAsync(user.Username);
         if (existingUser != null)
         {
+            _logger.LogWarning("UserService.CreateUser duplicate Username={Username}", user.Username);
             throw new AppException("Username already exists");
         }
 
-        return await _userRepository.CreateAsync(user);
+        var created = await _userRepository.CreateAsync(user);
+        _logger.LogInformation("UserService.CreateUser success UserId={UserId} Username={Username}", created.Id, created.Username);
+        return created;
     }
 
     public async Task<User> UpdateUserAsync(User user)

@@ -21,9 +21,15 @@ public class App : Application
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit.
             // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
+
+            // Initialize services from command line arguments
+            var serverUrl = $"http://{Program.ServerIp}:{Program.ServerPort}";
+            var hubConnection = new Services.HubConnectionService(serverUrl);
+            var authService = new Services.AuthService(hubConnection);
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel(hubConnection, authService),
             };
         }
 
