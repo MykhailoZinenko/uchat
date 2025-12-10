@@ -23,6 +23,7 @@
         <DataTemplate DataType="{x:Type viewModels:AddContactViewModel}">
             <views:AddContactView />
         </DataTemplate>
+        
     </Window.DataTemplates>
 
     <ContentControl Content="{Binding CurrentView}" />

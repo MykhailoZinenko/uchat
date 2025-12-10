@@ -133,134 +133,16 @@ public class ChatViewModel : ViewModelBase
         }
     }
 
-    private string _username = "Username";
-    public string Username
-    {
-        get => _username;
-        set
-        {
-            // Limit to 16 characters
-            var newValue = value.Length > 16 ? value.Substring(0, 16) : value;
-            if (_username != newValue)
-            {
-                _username = newValue;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string _bio = "Bio goes here…";
-    public string Bio
-    {
-        get => _bio;
-        set
-        {
-            // Limit to 80 characters
-            var newValue = value.Length > 80 ? value.Substring(0, 80) : value;
-            if (_bio != newValue)
-            {
-                _bio = newValue;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private bool _isEditingProfile = false;
-    public bool IsEditingProfile
-    {
-        get => _isEditingProfile;
-        set
-        {
-            if (_isEditingProfile != value)
-            {
-                _isEditingProfile = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string? _profilePicturePath;
-    public string? ProfilePicturePath
-    {
-        get => _profilePicturePath;
-        set
-        {
-            if (_profilePicturePath != value)
-            {
-                _profilePicturePath = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private bool _isSidebarCollapsed = false;
-    public bool IsSidebarCollapsed
-    {
-        get => _isSidebarCollapsed;
-        set
-        {
-            if (_isSidebarCollapsed != value)
-            {
-                _isSidebarCollapsed = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string _searchText = string.Empty;
-    public string SearchText
-    {
-        get => _searchText;
-        set
-        {
-            if (_searchText != value)
-            {
-                _searchText = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
     public RelayCommand SendCommand { get; }
     public RelayCommand<ChatMessage> EditMessageCommand { get; }
     public RelayCommand<ChatMessage> DeleteMessageCommand { get; }
     public RelayCommand CloseEditingCommand { get; }
-    public RelayCommand ToggleEditProfileCommand { get; }
-    public RelayCommand ToggleSidebarCommand { get; }
-    public RelayCommand SearchCommand { get; }
-    public RelayCommand OpenAddContactCommand { get; }
-
-    private bool _isAddContactOpen = false;
-    public bool IsAddContactOpen
-    {
-        get => _isAddContactOpen;
-        set
-        {
-            if (_isAddContactOpen != value)
-            {
-                _isAddContactOpen = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private AddContactViewModel? _addContactViewModel;
-    public AddContactViewModel? AddContactViewModel
-    {
-        get => _addContactViewModel;
-        set
-        {
-            if (_addContactViewModel != value)
-            {
-                _addContactViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
     private readonly string _usernameForMessages;
+    public SidebarViewModel SidebarViewModel { get; }
+    private readonly MainWindowViewModel _mainWindowViewModel;
 
-    public ChatViewModel(string username)
+    public ChatViewModel(string username, MainWindowViewModel mainWindowViewModel, SidebarViewModel sidebarViewModel)
     {
         _usernameForMessages = username;
         Header = $"Chat – {_usernameForMessages}";
@@ -268,13 +150,8 @@ public class ChatViewModel : ViewModelBase
         EditMessageCommand = new RelayCommand<ChatMessage>(StartEditMessage);
         DeleteMessageCommand = new RelayCommand<ChatMessage>(DeleteMessage);
         CloseEditingCommand = new RelayCommand(CloseEditing);
-        ToggleEditProfileCommand = new RelayCommand(ToggleEditProfile);
-        ToggleSidebarCommand = new RelayCommand(ToggleSidebar);
-        SearchCommand = new RelayCommand(PerformSearch);
-        OpenAddContactCommand = new RelayCommand(OpenAddContact);
-
-        // Initialize with default values
-        Username = username;
+        _mainWindowViewModel = mainWindowViewModel;
+        SidebarViewModel = sidebarViewModel;
 
         // Fake initial messages
         Messages.Add(new ChatMessage
@@ -301,6 +178,21 @@ public class ChatViewModel : ViewModelBase
 
         OutgoingMessage = string.Empty;
     }
+    
+    public void ToggleEditingPopup(ChatMessage message)
+    {
+        if (message.Sender != _usernameForMessages)
+            return;
+
+        if (EditingMessage == message)
+        {
+            EditingMessage = null;
+        }
+        else
+        {
+            EditingMessage = message;
+        }
+    }
 
     private void StartEditMessage(ChatMessage? message)
     {
@@ -322,61 +214,5 @@ public class ChatViewModel : ViewModelBase
     private void CloseEditing()
     {
         EditingMessage = null;
-    }
-
-    private void ToggleEditProfile()
-    {
-        IsEditingProfile = !IsEditingProfile;
-    }
-
-    private void ToggleSidebar()
-    {
-        IsSidebarCollapsed = !IsSidebarCollapsed;
-    }
-
-    public void PerformSearch()
-    {
-        // TODO: Implement contact filtering based on SearchText
-        // For now, this is a placeholder
-    }
-
-    public void ToggleEditingPopup(ChatMessage message)
-    {
-        if (message.Sender != _usernameForMessages)
-            return;
-
-        if (EditingMessage == message)
-        {
-            EditingMessage = null;
-        }
-        else
-        {
-            EditingMessage = message;
-        }
-    }
-
-    private void OpenAddContact()
-    {
-        AddContactViewModel = new AddContactViewModel(CloseAddContact, OpenChatWithContact);
-        IsAddContactOpen = true;
-    }
-
-    private void CloseAddContact()
-    {
-        IsAddContactOpen = false;
-        AddContactViewModel = null;
-    }
-
-    private void OpenChatWithContact(string contactName)
-    {
-        // TODO: Implement switching to chat with specific contact
-        // For now, just add a system message
-        Messages.Add(new ChatMessage
-        {
-            Sender = "system",
-            Text = $"Opening chat with {contactName}...",
-            Time = DateTime.Now.ToShortTimeString(),
-            IsOutgoing = false
-        });
     }
 }
