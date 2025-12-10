@@ -5,7 +5,7 @@ namespace uchat_client.ViewModels;
 
 public class SessionItem
 {
-    public string DeviceName { get; set; }
+    public string DeviceName { get; set; } = string.Empty;
 }
 
 public class SessionViewModel : ViewModelBase
@@ -14,8 +14,8 @@ public class SessionViewModel : ViewModelBase
     private readonly string _username;
 
     public SidebarViewModel SidebarViewModel { get; }
-    public SessionItem CurrentSession { get; set; }
-    public ObservableCollection<SessionItem> ActiveSessions { get; set; }
+    public SessionItem CurrentSession { get; set; } = new SessionItem { DeviceName = "This Device" };
+    public ObservableCollection<SessionItem> ActiveSessions { get; set; } = new ObservableCollection<SessionItem>();
     public RelayCommand TerminateAllSessionsCommand { get; }
     public RelayCommand BackCommand { get; }
 
@@ -24,10 +24,7 @@ public class SessionViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
         SidebarViewModel = sidebarViewModel;
         _username = username;
-        
-        // CurrentSession = new SessionItem { DeviceName = "This Device"};
-        // ActiveSessions = new ObservableCollection<SessionItem>();
-        
+
         BackCommand = new RelayCommand(GoBack);
         TerminateAllSessionsCommand = new RelayCommand(TerminateAllSessions);
     }

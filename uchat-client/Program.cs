@@ -53,7 +53,7 @@ class Program
 
         connection.On<MessageDto>("ReceiveMessage", (messageDto) =>
         {
-            Console.WriteLine($"[{messageDto.ConnectionId}@{messageDto.Username}]: {messageDto.Content}");
+            Console.WriteLine($"[{messageDto.SenderUsername ?? "System"}]: {messageDto.Content}");
         });
 
         connection.On<string>("SessionRevoked", (message) =>
@@ -204,7 +204,7 @@ class Program
                     Console.WriteLine("=== Message History ===");
                     foreach (var msg in loginResult.MessageHistory)
                     {
-                        Console.WriteLine($"[{msg.Username}] {msg.Content} ({msg.SentAt:HH:mm:ss})");
+                        Console.WriteLine($"[{msg.SenderUsername ?? "System"}] {msg.Content} ({msg.SentAt:HH:mm:ss})");
                     }
                     Console.WriteLine("=======================");
                     Console.WriteLine();
