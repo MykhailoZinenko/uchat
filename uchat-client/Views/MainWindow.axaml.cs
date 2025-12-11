@@ -1,3 +1,5 @@
+// MainWindow.axaml.cs
+
 using Avalonia.Controls;
 
 namespace uchat_client;

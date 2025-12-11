@@ -1,3 +1,5 @@
+// Program.cs
+
 using Avalonia;
 using Microsoft.AspNetCore.SignalR.Client;
 using uchat_client;
@@ -53,7 +55,7 @@ class Program
 
         connection.On<MessageDto>("ReceiveMessage", (messageDto) =>
         {
-            Console.WriteLine($"[{messageDto.ConnectionId}@{messageDto.Username}]: {messageDto.Content}");
+            Console.WriteLine($"[{messageDto.SenderUsername}] {messageDto.Content}");
         });
 
         connection.On<string>("SessionRevoked", (message) =>
@@ -204,7 +206,7 @@ class Program
                     Console.WriteLine("=== Message History ===");
                     foreach (var msg in loginResult.MessageHistory)
                     {
-                        Console.WriteLine($"[{msg.Username}] {msg.Content} ({msg.SentAt:HH:mm:ss})");
+                        Console.WriteLine($"[{msg.SenderUsername}] {msg.Content} ({msg.SentAt:HH:mm:ss})");
                     }
                     Console.WriteLine("=======================");
                     Console.WriteLine();

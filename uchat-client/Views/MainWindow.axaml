@@ -23,6 +23,11 @@
         <DataTemplate DataType="{x:Type viewModels:AddContactViewModel}">
             <views:AddContactView />
         </DataTemplate>
+
+        <!-- NEW: Contact/Friend List View -->
+        <DataTemplate DataType="{x:Type viewModels:ContactFriendListViewModel}">
+            <views:ContactFriendListView />
+        </DataTemplate>
         
     </Window.DataTemplates>
 

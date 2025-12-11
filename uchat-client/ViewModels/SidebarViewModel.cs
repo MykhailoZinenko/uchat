@@ -143,6 +143,7 @@ public class SidebarViewModel : ViewModelBase
     public RelayCommand ToggleSidebarCommand { get; }
     public RelayCommand SearchCommand { get; }
     public RelayCommand OpenAddContactCommand { get; }
+    public RelayCommand OpenContactFriendListCommand { get; } // NEW
 
     public SidebarViewModel(MainWindowViewModel mainWindowViewModel)
     {
@@ -151,7 +152,8 @@ public class SidebarViewModel : ViewModelBase
         ToggleSidebarCommand = new RelayCommand(ToggleSidebar);
         SearchCommand = new RelayCommand(PerformSearch);
         OpenAddContactCommand = new RelayCommand(OpenAddContact);
-        
+        OpenContactFriendListCommand = new RelayCommand(OpenContactFriendList); // NEW
+
         BackCommand = new RelayCommand(GoBack);
         OpenSettingsCommand = new RelayCommand(OpenSettings);
     }
@@ -165,7 +167,7 @@ public class SidebarViewModel : ViewModelBase
     {
         _mainWindowViewModel.ShowSettings();
     }
-    
+
     private void ToggleEditProfile()
     {
         IsEditingProfile = !IsEditingProfile;
@@ -198,12 +200,11 @@ public class SidebarViewModel : ViewModelBase
     {
         // TODO: Implement switching to chat with specific contact
         // For now, just add a system message
-        // Messages.Add(new ChatMessage
-        // {
-        //     Sender = "system",
-        //     Text = $"Opening chat with {contactName}...",
-        //     Time = DateTime.Now.ToShortTimeString(),
-        //     IsOutgoing = false
-        // });
+    }
+
+    // NEW METHOD
+    private void OpenContactFriendList()
+    {
+        _mainWindowViewModel.ShowContactFriendList();
     }
 }

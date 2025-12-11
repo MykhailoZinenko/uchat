@@ -133,10 +133,43 @@ public class ChatViewModel : ViewModelBase
         }
     }
 
+    private string _contactName = "Violetta";
+    public string ContactName
+    {
+        get => _contactName;
+        set
+        {
+            if (_contactName != value)
+            {
+                _contactName = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _showContactOverlay = false;
+    public bool ShowContactOverlay
+    {
+        get => _showContactOverlay;
+        set
+        {
+            if (_showContactOverlay != value)
+            {
+                _showContactOverlay = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public RelayCommand SendCommand { get; }
     public RelayCommand<ChatMessage> EditMessageCommand { get; }
     public RelayCommand<ChatMessage> DeleteMessageCommand { get; }
     public RelayCommand CloseEditingCommand { get; }
+    public RelayCommand OpenContactCommand { get; }
+    public RelayCommand AddToContactCommand { get; }
+    public RelayCommand AddToFriendListCommand { get; }
+    public RelayCommand BlockUserCommand { get; }
+    public RelayCommand UnblockUserCommand { get; }
 
     private readonly string _usernameForMessages;
     public SidebarViewModel SidebarViewModel { get; }
@@ -150,6 +183,13 @@ public class ChatViewModel : ViewModelBase
         EditMessageCommand = new RelayCommand<ChatMessage>(StartEditMessage);
         DeleteMessageCommand = new RelayCommand<ChatMessage>(DeleteMessage);
         CloseEditingCommand = new RelayCommand(CloseEditing);
+        OpenContactCommand = new RelayCommand(OpenContact);
+
+        AddToContactCommand = new RelayCommand(AddToContact);
+        AddToFriendListCommand = new RelayCommand(AddToFriendList);
+        BlockUserCommand = new RelayCommand(BlockUser);
+        UnblockUserCommand = new RelayCommand(UnblockUser);
+
         _mainWindowViewModel = mainWindowViewModel;
         SidebarViewModel = sidebarViewModel;
 
@@ -178,7 +218,7 @@ public class ChatViewModel : ViewModelBase
 
         OutgoingMessage = string.Empty;
     }
-    
+
     public void ToggleEditingPopup(ChatMessage message)
     {
         if (message.Sender != _usernameForMessages)
@@ -214,5 +254,34 @@ public class ChatViewModel : ViewModelBase
     private void CloseEditing()
     {
         EditingMessage = null;
+    }
+
+    private void OpenContact()
+    {
+        ShowContactOverlay = true;
+    }
+
+    private void AddToContact()
+    {
+        ShowContactOverlay = false;
+        //logic
+    }
+
+    private void AddToFriendList()
+    {
+        ShowContactOverlay = false;
+        //logic
+    }
+
+    private void BlockUser()
+    {
+        ShowContactOverlay = false;
+        //logic
+    }
+
+    private void UnblockUser()
+    {
+        ShowContactOverlay = false;
+        //logic
     }
 }

@@ -90,4 +90,17 @@ public partial class ChatView : UserControl
             Console.WriteLine($"File selected: {file.Name} ({fileInfo.Length} bytes)");
         }
     }
+
+    private void OverlayBackground_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (DataContext is ChatViewModel viewModel)
+        {
+            viewModel.ShowContactOverlay = false;
+        }
+    }
+
+    private void ContactCard_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        e.Handled = true;
+    }
 }

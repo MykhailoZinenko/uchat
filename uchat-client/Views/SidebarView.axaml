@@ -58,7 +58,14 @@
             20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 
             17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
         </StreamGeometry>
-        
+
+        <!-- Add this AFTER the EditIcon and BEFORE closing </UserControl.Resources> -->
+        <StreamGeometry x:Key="ContactListIcon">
+            M16,17V19H2V17S2,13 9,13 16,17 16,17M12.5,7.5A3.5,3.5 0 0,1 9,11A3.5,3.5 0 0,1
+            5.5,7.5A3.5,3.5 0 0,1 9,4A3.5,3.5 0 0,1 12.5,7.5M15.94,13A5.32,5.32 0 0,1
+            18,17V19H22V17S22,13.37 15.94,13M15,4A3.39,3.39 0 0,0 13.07,4.59A5,5 0 0,1
+            13.07,10.41A3.39,3.39 0 0,0 15,11A3.5,3.5 0 0,0 18.5,7.5A3.5,3.5 0 0,0 15,4Z
+        </StreamGeometry>
 
         <StreamGeometry x:Key="ChatIcon">
             M20 12C20 16.4183 16.4183 20 12 20C10.5937 20 9.27223 19.6372 8.12398 
@@ -352,18 +359,16 @@
                         <Button Height="48" CornerRadius="24" Content="Contact 9" />
                     </StackPanel>
                 </ScrollViewer>
-
                 <Grid Grid.Row="3"
-                      ColumnDefinitions="Auto,*,Auto"
+                      ColumnDefinitions="Auto,*,Auto,Auto"
                       Margin="0,16,0,0">
+                    <!-- Left: Collapse Sidebar Button -->
                     <Button Grid.Column="0"
                             Width="48"
                             Height="48"
                             CornerRadius="24"
                             Background="Transparent"
-                            Command="{Binding ToggleSidebarCommand}"
-                            Margin="0,16,0,0">
-
+                            Command="{Binding ToggleSidebarCommand}">
                         <Button.Styles>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -374,41 +379,48 @@
                               Stretch="Uniform"
                               Width="32"
                               Height="32"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
                               Data="{StaticResource CloseSidebarIcon}"/>
                     </Button>
 
-                    <Border Grid.Column="1" />
-
-                    <Button Grid.Column="2" Width="48" Height="48" CornerRadius="24"
+                    <!-- Center-Left: NEW Contact/Friend List Button (only show when NOT on settings page) -->
+                    <Button Grid.Column="2"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
                             Background="Transparent"
-                            Command="{Binding OpenSettingsCommand}"
-                            IsVisible="{Binding !IsOnSettingsPage}"
-                            Margin="0,16,0,0">
+                            Command="{Binding OpenContactFriendListCommand}"
+                            IsVisible="{Binding !IsOnSettingsPage}">
                         <Button.Styles>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="Transparent"/>
                             </Style>
                         </Button.Styles>
-                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
-                              HorizontalAlignment="Center" VerticalAlignment="Center"
-                              Data="{StaticResource SettingsIcon}"/>
+
+                        <Path Fill="White"
+                              Stretch="Uniform"
+                              Width="32"
+                              Height="32"
+                              Data="{StaticResource ContactListIcon}"/>
                     </Button>
 
-                    <Button Grid.Column="2" Width="48" Height="48" CornerRadius="24"
+                    <!-- Right: Settings Button -->
+                    <Button Grid.Column="3"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24"
                             Background="Transparent"
-                            Command="{Binding BackCommand}"
-                            IsVisible="{Binding IsOnSettingsPage}"
-                            Margin="0,16,0,0">
+                            Command="{Binding OpenSettingsCommand}">
                         <Button.Styles>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="Transparent"/>
                             </Style>
                         </Button.Styles>
-                        <Path Fill="White" Stretch="Uniform" Width="32" Height="32"
-                              HorizontalAlignment="Center" VerticalAlignment="Center"
-                              Data="{StaticResource ChatIcon}"/>
+
+                        <Path Fill="White"
+                              Stretch="Uniform"
+                              Width="32"
+                              Height="32"
+                              Data="{StaticResource SettingsIcon}"/>
                     </Button>
                 </Grid>
             </Grid>

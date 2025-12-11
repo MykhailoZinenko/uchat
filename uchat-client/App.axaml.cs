@@ -1,3 +1,5 @@
+// App.axaml.cs
+
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;

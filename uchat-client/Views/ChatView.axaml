@@ -2,21 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:uchat_client.ViewModels"
              xmlns:views="clr-namespace:uchat_client.Views"
-             xmlns:converters="clr-namespace:uchat_client.Converters"
              x:Class="uchat_client.Views.ChatView"
              x:DataType="viewModels:ChatViewModel"
              Background="#364D70">
 
     <UserControl.Resources>
-        <!-- Converters -->
-        <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter"/>
-        <converters:BoolToPopupColumnConverter x:Key="BoolToPopupColumnConverter"/>
-        <converters:BoolToMessageColumnConverter x:Key="BoolToMessageColumnConverter"/>
-        <converters:BoolToPopupMarginConverter x:Key="BoolToPopupMarginConverter"/>
-        <converters:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
-        <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
-
-        <!-- Icons -->
         <StreamGeometry x:Key="CloudIcon">
             M808 2645 c-233 -59 -423 -252 -474 -484 -16 -72 -15 -210 2 -298 5
             -25 2 -32 -13 -37 -71 -23 -203 -159 -253 -261 -79 -161 -81 -367 -6 -530 53
@@ -34,20 +24,36 @@
             M22 2L11 13 M22 2L15 22L11 13L2 9L22 2Z
         </StreamGeometry>
 
-        <StreamGeometry x:Key="EditIcon">
-            M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0
-            21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07
-            17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44
-            20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4
-            17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
+        <StreamGeometry x:Key="UserIcon">
+            M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0
+            12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38
+            16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36
+            7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5
+            7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4
+            20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56
+            8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56
+            13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1
+            12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z
         </StreamGeometry>
 
-        <StreamGeometry x:Key="ArrowIcon">
-            M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z
+        <!-- Add to Contact Icon -->
+        <StreamGeometry x:Key="AddContactIcon">
+            M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z
         </StreamGeometry>
 
-        <StreamGeometry x:Key="TrashIcon">
-            M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z
+        <!-- Heart Icon -->
+        <StreamGeometry x:Key="HeartIcon">
+            M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z
+        </StreamGeometry>
+
+        <!-- Block Icon (X) -->
+        <StreamGeometry x:Key="BlockIcon">
+            M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z
+        </StreamGeometry>
+
+        <!-- Lock Icon -->
+        <StreamGeometry x:Key="LockIcon">
+            M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z
         </StreamGeometry>
     </UserControl.Resources>
 
@@ -61,96 +67,97 @@
         <views:SidebarView Grid.Column="0"
                            DataContext="{Binding SidebarViewModel}" />
 
-        <!-- ========== RIGHT SIDE (CHAT AREA) ========== -->
-        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" Margin="16">
+        <!-- CHAT AREA -->
+        <Grid Grid.Column="1"
+              Margin="8"
+              RowDefinitions="Auto,*,Auto">
 
-            <!-- HEADER -->
-            <Border Grid.Row="0"
-                    Background="#4A6491"
-                    CornerRadius="12"
-                    Padding="16,12"
-                    Margin="0,0,0,16">
-                <TextBlock Text="{Binding Header}"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           HorizontalAlignment="Center"/>
-            </Border>
+            <!-- CONTACT HEADER BUTTON -->
+            <Button Grid.Row="0"
+                    Height="80"
+                    Margin="8,8,8,16"
+                    Background="#4A6280"
+                    CornerRadius="20"
+                    HorizontalAlignment="Left"
+                    Padding="15,0,30,0"
+                    Command="{Binding OpenContactCommand}">
 
-            <!-- MESSAGES AREA -->
-            <ScrollViewer Grid.Row="1"
-                          VerticalScrollBarVisibility="Auto"
-                          Margin="0,0,0,16">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#5A7290"/>
+                    </Style>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#3A5270"/>
+                    </Style>
+                </Button.Styles>
+
+                <Grid ColumnDefinitions="Auto,Auto">
+
+                    <!-- Avatar Circle -->
+                    <Border Grid.Column="0"
+                            Width="50"
+                            Height="50"
+                            CornerRadius="25"
+                            Background="White"
+                            Margin="0,0,15,0">
+                        <Path Fill="#4A6280"
+                              Stretch="Uniform"
+                              Width="30"
+                              Height="30"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{StaticResource UserIcon}"/>
+                    </Border>
+
+                    <!-- Contact Name -->
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding ContactName}"
+                               FontFamily="{StaticResource InterFont}"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               VerticalAlignment="Center" />
+                </Grid>
+            </Button>
+
+            <!-- Messages Area -->
+            <ScrollViewer Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0,0,0,12"
-                                        PointerPressed="Message_PointerPressed"
-                                        HorizontalAlignment="{Binding IsOutgoing, Converter={StaticResource BoolToAlignmentConverter}}">
+                            <StackPanel Margin="8"
+                                        HorizontalAlignment="Left">
+                                <Border Background="#B6DBFF"
+                                        Padding="12"
+                                        CornerRadius="12"
+                                        MaxWidth="320">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Sender}"
+                                                   FontFamily="{StaticResource InterFont}"
+                                                   FontWeight="Bold"
+                                                   FontSize="11"
+                                                   Foreground="#364D70" />
 
-                                <!-- Message Bubble with Edit/Delete Popup -->
-                                <Grid ColumnDefinitions="Auto,Auto">
+                                        <TextBlock Text="{Binding Text}"
+                                                   FontFamily="{StaticResource PoppinsFont}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,4,0,4"
+                                                   Foreground="#364D70" />
 
-                                    <!-- Edit/Delete Popup (Left side for outgoing, right side for incoming) -->
-                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToPopupColumnConverter}}"
-                                            Background="#2C3E5A"
-                                            CornerRadius="8"
-                                            Padding="8"
-                                            IsVisible="{Binding IsEditing}"
-                                            Margin="{Binding IsOutgoing, Converter={StaticResource BoolToPopupMarginConverter}}"
-                                            VerticalAlignment="Center">
-                                        <StackPanel Spacing="4">
-                                            <Button Content="Edit"
-                                                    Background="#4A6491"
-                                                    Foreground="White"
-                                                    BorderThickness="0"
-                                                    CornerRadius="4"
-                                                    Padding="12,6"
-                                                    HorizontalContentAlignment="Center"
-                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).EditMessageCommand}"
-                                                    CommandParameter="{Binding}"/>
-                                            <Button Content="Delete"
-                                                    Background="#C44569"
-                                                    Foreground="White"
-                                                    BorderThickness="0"
-                                                    CornerRadius="4"
-                                                    Padding="12,6"
-                                                    HorizontalContentAlignment="Center"
-                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).DeleteMessageCommand}"
-                                                    CommandParameter="{Binding}"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- Message Bubble -->
-                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToMessageColumnConverter}}"
-                                            Background="{Binding IsOutgoing, Converter={x:Static converters:BoolToColorConverter.Instance}}"
-                                            CornerRadius="12"
-                                            Padding="12,8"
-                                            MaxWidth="400">
-                                        <StackPanel Spacing="4">
-                                            <TextBlock Text="{Binding Sender}"
-                                                       FontSize="11"
-                                                       FontWeight="Bold"
-                                                       Foreground="#364D70"
-                                                       IsVisible="{Binding !IsOutgoing}"/>
-                                            <TextBlock Text="{Binding Text}"
-                                                       TextWrapping="Wrap"
-                                                       Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
-                                            <TextBlock Text="{Binding Time}"
-                                                       FontSize="10"
-                                                       Opacity="0.7"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
+                                        <TextBlock Text="{Binding Time}"
+                                                   FontSize="10"
+                                                   Opacity="0.7"
+                                                   HorizontalAlignment="Right"
+                                                   Foreground="#364D70" />
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- MESSAGE INPUT -->
+            <!-- Input Area -->
             <Border Grid.Row="2"
                     Margin="8,8,8,0"
                     CornerRadius="25"
@@ -165,15 +172,14 @@
                             CornerRadius="20"
                             Background="Transparent"
                             Margin="6,0,0,8"
-                            Padding="0"
-                            Click="FileUploadButton_Click">
-                        
+                            Padding="0">
+
                         <Button.Styles>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="Transparent"/>
                             </Style>
                         </Button.Styles>
-    
+
                         <Path Fill="#364D70"
                               Stretch="Uniform"
                               Width="36"
@@ -185,7 +191,6 @@
                     </Button>
 
                     <TextBox Grid.Column="1"
-                             Name="MessageTextBox"
                              Text="{Binding OutgoingMessage}"
                              Background="Transparent"
                              BorderThickness="0"
@@ -194,8 +199,7 @@
                              FontSize="14"
                              Watermark="Message..."
                              VerticalContentAlignment="Center"
-                             Padding="12,0"
-                             KeyDown="MessageTextBox_KeyDown">
+                             Padding="12,0">
 
                         <TextBox.Styles>
                             <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
@@ -215,7 +219,7 @@
                             <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
                                 <Setter Property="Foreground" Value="#AAAAAA"/>
                             </Style>
-            
+
                             <Style Selector="TextBox:focus /template/ TextBlock#PART_Watermark">
                                 <Setter Property="Foreground" Value="#CCCCCC"/>
                             </Style>
@@ -230,7 +234,7 @@
                             Command="{Binding SendCommand}"
                             Margin="0,0,5,0"
                             Padding="0">
-            
+
                         <Button.Styles>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -238,21 +242,204 @@
                         </Button.Styles>
 
                         <Path Data="{StaticResource SendIcon}"
-                              Stroke="#364D70" 
-                              StrokeThickness="2" 
+                              Stroke="#364D70"
+                              StrokeThickness="2"
                               Fill="Transparent"
                               Width="22"
                               Height="22"
                               Stretch="Uniform"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
-                              Margin="0,2,2,0"/> 
+                              Margin="0,2,2,0"/>
                     </Button>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- Add Contact/Group Overlay -->
+        <!-- CONTACT OVERLAY -->
+        <Grid Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Background="#80000000"
+              IsVisible="{Binding ShowContactOverlay}"
+              PointerPressed="OverlayBackground_PointerPressed">
+
+            <!-- Contact popup card -->
+            <Border MaxWidth="800"
+                    MaxHeight="600"
+                    MinWidth="500"
+                    Background="#98B7E4"
+                    CornerRadius="20"
+                    Padding="40"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    PointerPressed="ContactCard_PointerPressed">
+
+                <StackPanel Spacing="25">
+
+                    <!-- Title -->
+                    <TextBlock Text="Contact"
+                               FontFamily="{StaticResource InterFont}"
+                               FontSize="36"
+                               FontWeight="Bold"
+                               Foreground="#364D70"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,20" />
+
+                    <!-- Add to contact button -->
+                    <Button Height="70"
+                            CornerRadius="16"
+                            Background="#4A6280"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="30,0"
+                            Command="{Binding AddToContactCommand}">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#5A7290"/>
+                            </Style>
+                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#3A5270"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Path Grid.Column="0"
+                                  Fill="White"
+                                  Stretch="Uniform"
+                                  Width="28"
+                                  Height="28"
+                                  Margin="0,0,20,0"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource AddContactIcon}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Add to contact"
+                                       FontFamily="{StaticResource InterFont}"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+
+                    <!-- Add to friend list button -->
+                    <Button Height="70"
+                            CornerRadius="12"
+                            Background="#4A6280"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,0"
+                            Command="{Binding AddToFriendListCommand}">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#5A7290"/>
+                            </Style>
+                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#3A5270"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Path Grid.Column="0"
+                                  Fill="White"
+                                  Stretch="Uniform"
+                                  Width="24"
+                                  Height="24"
+                                  Margin="0,0,15,0"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource HeartIcon}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Add to friend list"
+                                       FontFamily="{StaticResource InterFont}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+
+                    <!-- Block user button -->
+                    <Button Height="70"
+                            CornerRadius="12"
+                            Background="#4A6280"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,0"
+                            Command="{Binding BlockUserCommand}">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#5A7290"/>
+                            </Style>
+                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#3A5270"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Path Grid.Column="0"
+                                  Fill="#FF5555"
+                                  Stretch="Uniform"
+                                  Width="24"
+                                  Height="24"
+                                  Margin="0,0,15,0"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource BlockIcon}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Block user"
+                                       FontFamily="{StaticResource InterFont}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+
+                    <!-- Unblock user button -->
+                    <Button Height="70"
+                            CornerRadius="12"
+                            Background="#4A6280"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,0"
+                            Command="{Binding UnblockUserCommand}">
+
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#5A7290"/>
+                            </Style>
+                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#3A5270"/>
+                            </Style>
+                        </Button.Styles>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Path Grid.Column="0"
+                                  Fill="White"
+                                  Stretch="Uniform"
+                                  Width="24"
+                                  Height="24"
+                                  Margin="0,0,15,0"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource LockIcon}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Unblock user"
+                                       FontFamily="{StaticResource InterFont}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+
+                </StackPanel>
+            </Border>
+        </Grid>
         <ContentControl Grid.ColumnSpan="2"
                         Content="{Binding SidebarViewModel.AddContactViewModel}"
                         IsVisible="{Binding SidebarViewModel.IsAddContactOpen}"
