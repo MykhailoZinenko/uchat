@@ -35,6 +35,8 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
+var serverConfig = builder.Configuration.GetSection("Server");
+
 builder.Logging
     .ClearProviders()
     .AddSimpleConsole(options =>
@@ -48,14 +50,13 @@ builder.Logging
     .AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug)
     .AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 
-// Настройка конфигурации из appsettings.json с валидацией
 builder.Services.AddOptions<SessionSettings>()
-    .Bind(builder.Configuration.GetSection("Session"))
+    .Bind(serverConfig.GetSection("Session"))
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
 builder.Services.AddOptions<DatabaseSettings>()
-    .Bind(builder.Configuration.GetSection("Database"))
+    .Bind(serverConfig.GetSection("Database"))
     .ValidateDataAnnotations()
     .ValidateOnStart();
 

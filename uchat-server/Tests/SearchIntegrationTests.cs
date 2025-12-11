@@ -43,7 +43,7 @@ public class SearchIntegrationTests : IAsyncLifetime
         var sessionToken = await GetSessionTokenAsync();
 
         var result = await _connection!.InvokeAsync<ApiResponse<List<UserDto>>>(
-            "SearchUsers", sessionToken, "search", 20);
+            "SearchUsers", sessionToken, "search");
 
         Assert.True(result.Success);
         Assert.NotNull(result.Data);
@@ -56,7 +56,7 @@ public class SearchIntegrationTests : IAsyncLifetime
         var sessionToken = await GetSessionTokenAsync();
 
         var result = await _connection!.InvokeAsync<ApiResponse<List<UserDto>>>(
-            "SearchUsers", sessionToken, "a", 20);
+            "SearchUsers", sessionToken, "a");
 
         Assert.True(result.Success);
         Assert.Empty(result.Data!);
