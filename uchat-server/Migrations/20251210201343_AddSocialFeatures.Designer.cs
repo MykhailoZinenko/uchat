@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using uchat_server.Data;
 
@@ -10,9 +11,11 @@ using uchat_server.Data;
 namespace uchat_server.Migrations
 {
     [DbContext(typeof(UchatDbContext))]
-    partial class UchatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251210201343_AddSocialFeatures")]
+    partial class AddSocialFeatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -212,36 +215,6 @@ namespace uchat_server.Migrations
                         .IsUnique();
 
                     b.ToTable("PinnedMessages");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageQueue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("DeliveredAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsDelivered")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MessageId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("QueuedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RecipientUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MessageId");
-
-                    b.HasIndex("RecipientUserId", "IsDelivered");
-
-                    b.ToTable("MessageQueues");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
@@ -475,53 +448,6 @@ namespace uchat_server.Migrations
                     b.Navigation("User2");
                 });
 
-            modelBuilder.Entity("uchat_server.Data.Entities.UserPts", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CurrentPts")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserPts");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.UserUpdate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Pts")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UpdateData")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdateType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId", "Pts");
-
-                    b.ToTable("UserUpdates");
-                });
-
             modelBuilder.Entity("uchat_server.Data.Entities.Message", b =>
                 {
                     b.HasOne("uchat_server.Data.Entities.Message", "ForwardedFromMessage")
@@ -617,25 +543,6 @@ namespace uchat_server.Migrations
                     b.Navigation("PinnedBy");
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("uchat_server.Data.Entities.MessageQueue", b =>
-                {
-                    b.HasOne("uchat_server.Data.Entities.Message", "Message")
-                        .WithMany()
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("uchat_server.Data.Entities.User", "Recipient")
-                        .WithMany()
-                        .HasForeignKey("RecipientUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Message");
-
-                    b.Navigation("Recipient");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>

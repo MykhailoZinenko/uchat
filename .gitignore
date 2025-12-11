@@ -23,3 +23,5 @@ appsettings.Development.json
 
 # Claude documentation
 CLAUDE.md
+
+logs/*

@@ -13,13 +13,14 @@ public class MessageService : IMessageService
     private readonly IRoomMemberRepository _roomMemberRepository;
     private readonly IMessageEditRepository _messageEditRepository;
     private readonly IMessageDeletionRepository _messageDeletionRepository;
+    private readonly IBlockedUserRepository _blockedUserRepository;
 
     public MessageService(
         IMessageRepository messageRepository,
         IRoomRepository roomRepository,
         IRoomMemberRepository roomMemberRepository,
         IMessageEditRepository messageEditRepository,
-        IMessageDeletionRepository messageDeletionRepository)
+        IMessageDeletionRepository messageDeletionRepository,
     {
         _messageRepository = messageRepository;
         _roomRepository = roomRepository;
@@ -42,6 +43,16 @@ public class MessageService : IMessageService
             if (member == null || member.LeftAt != null)
             {
                 throw new ForbiddenException("You are not a member of this room");
+            }
+
+            var members = await _roomMemberRepository.GetMembersByRoomIdAsync(roomId);
+            foreach (var otherMember in members.Where(m => m.UserId != senderUserId && m.LeftAt == null))
+            {
+                var isBlocked = await _blockedUserRepository.IsBlockedAsync(senderUserId, otherMember.UserId);
+                if (isBlocked)
+                {
+                    throw new ForbiddenException("Cannot send message - you have blocked or been blocked by a member of this room");
+                }
             }
         }
 

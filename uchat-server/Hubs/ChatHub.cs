@@ -21,6 +21,10 @@ public class ChatHub : Hub
     private readonly IRoomService _roomService;
     private readonly IRoomMemberService _roomMemberService;
     private readonly IMessageService _messageService;
+    private readonly IPinnedMessageService _pinnedMessageService;
+    private readonly IFriendshipService _friendshipService;
+    private readonly IBlockedUserService _blockedUserService;
+    private readonly ISearchService _searchService;
     private readonly IMessageRepository _messageRepository;
     private readonly ILogger<ChatHub> _logger;
 
@@ -36,7 +40,11 @@ public class ChatHub : Hub
         IRoomMemberService roomMemberService,
         IMessageService messageService,
         IMessageRepository messageRepository,
-        ILogger<ChatHub> logger)
+        ILogger<ChatHub> logger,
+        IPinnedMessageService pinnedMessageService,
+        IFriendshipService friendshipService,
+        IBlockedUserService blockedUserService,
+        ISearchService searchService)
     {
         _authService = authService;
         _sessionService = sessionService;
@@ -46,6 +54,10 @@ public class ChatHub : Hub
         _roomService = roomService;
         _roomMemberService = roomMemberService;
         _messageService = messageService;
+        _pinnedMessageService = pinnedMessageService;
+        _friendshipService = friendshipService;
+        _blockedUserService = blockedUserService;
+        _searchService = searchService;
         _messageRepository = messageRepository;
         _logger = logger;
     }
@@ -306,34 +318,6 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<List<UserDto>>> SearchUsers(string sessionToken, string query)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            var users = await _userService.SearchUsersAsync(query, 20);
-            _logger.LogInformation("SearchUsers query={Query} by UserId={UserId} Results={Count}", query, session.UserId, users.Count);
-
-            var userDtos = users.Select(u => new UserDto
-            {
-                Id = u.Id,
-                Username = u.Username,
-                IsOnline = u.IsOnline,
-                LastSeenAt = u.LastSeenAt
-            }).ToList();
-
-            return new ApiResponse<List<UserDto>>
-            {
-                Success = true,
-                Data = userDtos
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<List<UserDto>>(ex);
-        }
-    }
-
     public async Task<ApiResponse<List<RoomDto>>> GetAccessibleRooms(string sessionToken)
     {
         try
@@ -478,6 +462,11 @@ public class ChatHub : Hub
         {
             return _errorMapper.MapException<bool>(ex);
         }
+    }
+
+    public async Task<ApiResponse<bool>> AddRoomMember(string sessionToken, int roomId, int userId)
+    {
+        return await AddRoomMembers(sessionToken, roomId, new List<int> { userId });
     }
 
     public async Task<ApiResponse<bool>> RemoveRoomMembers(string sessionToken, int roomId, List<int> userIds)
@@ -788,4 +777,3 @@ public class ChatHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 }
-
