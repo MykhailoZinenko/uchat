@@ -292,7 +292,7 @@ public class RoomIntegrationTests : IAsyncLifetime
         var sessionToken2 = user2Result.Data!.SessionToken;
 
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken2, roomId, "Should fail", (int?)null);
+            "SendMessage", sessionToken2, roomId, "Should fail", (int?)null, (string?)null);
 
         Assert.False(result.Success);
     }
@@ -331,7 +331,7 @@ public class RoomIntegrationTests : IAsyncLifetime
         Assert.True(join3.Success);
 
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken2, roomId, "After multiple reconnects", (int?)null);
+            "SendMessage", sessionToken2, roomId, "After multiple reconnects", (int?)null, (string?)null);
         Assert.True(sendResult.Success);
     }
 }

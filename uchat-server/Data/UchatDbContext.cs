@@ -12,6 +12,10 @@ public class UchatDbContext : DbContext
     public DbSet<RoomMember> RoomMembers { get; set; }
     public DbSet<MessageEdit> MessageEdits { get; set; }
     public DbSet<MessageDeletion> MessageDeletions { get; set; }
+    public DbSet<PinnedMessage> PinnedMessages { get; set; }
+    public DbSet<Friendship> Friendships { get; set; }
+    public DbSet<BlockedUser> BlockedUsers { get; set; }
+
     public DbSet<MessageDeliveryStatus> MessageDeliveryStatuses { get; set; }
     public DbSet<UserPts> UserPts { get; set; }
     public DbSet<MessageQueue> MessageQueues { get; set; }
@@ -144,6 +148,68 @@ public class UchatDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        modelBuilder.Entity<PinnedMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.RoomId, e.MessageId }).IsUnique();
+            entity.Property(e => e.PinnedAt).IsRequired();
+
+            entity.HasOne(e => e.Room)
+                .WithMany()
+                .HasForeignKey(e => e.RoomId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Message)
+                .WithMany()
+                .HasForeignKey(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.PinnedBy)
+                .WithMany()
+                .HasForeignKey(e => e.PinnedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Friendship>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.User1Id, e.User2Id }).IsUnique();
+            entity.Property(e => e.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+
+            entity.HasOne(e => e.User1)
+                .WithMany()
+                .HasForeignKey(e => e.User1Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.User2)
+                .WithMany()
+                .HasForeignKey(e => e.User2Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.InitiatedBy)
+                .WithMany()
+                .HasForeignKey(e => e.InitiatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<BlockedUser>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.BlockerUserId, e.BlockedUserId }).IsUnique();
+            entity.Property(e => e.BlockedAt).IsRequired();
+
+            entity.HasOne(e => e.Blocker)
+                .WithMany()
+                .HasForeignKey(e => e.BlockerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Blocked)
+                .WithMany()
+                .HasForeignKey(e => e.BlockedUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         modelBuilder.Entity<Session>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -222,4 +288,3 @@ public class UchatDbContext : DbContext
         });
     }
 }
-

@@ -21,6 +21,10 @@ public class ChatHub : Hub
     private readonly IRoomService _roomService;
     private readonly IRoomMemberService _roomMemberService;
     private readonly IMessageService _messageService;
+    private readonly IPinnedMessageService _pinnedMessageService;
+    private readonly IFriendshipService _friendshipService;
+    private readonly IBlockedUserService _blockedUserService;
+    private readonly ISearchService _searchService;
     private readonly IMessageRepository _messageRepository;
     private readonly ILogger<ChatHub> _logger;
 
@@ -36,7 +40,11 @@ public class ChatHub : Hub
         IRoomMemberService roomMemberService,
         IMessageService messageService,
         IMessageRepository messageRepository,
-        ILogger<ChatHub> logger)
+        ILogger<ChatHub> logger,
+        IPinnedMessageService pinnedMessageService,
+        IFriendshipService friendshipService,
+        IBlockedUserService blockedUserService,
+        ISearchService searchService)
     {
         _authService = authService;
         _sessionService = sessionService;
@@ -46,6 +54,10 @@ public class ChatHub : Hub
         _roomService = roomService;
         _roomMemberService = roomMemberService;
         _messageService = messageService;
+        _pinnedMessageService = pinnedMessageService;
+        _friendshipService = friendshipService;
+        _blockedUserService = blockedUserService;
+        _searchService = searchService;
         _messageRepository = messageRepository;
         _logger = logger;
     }
@@ -306,34 +318,6 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<List<UserDto>>> SearchUsers(string sessionToken, string query)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            var users = await _userService.SearchUsersAsync(query, 20);
-            _logger.LogInformation("SearchUsers query={Query} by UserId={UserId} Results={Count}", query, session.UserId, users.Count);
-
-            var userDtos = users.Select(u => new UserDto
-            {
-                Id = u.Id,
-                Username = u.Username,
-                IsOnline = u.IsOnline,
-                LastSeenAt = u.LastSeenAt
-            }).ToList();
-
-            return new ApiResponse<List<UserDto>>
-            {
-                Success = true,
-                Data = userDtos
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<List<UserDto>>(ex);
-        }
-    }
-
     public async Task<ApiResponse<List<RoomDto>>> GetAccessibleRooms(string sessionToken)
     {
         try
@@ -478,6 +462,11 @@ public class ChatHub : Hub
         {
             return _errorMapper.MapException<bool>(ex);
         }
+    }
+
+    public async Task<ApiResponse<bool>> AddRoomMember(string sessionToken, int roomId, int userId)
+    {
+        return await AddRoomMembers(sessionToken, roomId, new List<int> { userId });
     }
 
     public async Task<ApiResponse<bool>> RemoveRoomMembers(string sessionToken, int roomId, List<int> userIds)
@@ -791,8 +780,6 @@ public class ChatHub : Hub
         }
     }
 
-    // ==================== DELIVERY TRACKING ====================
-
     public async Task<ApiResponse<bool>> MarkMessageDelivered(string sessionToken, int messageId)
     {
         try
@@ -901,6 +888,363 @@ public class ChatHub : Hub
         }
     }
 
+    public async Task<ApiResponse<bool>> PinMessage(string sessionToken, int roomId, int messageId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _pinnedMessageService.PinMessageAsync(roomId, messageId, session.UserId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Message pinned",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> UnpinMessage(string sessionToken, int roomId, int messageId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _pinnedMessageService.UnpinMessageAsync(roomId, messageId, session.UserId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Message unpinned",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<MessageDto>>> GetPinnedMessages(string sessionToken, int roomId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var pinnedMessages = await _pinnedMessageService.GetPinnedMessagesAsync(roomId, session.UserId);
+
+            var messageDtos = pinnedMessages.Select(p => new MessageDto
+            {
+                Id = p.Message.Id,
+                RoomId = p.Message.RoomId,
+                SenderUserId = p.Message.SenderUserId,
+                SenderUsername = p.Message.Sender?.Username,
+                MessageType = p.Message.MessageType,
+                ServiceAction = p.Message.ServiceAction,
+                ReplyToMessageId = p.Message.ReplyToMessageId,
+                Content = p.Message.Content,
+                SentAt = p.Message.SentAt
+            }).ToList();
+
+            return new ApiResponse<List<MessageDto>>
+            {
+                Success = true,
+                Data = messageDtos
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<MessageDto>>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<FriendshipDto>> SendFriendRequest(string sessionToken, int toUserId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var friendship = await _friendshipService.SendFriendRequestAsync(session.UserId, toUserId);
+
+            return new ApiResponse<FriendshipDto>
+            {
+                Success = true,
+                Message = "Friend request sent",
+                Data = MapFriendship(friendship, session.UserId)
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<FriendshipDto>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<FriendshipDto>> AcceptFriendRequest(string sessionToken, int friendshipId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var friendship = await _friendshipService.AcceptFriendRequestAsync(friendshipId, session.UserId);
+
+            return new ApiResponse<FriendshipDto>
+            {
+                Success = true,
+                Message = "Friend request accepted",
+                Data = MapFriendship(friendship, session.UserId)
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<FriendshipDto>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<FriendshipDto>> RejectFriendRequest(string sessionToken, int friendshipId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var friendship = await _friendshipService.RejectFriendRequestAsync(friendshipId, session.UserId);
+
+            return new ApiResponse<FriendshipDto>
+            {
+                Success = true,
+                Message = "Friend request rejected",
+                Data = MapFriendship(friendship, session.UserId)
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<FriendshipDto>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> RemoveFriend(string sessionToken, int friendshipId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _friendshipService.RemoveFriendAsync(friendshipId, session.UserId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Friend removed",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<FriendshipDto>>> GetFriends(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var friendships = await _friendshipService.GetFriendsAsync(session.UserId);
+
+            return new ApiResponse<List<FriendshipDto>>
+            {
+                Success = true,
+                Data = friendships.Select(f => MapFriendship(f, session.UserId)).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<FriendshipDto>>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<FriendshipDto>>> GetPendingFriendRequests(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var friendships = await _friendshipService.GetPendingRequestsAsync(session.UserId);
+
+            return new ApiResponse<List<FriendshipDto>>
+            {
+                Success = true,
+                Data = friendships.Select(f => MapFriendship(f, session.UserId)).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<FriendshipDto>>(ex);
+        }
+    }
+
+    private FriendshipDto MapFriendship(uchat_server.Data.Entities.Friendship f, int currentUserId)
+    {
+        var friendId = f.User1Id == currentUserId ? f.User2Id : f.User1Id;
+        var friend = f.User1Id == currentUserId ? f.User2 : f.User1;
+
+        return new FriendshipDto
+        {
+            Id = f.Id,
+            FriendUserId = friendId,
+            FriendUsername = friend?.Username ?? "Unknown",
+            Status = f.Status,
+            IsInitiator = f.InitiatedByUserId == currentUserId,
+            CreatedAt = f.CreatedAt,
+            RespondedAt = f.RespondedAt
+        };
+    }
+
+    public async Task<ApiResponse<bool>> BlockUser(string sessionToken, int userId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _blockedUserService.BlockUserAsync(session.UserId, userId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "User blocked",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> UnblockUser(string sessionToken, int userId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _blockedUserService.UnblockUserAsync(session.UserId, userId);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "User unblocked",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<UserDto>>> GetBlockedUsers(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var blocked = await _blockedUserService.GetBlockedUsersAsync(session.UserId);
+
+            return new ApiResponse<List<UserDto>>
+            {
+                Success = true,
+                Data = blocked.Select(b => new UserDto
+                {
+                    Id = b.Blocked.Id,
+                    Username = b.Blocked.Username,
+                    DisplayName = b.Blocked.DisplayName,
+                    AvatarUrl = b.Blocked.AvatarUrl,
+                    IsOnline = b.Blocked.IsOnline
+                }).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserDto>>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<UserDto>>> GetBlockersOfMe(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var blockers = await _blockedUserService.GetBlockersOfUserAsync(session.UserId);
+
+            return new ApiResponse<List<UserDto>>
+            {
+                Success = true,
+                Data = blockers.Select(b => new UserDto
+                {
+                    Id = b.Blocker.Id,
+                    Username = b.Blocker.Username,
+                    DisplayName = b.Blocker.DisplayName,
+                    AvatarUrl = b.Blocker.AvatarUrl,
+                    IsOnline = b.Blocker.IsOnline
+                }).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserDto>>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<UserDto>>> SearchUsers(string sessionToken, string query, int limit = 20)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var users = await _searchService.SearchUsersAsync(query, limit);
+
+            _logger.LogInformation("SearchUsers query={Query} by UserId={UserId} Results={Count}", query, session.UserId, users.Count);
+
+            return new ApiResponse<List<UserDto>>
+            {
+                Success = true,
+                Data = users.Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    DisplayName = u.DisplayName,
+                    AvatarUrl = u.AvatarUrl,
+                    IsOnline = u.IsOnline
+                }).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserDto>>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<MessageDto>>> SearchMessages(string sessionToken, string query, int? roomId = null, int limit = 50)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var messages = await _searchService.SearchMessagesAsync(query, session.UserId, roomId, limit);
+
+            return new ApiResponse<List<MessageDto>>
+            {
+                Success = true,
+                Data = messages.Select(m => new MessageDto
+                {
+                    Id = m.Id,
+                    RoomId = m.RoomId,
+                    SenderUserId = m.SenderUserId,
+                    SenderUsername = m.Sender?.Username,
+                    MessageType = m.MessageType,
+                    ServiceAction = m.ServiceAction,
+                    ReplyToMessageId = m.ReplyToMessageId,
+                    Content = m.Content,
+                    SentAt = m.SentAt
+                }).ToList()
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<MessageDto>>(ex);
+        }
+    }
+
     public override async Task OnConnectedAsync()
     {
         _logger.LogInformation("Client connected: ConnectionId={ConnectionId} RemoteIp={RemoteIp}",
@@ -919,4 +1263,3 @@ public class ChatHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 }
-

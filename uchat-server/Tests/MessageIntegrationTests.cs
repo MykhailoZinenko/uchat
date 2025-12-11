@@ -48,7 +48,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Hello from test!", (int?)null);
+            "SendMessage", sessionToken, 1, "Hello from test!", (int?)null, (string?)null);
 
         // Assert
         Assert.True(result.Success);
@@ -70,7 +70,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, roomId, "Message in group", (int?)null);
+            "SendMessage", sessionToken, roomId, "Message in group", (int?)null, (string?)null);
 
         // Assert
         Assert.True(result.Success);
@@ -85,12 +85,12 @@ public class MessageIntegrationTests : IAsyncLifetime
         // Arrange
         var sessionToken = await GetSessionTokenAsync();
         var firstMessage = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Original message", (int?)null);
+            "SendMessage", sessionToken, 1, "Original message", (int?)null, (string?)null);
         var messageId = firstMessage.Data!.Id;
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "This is a reply", messageId);
+            "SendMessage", sessionToken, 1, "This is a reply", messageId, (string?)null);
 
         // Assert
         Assert.True(result.Success);
@@ -104,7 +104,7 @@ public class MessageIntegrationTests : IAsyncLifetime
         // Arrange
         var sessionToken = await GetSessionTokenAsync();
         await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Test message for get", (int?)null);
+            "SendMessage", sessionToken, 1, "Test message for get", (int?)null, (string?)null);
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<List<MessageDto>>>(
@@ -126,7 +126,7 @@ public class MessageIntegrationTests : IAsyncLifetime
         for (int i = 0; i < 5; i++)
         {
             await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-                "SendMessage", sessionToken, 1, $"Message {i}", (int?)null);
+                "SendMessage", sessionToken, 1, $"Message {i}", (int?)null, (string?)null);
         }
 
         // Get messages with limit
@@ -158,7 +158,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act - Try to send message as non-member
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken2, roomId, "Should fail", (int?)null);
+            "SendMessage", sessionToken2, roomId, "Should fail", (int?)null, (string?)null);
 
         // Assert
         Assert.False(result.Success);
@@ -172,7 +172,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "", (int?)null);
+            "SendMessage", sessionToken, 1, "", (int?)null, (string?)null);
 
         // Assert
         Assert.False(result.Success);
@@ -186,7 +186,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "   ", (int?)null);
+            "SendMessage", sessionToken, 1, "   ", (int?)null, (string?)null);
 
         // Assert
         Assert.False(result.Success);
@@ -223,7 +223,7 @@ public class MessageIntegrationTests : IAsyncLifetime
 
         // Act - Reply to non-existent message
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Invalid reply", 999999);
+            "SendMessage", sessionToken, 1, "Invalid reply", 999999, (string?)null);
 
         // Assert
         Assert.False(result.Success);
@@ -241,12 +241,12 @@ public class MessageIntegrationTests : IAsyncLifetime
         var groupRoomId = createResult.Data!.Id;
         
         var groupMessage = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, groupRoomId, "Group message", (int?)null);
+            "SendMessage", sessionToken, groupRoomId, "Group message", (int?)null, (string?)null);
         var groupMessageId = groupMessage.Data!.Id;
 
         // Act - Try to reply to group message from global room
         var result = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Reply to wrong room", groupMessageId);
+            "SendMessage", sessionToken, 1, "Reply to wrong room", groupMessageId, (string?)null);
 
         // Assert
         Assert.False(result.Success);
@@ -268,7 +268,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Original content", (int?)null);
+            "SendMessage", sessionToken, 1, "Original content", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         var editResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
@@ -291,7 +291,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Message to delete", (int?)null);
+            "SendMessage", sessionToken, 1, "Message to delete", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         var deleteResult = await _connection!.InvokeAsync<ApiResponse<bool>>(
@@ -311,7 +311,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken1 = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken1, 1, "Original message", (int?)null);
+            "SendMessage", sessionToken1, 1, "Original message", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         var user2Username = $"msgtest_edit_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
@@ -330,7 +330,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken1 = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken1, 1, "My message", (int?)null);
+            "SendMessage", sessionToken1, 1, "My message", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         var user2Username = $"msgtest_del_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
@@ -349,7 +349,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Will be deleted", (int?)null);
+            "SendMessage", sessionToken, 1, "Will be deleted", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         await _connection!.InvokeAsync<ApiResponse<bool>>("DeleteMessage", sessionToken, messageId);
@@ -365,7 +365,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Delete me twice", (int?)null);
+            "SendMessage", sessionToken, 1, "Delete me twice", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         await _connection!.InvokeAsync<ApiResponse<bool>>("DeleteMessage", sessionToken, messageId);
@@ -380,7 +380,7 @@ public class MessageIntegrationTests : IAsyncLifetime
     {
         var sessionToken = await GetSessionTokenAsync();
         var sendResult = await _connection!.InvokeAsync<ApiResponse<MessageDto>>(
-            "SendMessage", sessionToken, 1, "Version 1", (int?)null);
+            "SendMessage", sessionToken, 1, "Version 1", (int?)null, (string?)null);
         var messageId = sendResult.Data!.Id;
 
         await _connection!.InvokeAsync<ApiResponse<bool>>("EditMessage", sessionToken, messageId, "Version 2");

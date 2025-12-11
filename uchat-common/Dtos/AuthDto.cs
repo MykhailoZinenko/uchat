@@ -6,3 +6,4 @@ public class AuthDto
     public int UserId { get; set; }
     public string Username { get; set; } = string.Empty;
 }
+
