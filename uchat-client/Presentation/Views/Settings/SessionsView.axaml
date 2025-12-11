@@ -1,0 +1,151 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Settings.ViewModels;assembly=uchat"
+             xmlns:views="clr-namespace:uchat_client.Presentation.Views.Shell"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Settings.SessionsView"
+             x:Name="SessionsViewRoot"
+             x:DataType="viewModels:SessionsViewModel"
+             Background="{DynamicResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                           DataContext="{Binding SidebarViewModel}" />
+
+        <!-- SESSIONS CONTENT -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                    Classes="card"
+                    Margin="16,16,16,8"
+                    Padding="16,14"
+                    Height="56">
+                <TextBlock Text="Current Session"
+                           Classes="h4"
+                           HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="16">
+                <StackPanel Spacing="{StaticResource SpacingLG}"
+                            MaxWidth="600">
+
+                    <!-- Current Session -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <StackPanel Spacing="{StaticResource SpacingMD}">
+                            <TextBlock Text="{Binding CurrentSessionTitle}"
+                                       Classes="h5"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                            <Grid ColumnDefinitions="Auto,*">
+                                <controls:Icon Grid.Column="0"
+                                               IconKey="LaptopIcon"
+                                               Size="{StaticResource IconSizeMD}"
+                                               Fill="{DynamicResource PrimaryBrush}"
+                                               Margin="0,0,12,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Text="{Binding CurrentSession.DeviceName}"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{Binding CurrentSession.CreatedAt, StringFormat='Created: {0:G}'}"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    <TextBlock Text="{Binding CurrentSession.LastActivityAt, StringFormat='Last active: {0:G}'}"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Button Classes="secondary"
+                                    Content="Terminate all other sessions"
+                                    Command="{Binding TerminateOtherSessionsCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Foreground="{DynamicResource ErrorBrush}"
+                                    BorderBrush="{DynamicResource ErrorBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Active Sessions -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <StackPanel Spacing="{StaticResource SpacingMD}">
+                            <TextBlock Text="Active sessions"
+                                       Classes="h5"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                            <ItemsControl ItemsSource="{Binding ActiveSessions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="{StaticResource SpacingMD}"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource SurfaceVariantBrush}"
+                                                CornerRadius="{StaticResource RadiusMD}"
+                                                Padding="{StaticResource ThicknessMD}">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <controls:Icon Grid.Column="0"
+                                                               IconKey="LaptopIcon"
+                                                               Size="{StaticResource IconSizeMD}"
+                                                               Fill="{DynamicResource TextSecondaryBrush}"
+                                                               Margin="0,0,12,0"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Spacing="4">
+                                                    <TextBlock Text="{Binding DeviceName}"
+                                                               Classes="body"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Created: {0:G}'}"
+                                                               Classes="caption"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                                    <TextBlock Text="{Binding LastActivityAt, StringFormat='Last active: {0:G}'}"
+                                                               Classes="caption"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                                </StackPanel>
+
+                                                <Button Grid.Column="2"
+                                                        Content="Terminate"
+                                                        Command="{Binding DataContext.TerminateSessionCommand, ElementName=SessionsViewRoot}"
+                                                        CommandParameter="{Binding}"
+                                                        Background="{DynamicResource ErrorBrush}"
+                                                        Foreground="White"
+                                                        BorderThickness="0"
+                                                        CornerRadius="{StaticResource RadiusMD}"
+                                                        Padding="12,8"
+                                                        VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

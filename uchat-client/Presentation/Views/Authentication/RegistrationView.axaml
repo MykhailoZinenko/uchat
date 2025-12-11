@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Authentication.ViewModels;assembly=uchat"
+             x:Class="uchat_client.Presentation.Views.Authentication.RegistrationView"
+             x:DataType="viewModels:RegistrationViewModel">
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <!-- Registration Card -->
+        <Border Classes="card-elevated"
+                MinWidth="400"
+                MaxWidth="480"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="{DynamicResource ThicknessLG}">
+            <StackPanel Spacing="{DynamicResource SpacingLG}">
+
+                <!-- Logo / Header -->
+                <StackPanel Spacing="{DynamicResource SpacingMD}"
+                            HorizontalAlignment="Center">
+                    <Image Source="/Assets/WaveLogo1.png"
+                           Height="64"
+                           HorizontalAlignment="Center"/>
+                    <TextBlock Classes="h3"
+                               Text="Create Account"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Classes="body-secondary"
+                               Text="Sign up to get started with uchat"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Registration Form -->
+                <StackPanel Classes="form">
+
+                    <!-- Username Field -->
+                    <StackPanel Classes="form-group">
+                        <TextBlock Classes="label"
+                                   Text="Username"/>
+                        <TextBox Classes="input"
+                                 Text="{Binding Username}"
+                                 Watermark="Choose a username"/>
+                    </StackPanel>
+
+                    <!-- Password Field -->
+                    <StackPanel Classes="form-group">
+                        <TextBlock Classes="label"
+                                   Text="Password"/>
+                        <TextBox Classes="input"
+                                 Text="{Binding Password}"
+                                 PasswordChar="•"
+                                 Watermark="Create a password"/>
+                    </StackPanel>
+
+                    <!-- Confirm Password Field -->
+                    <StackPanel Classes="form-group">
+                        <TextBlock Classes="label"
+                                   Text="Confirm Password"/>
+                        <TextBox Classes="input"
+                                 Text="{Binding ConfirmPassword}"
+                                 PasswordChar="•"
+                                 Watermark="Confirm your password"/>
+                    </StackPanel>
+
+                    <!-- Error Message -->
+                    <TextBlock Classes="error"
+                               Text="{Binding ErrorMessage}"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                               TextWrapping="Wrap"/>
+
+                    <!-- Register Button -->
+                    <Button Classes="primary"
+                            Content="Create Account"
+                            Command="{Binding RegisterCommand}"
+                            IsEnabled="{Binding !IsBusy}"
+                            HorizontalAlignment="Stretch"
+                            Height="48"
+                            Margin="0,8,0,0"/>
+
+                    <!-- Divider -->
+                    <Border Height="1"
+                            Background="{DynamicResource DividerBrush}"
+                            Margin="0,16,0,8"/>
+
+                    <!-- Back to Login Link -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="4">
+                        <TextBlock Classes="body-secondary"
+                                   Text="Already have an account?"/>
+                        <Button Classes="text"
+                                Content="Sign in"
+                                Command="{Binding BackToLoginCommand}"
+                                Padding="4,0"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Authentication.ViewModels;assembly=uchat"
+             x:Class="uchat_client.Presentation.Views.Authentication.LoginView"
+             x:DataType="viewModels:LoginViewModel">
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <!-- Login Card -->
+        <Border Classes="card-elevated"
+                MinWidth="400"
+                MaxWidth="480"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="{DynamicResource ThicknessLG}">
+            <StackPanel Spacing="{DynamicResource SpacingLG}">
+
+                <!-- Logo / Header -->
+                <StackPanel Spacing="{DynamicResource SpacingMD}"
+                            HorizontalAlignment="Center">
+                    <Image Source="/Assets/WaveLogo2.png"
+                           Height="64"
+                           HorizontalAlignment="Center"/>
+                    <TextBlock Classes="h3"
+                               Text="Welcome back"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Classes="body-secondary"
+                               Text="Sign in to your account to continue"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Login Form -->
+                <StackPanel Classes="form">
+
+                    <!-- Username Field -->
+                    <StackPanel Classes="form-group">
+                        <TextBlock Classes="label"
+                                   Text="Username"/>
+                        <TextBox Classes="input"
+                                 Text="{Binding Username}"
+                                 Watermark="Enter your username"/>
+                    </StackPanel>
+
+                    <!-- Password Field -->
+                    <StackPanel Classes="form-group">
+                        <TextBlock Classes="label"
+                                   Text="Password"/>
+                        <TextBox Classes="input"
+                                 Text="{Binding Password}"
+                                 PasswordChar="•"
+                                 Watermark="Enter your password"/>
+                    </StackPanel>
+
+                    <!-- Error Message -->
+                    <TextBlock Classes="error"
+                               Text="{Binding ErrorMessage}"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                               TextWrapping="Wrap"/>
+
+                    <!-- Login Button -->
+                    <Button Classes="primary"
+                            Content="Sign In"
+                            Command="{Binding LoginCommand}"
+                            IsEnabled="{Binding !IsBusy}"
+                            HorizontalAlignment="Stretch"
+                            Height="48"
+                            Margin="0,8,0,0"/>
+
+                    <!-- Divider -->
+                    <Border Height="1"
+                            Background="{DynamicResource DividerBrush}"
+                            Margin="0,16,0,8"/>
+
+                    <!-- Register Link -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="4">
+                        <TextBlock Classes="body-secondary"
+                                   Text="Don't have an account?"/>
+                        <Button Classes="text"
+                                Content="Sign up"
+                                Command="{Binding ShowRegisterCommand}"
+                                Padding="4,0"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -8,6 +8,13 @@ public class UchatDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Session> Sessions { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<RoomMember> RoomMembers { get; set; }
+    public DbSet<MessageEdit> MessageEdits { get; set; }
+    public DbSet<MessageDeletion> MessageDeletions { get; set; }
+    public DbSet<PinnedMessage> PinnedMessages { get; set; }
+    public DbSet<Friendship> Friendships { get; set; }
+    public DbSet<BlockedUser> BlockedUsers { get; set; }
 
     public UchatDbContext(DbContextOptions<UchatDbContext> options) : base(options)
     {
@@ -21,27 +28,189 @@ public class UchatDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.Username).IsUnique();
+            entity.HasIndex(e => e.Email).IsUnique();
+            entity.HasIndex(e => e.IsOnline);
             entity.Property(e => e.Username).HasMaxLength(50).IsRequired();
+            entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.PasswordHash).IsRequired();
+            entity.Property(e => e.DisplayName).HasMaxLength(100);
+            entity.Property(e => e.Bio).HasMaxLength(500);
+            entity.Property(e => e.AvatarUrl).HasMaxLength(500);
+            entity.Property(e => e.StatusText).HasMaxLength(200);
+            entity.Property(e => e.CreatedAt).IsRequired();
+        });
+
+        modelBuilder.Entity<Room>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.RoomType).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(e => e.RoomName).HasMaxLength(100);
+            entity.Property(e => e.RoomDescription).HasMaxLength(500);
+            entity.Property(e => e.AvatarUrl).HasMaxLength(500);
+            entity.Property(e => e.CreatedAt).IsRequired();
+
+            entity.HasOne(e => e.CreatedBy)
+                .WithMany(u => u.CreatedRooms)
+                .HasForeignKey(e => e.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<RoomMember>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.RoomId, e.UserId }).IsUnique();
+            entity.Property(e => e.MemberRole).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(e => e.JoinedAt).IsRequired();
+
+            entity.HasOne(e => e.Room)
+                .WithMany(r => r.Members)
+                .HasForeignKey(e => e.RoomId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.User)
+                .WithMany(u => u.RoomMemberships)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.LastReadMessage)
+                .WithMany()
+                .HasForeignKey(e => e.LastReadMessageId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Message>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.MessageType).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(e => e.ServiceAction).HasConversion<string>().HasMaxLength(30);
             entity.Property(e => e.Content).IsRequired();
+            entity.Property(e => e.SentAt).IsRequired();
+
+            entity.HasOne(e => e.Room)
+                .WithMany(r => r.Messages)
+                .HasForeignKey(e => e.RoomId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(e => e.Sender)
                 .WithMany(u => u.SentMessages)
-                .HasForeignKey(e => e.SenderId)
+                .HasForeignKey(e => e.SenderUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.ReplyToMessage)
+                .WithMany()
+                .HasForeignKey(e => e.ReplyToMessageId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(e => e.ForwardedFromMessage)
+                .WithMany()
+                .HasForeignKey(e => e.ForwardedFromMessageId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        modelBuilder.Entity<MessageEdit>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.OldContent).IsRequired();
+            entity.Property(e => e.NewContent).IsRequired();
+            entity.Property(e => e.EditedAt).IsRequired();
+
+            entity.HasOne(e => e.Message)
+                .WithMany(m => m.Edits)
+                .HasForeignKey(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.EditedBy)
+                .WithMany()
+                .HasForeignKey(e => e.EditedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<MessageDeletion>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.MessageId).IsUnique();
+            entity.Property(e => e.DeletedAt).IsRequired();
+
+            entity.HasOne(e => e.Message)
+                .WithOne(m => m.Deletion)
+                .HasForeignKey<MessageDeletion>(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.DeletedBy)
+                .WithMany()
+                .HasForeignKey(e => e.DeletedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PinnedMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.RoomId, e.MessageId }).IsUnique();
+            entity.Property(e => e.PinnedAt).IsRequired();
+
+            entity.HasOne(e => e.Room)
+                .WithMany()
+                .HasForeignKey(e => e.RoomId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Message)
+                .WithMany()
+                .HasForeignKey(e => e.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.PinnedBy)
+                .WithMany()
+                .HasForeignKey(e => e.PinnedByUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Friendship>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.User1Id, e.User2Id }).IsUnique();
+            entity.Property(e => e.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+
+            entity.HasOne(e => e.User1)
+                .WithMany()
+                .HasForeignKey(e => e.User1Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.User2)
+                .WithMany()
+                .HasForeignKey(e => e.User2Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.InitiatedBy)
+                .WithMany()
+                .HasForeignKey(e => e.InitiatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<BlockedUser>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.BlockerUserId, e.BlockedUserId }).IsUnique();
+            entity.Property(e => e.BlockedAt).IsRequired();
+
+            entity.HasOne(e => e.Blocker)
+                .WithMany()
+                .HasForeignKey(e => e.BlockerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Blocked)
+                .WithMany()
+                .HasForeignKey(e => e.BlockedUserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Session>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.Token).IsUnique();
-            entity.Property(e => e.Token).HasMaxLength(128).IsRequired();
+            entity.HasIndex(e => e.SessionToken).IsUnique();
+            entity.Property(e => e.SessionToken).HasMaxLength(512).IsRequired();
             entity.Property(e => e.DeviceInfo).HasMaxLength(256);
+            entity.Property(e => e.IpAddress).HasMaxLength(45);
 
             entity.HasOne(e => e.User)
                 .WithMany(u => u.Sessions)

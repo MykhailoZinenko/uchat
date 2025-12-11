@@ -18,5 +18,10 @@ obj/
 # Session storage
 .uchat/
 
+# Configuration (содержит секретные ключи)
+appsettings.Development.json
+
 # Claude documentation
 CLAUDE.md
+
+logs/*

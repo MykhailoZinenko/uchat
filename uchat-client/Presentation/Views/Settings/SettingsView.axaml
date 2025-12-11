@@ -1,0 +1,229 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Settings.ViewModels;assembly=uchat"
+             xmlns:views="clr-namespace:uchat_client.Presentation.Views.Shell"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Settings.SettingsView"
+             x:DataType="viewModels:SettingsViewModel"
+             Background="{DynamicResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                          DataContext="{Binding SidebarViewModel}" />
+
+        <!-- SETTINGS CONTENT -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                    Classes="card"
+                    Margin="16,16,16,8"
+                    Padding="16,14"
+                    Height="56">
+                <TextBlock Text="Settings"
+                           Classes="h4"
+                           HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Settings List -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="16">
+                <StackPanel Spacing="{StaticResource SpacingMD}"
+                            MaxWidth="600">
+
+                    <!-- My Account -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessMD}">
+                        <Button Classes="text"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Padding="0"
+                                Command="{Binding OpenMyAccountCommand}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Border Grid.Column="0"
+                                        Width="44"
+                                        Height="44"
+                                        CornerRadius="{StaticResource RadiusFull}"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        Margin="0,0,12,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                    <controls:Icon IconKey="AccountIcon"
+                                                   Size="{StaticResource IconSizeSM}"
+                                                   Fill="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Text="My Account"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Manage your account settings"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <controls:Icon Grid.Column="2"
+                                               IconKey="ChevronRightIcon"
+                                               Size="{StaticResource IconSizeXS}"
+                                               Fill="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </Border>
+
+                    <!-- Current Session -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessMD}">
+                        <Button Classes="text"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Padding="0"
+                                Command="{Binding OpenCurrentSessionCommand}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Border Grid.Column="0"
+                                        Width="44"
+                                        Height="44"
+                                        CornerRadius="{StaticResource RadiusFull}"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        Margin="0,0,12,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                    <controls:Icon IconKey="LaptopIcon"
+                                                   Size="{StaticResource IconSizeSM}"
+                                                   Fill="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Text="Current Session"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="View active devices"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <controls:Icon Grid.Column="2"
+                                               IconKey="ChevronRightIcon"
+                                               Size="{StaticResource IconSizeXS}"
+                                               Fill="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </Border>
+
+                    <!-- Sound and Notifications -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessMD}">
+                        <Button Classes="text"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Padding="0"
+                                Command="{Binding OpenSoundNotificationCommand}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Border Grid.Column="0"
+                                        Width="44"
+                                        Height="44"
+                                        CornerRadius="{StaticResource RadiusFull}"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        Margin="0,0,12,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                    <controls:Icon IconKey="BellRingIcon"
+                                                   Size="{StaticResource IconSizeSM}"
+                                                   Fill="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Text="Sound and Notification"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Customize alerts and sounds"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <controls:Icon Grid.Column="2"
+                                               IconKey="ChevronRightIcon"
+                                               Size="{StaticResource IconSizeXS}"
+                                               Fill="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </Border>
+
+                    <!-- Logout -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessMD}">
+                        <Button Classes="text"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Padding="0"
+                                Command="{Binding LogoutCommand}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Border Grid.Column="0"
+                                        Width="44"
+                                        Height="44"
+                                        CornerRadius="{StaticResource RadiusFull}"
+                                        Background="{DynamicResource ErrorBrush}"
+                                        Margin="0,0,12,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                    <controls:Icon IconKey="LogoutIcon"
+                                                   Size="{StaticResource IconSizeSM}"
+                                                   Fill="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Text="Logout"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource ErrorBrush}"/>
+                                    <TextBlock Text="Sign out of your account"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <controls:Icon Grid.Column="2"
+                                               IconKey="ChevronRightIcon"
+                                               Size="{StaticResource IconSizeXS}"
+                                               Fill="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

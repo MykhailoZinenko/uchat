@@ -1,0 +1,75 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Light Theme Colors -->
+    <Color x:Key="LightPrimaryColor">#5B8DEE</Color>
+    <Color x:Key="LightPrimaryHoverColor">#4A7DD9</Color>
+    <Color x:Key="LightPrimaryPressedColor">#3A6DC4</Color>
+
+    <Color x:Key="LightSecondaryColor">#7C5CFF</Color>
+    <Color x:Key="LightSecondaryHoverColor">#6B4BEE</Color>
+
+    <Color x:Key="LightBackgroundColor">#F8F9FA</Color>
+    <Color x:Key="LightSurfaceColor">#FFFFFF</Color>
+    <Color x:Key="LightSurfaceVariantColor">#F1F3F5</Color>
+
+    <Color x:Key="LightTextPrimaryColor">#212529</Color>
+    <Color x:Key="LightTextSecondaryColor">#6C757D</Color>
+    <Color x:Key="LightTextTertiaryColor">#ADB5BD</Color>
+
+    <Color x:Key="LightBorderColor">#DEE2E6</Color>
+    <Color x:Key="LightDividerColor">#E9ECEF</Color>
+
+    <Color x:Key="LightErrorColor">#DC3545</Color>
+    <Color x:Key="LightSuccessColor">#28A745</Color>
+    <Color x:Key="LightWarningColor">#FFC107</Color>
+    <Color x:Key="LightInfoColor">#17A2B8</Color>
+
+    <!-- Dark Theme Colors -->
+    <Color x:Key="DarkPrimaryColor">#5B8DEE</Color>
+    <Color x:Key="DarkPrimaryHoverColor">#6C9DF5</Color>
+    <Color x:Key="DarkPrimaryPressedColor">#4A7DD9</Color>
+
+    <Color x:Key="DarkSecondaryColor">#8B6CFF</Color>
+    <Color x:Key="DarkSecondaryHoverColor">#9B7CFF</Color>
+
+    <Color x:Key="DarkBackgroundColor">#1A1D23</Color>
+    <Color x:Key="DarkSurfaceColor">#25282E</Color>
+    <Color x:Key="DarkSurfaceVariantColor">#2F3239</Color>
+
+    <Color x:Key="DarkTextPrimaryColor">#E9ECEF</Color>
+    <Color x:Key="DarkTextSecondaryColor">#ADB5BD</Color>
+    <Color x:Key="DarkTextTertiaryColor">#6C757D</Color>
+
+    <Color x:Key="DarkBorderColor">#3F4349</Color>
+    <Color x:Key="DarkDividerColor">#343841</Color>
+
+    <Color x:Key="DarkErrorColor">#F25C69</Color>
+    <Color x:Key="DarkSuccessColor">#51CF66</Color>
+    <Color x:Key="DarkWarningColor">#FFD43B</Color>
+    <Color x:Key="DarkInfoColor">#3BC9DB</Color>
+
+    <!-- Solid Color Brushes for Light Theme -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{DynamicResource LightPrimaryColor}" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{DynamicResource LightPrimaryHoverColor}" />
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{DynamicResource LightPrimaryPressedColor}" />
+
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{DynamicResource LightSecondaryColor}" />
+    <SolidColorBrush x:Key="SecondaryHoverBrush" Color="{DynamicResource LightSecondaryHoverColor}" />
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource LightBackgroundColor}" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{DynamicResource LightSurfaceColor}" />
+    <SolidColorBrush x:Key="SurfaceVariantBrush" Color="{DynamicResource LightSurfaceVariantColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource LightTextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource LightTextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{DynamicResource LightTextTertiaryColor}" />
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource LightBorderColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{DynamicResource LightDividerColor}" />
+
+    <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource LightErrorColor}" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="{DynamicResource LightSuccessColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{DynamicResource LightWarningColor}" />
+    <SolidColorBrush x:Key="InfoBrush" Color="{DynamicResource LightInfoColor}" />
+</ResourceDictionary>

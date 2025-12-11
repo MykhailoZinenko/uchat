@@ -7,6 +7,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>uchat</AssemblyName>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,13 +16,48 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AvaloniaResource Include="Assets\**" />
+      <AvaloniaResource Include="Presentation\Resources\**\*.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.3.9" />
       <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
       <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9">
+        <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+        <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
       <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.11" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+      <!-- Logging -->
+      <PackageReference Include="Serilog" Version="3.1.1" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+      <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+      <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+      <!-- Validation -->
+      <PackageReference Include="FluentValidation" Version="11.9.0" />
+      <!-- Configuration -->
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

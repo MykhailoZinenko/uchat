@@ -7,7 +7,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<UchatDbCon
 {
     public UchatDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<UchatDbContext>();
+        DbContextOptionsBuilder<UchatDbContext> optionsBuilder = new DbContextOptionsBuilder<UchatDbContext>();
         optionsBuilder.UseSqlite("Data Source=uchat.db");
 
         return new UchatDbContext(optionsBuilder.Options);

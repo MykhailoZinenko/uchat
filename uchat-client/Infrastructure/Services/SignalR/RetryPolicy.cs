@@ -1,6 +1,8 @@
+using System;
 using Microsoft.AspNetCore.SignalR.Client;
+using uchat_client.Core.Application.Common.Interfaces;
 
-namespace uchat_client;
+namespace uchat_client.Infrastructure.Services.SignalR;
 
 public class RetryPolicy : IRetryPolicy
 {
@@ -13,6 +15,13 @@ public class RetryPolicy : IRetryPolicy
         TimeSpan.FromSeconds(15),
         TimeSpan.FromSeconds(30)
     };
+
+    private readonly ILoggingService _logger;
+
+    public RetryPolicy(ILoggingService logger)
+    {
+        _logger = logger;
+    }
 
     public TimeSpan? NextRetryDelay(RetryContext retryContext)
     {
@@ -27,7 +36,8 @@ public class RetryPolicy : IRetryPolicy
             delay = _retryDelays[retryContext.PreviousRetryCount];
         }
 
-        Console.WriteLine($"[DEBUG] SignalR retry #{retryContext.PreviousRetryCount + 1} - waiting {delay.TotalSeconds}s before reconnect");
+        _logger.LogInformation("SignalR retry #{RetryCount} - waiting {Delay}s before reconnect",
+            retryContext.PreviousRetryCount + 1, delay.TotalSeconds);
 
         return delay;
     }
