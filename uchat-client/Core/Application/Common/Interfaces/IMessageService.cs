@@ -17,4 +17,7 @@ public interface IMessageService
     event EventHandler<(int messageId, string newContent)>? MessageEdited;
     event EventHandler<int>? MessageDeleted;
     event EventHandler<MessageAckDto>? MessageAcknowledged;
+    event EventHandler<RoomDto>? RoomUpdated;
+    event EventHandler<int>? RoomJoined;
+    event EventHandler<int>? RoomLeft;
 }

@@ -89,7 +89,7 @@ public class RegistrationViewModel : NavigableViewModelBase
         var room = _sidebarViewModel.GetDefaultRoom();
         if (room != null)
         {
-            NavigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal);
+            NavigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal, room.CreatedByUserId);
         }
         else
         {

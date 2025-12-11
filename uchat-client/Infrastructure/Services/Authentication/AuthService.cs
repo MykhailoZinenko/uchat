@@ -16,10 +16,12 @@ public class AuthService : IAuthService
     private readonly ISessionStorageService _sessionStorage;
     private readonly ILoggingService _logger;
     private string? _sessionToken;
+    private int? _userId;
     private string? _username;
 
     public string? SessionToken => _sessionToken;
     public string? CurrentUsername => _username;
+    public int? CurrentUserId => _userId;
     public bool IsAuthenticated => !string.IsNullOrEmpty(_sessionToken);
 
     public AuthService(
@@ -49,7 +51,7 @@ public class AuthService : IAuthService
         if (response.Success && response.Data != null)
         {
             _logger.LogInformation("Registration successful for user: {Username}", username);
-            SaveSession(response.Data.SessionToken, response.Data.Username);
+            SaveSession(response.Data.SessionToken, response.Data.UserId, response.Data.Username);
             await RegisterSessionAsync(response.Data.SessionToken);
         }
         else
@@ -75,7 +77,7 @@ public class AuthService : IAuthService
         if (response.Success && response.Data != null)
         {
             _logger.LogInformation("Login successful for user: {Username}", username);
-            SaveSession(response.Data.SessionToken, response.Data.Username);
+            SaveSession(response.Data.SessionToken, response.Data.UserId, response.Data.Username);
             await RegisterSessionAsync(response.Data.SessionToken);
         }
         else
@@ -100,7 +102,7 @@ public class AuthService : IAuthService
         if (response.Success && response.Data != null)
         {
             _logger.LogInformation("Refresh token login successful");
-            SaveSession(response.Data.SessionToken, response.Data.Username);
+            SaveSession(response.Data.SessionToken, response.Data.UserId, response.Data.Username);
             await RegisterSessionAsync(response.Data.SessionToken);
         }
         else
@@ -249,14 +251,15 @@ public class AuthService : IAuthService
         return response;
     }
 
-    public void SaveSession(string sessionToken, string username)
+    public void SaveSession(string sessionToken, int userId, string username)
     {
         _sessionToken = sessionToken;
+        _userId = userId;
         _username = username;
 
         try
         {
-            _sessionStorage.SaveSession(sessionToken, username);
+            _sessionStorage.SaveSession(sessionToken, userId, username);
             _logger.LogDebug("Session saved for user: {Username}", username);
         }
         catch (Exception ex)
@@ -269,8 +272,9 @@ public class AuthService : IAuthService
     {
         try
         {
-            var (token, username) = _sessionStorage.LoadSession();
+            var (token, userId, username) = _sessionStorage.LoadSession();
             _sessionToken = token;
+            _userId = userId;
             _username = username;
 
             if (token != null)
@@ -293,13 +297,30 @@ public class AuthService : IAuthService
 
         try
         {
-            var (_, username) = _sessionStorage.LoadSession();
+            var (_, _, username) = _sessionStorage.LoadSession();
             _username = username;
             return _username;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to load username");
+            return null;
+        }
+    }
+
+    public int? LoadUserId()
+    {
+        if (_userId.HasValue) return _userId;
+
+        try
+        {
+            var (_, userId, _) = _sessionStorage.LoadSession();
+            _userId = userId;
+            return _userId;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to load userId");
             return null;
         }
     }

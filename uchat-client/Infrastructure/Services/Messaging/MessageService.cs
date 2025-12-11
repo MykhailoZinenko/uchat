@@ -16,6 +16,9 @@ public class MessageService : IMessageService
     public event EventHandler<(int messageId, string newContent)>? MessageEdited;
     public event EventHandler<int>? MessageDeleted;
     public event EventHandler<MessageAckDto>? MessageAcknowledged;
+    public event EventHandler<RoomDto>? RoomUpdated;
+    public event EventHandler<int>? RoomJoined;
+    public event EventHandler<int>? RoomLeft;
 
     private readonly IAuthService _authService;
 
@@ -50,6 +53,24 @@ public class MessageService : IMessageService
         {
             _logger.LogDebug("MessageAck received: ClientId={ClientId} ServerId={ServerId}", ack.ClientMessageId, ack.ServerMessageId);
             MessageAcknowledged?.Invoke(this, ack);
+        });
+
+        _hubConnection.Connection.On<RoomDto>("RoomUpdated", room =>
+        {
+            _logger.LogDebug("RoomUpdated event: RoomId={RoomId}", room.Id);
+            RoomUpdated?.Invoke(this, room);
+        });
+
+        _hubConnection.Connection.On<int>("RoomJoined", roomId =>
+        {
+            _logger.LogDebug("RoomJoined event: RoomId={RoomId}", roomId);
+            RoomJoined?.Invoke(this, roomId);
+        });
+
+        _hubConnection.Connection.On<int>("RoomLeft", roomId =>
+        {
+            _logger.LogDebug("RoomLeft event: RoomId={RoomId}", roomId);
+            RoomLeft?.Invoke(this, roomId);
         });
     }
 

@@ -8,6 +8,7 @@ using uchat_common.Enums;
 using uchat_server.Exceptions;
 using System.Threading.Tasks;
 using uchat_server.Repositories;
+using uchat_server.Data.Entities;
 
 namespace uchat_server.Hubs;
 
@@ -60,6 +61,62 @@ public class ChatHub : Hub
         _searchService = searchService;
         _messageRepository = messageRepository;
         _logger = logger;
+    }
+
+    private async Task BroadcastSystemMessageToRoom(int roomId, Data.Entities.Message sysMessage)
+    {
+        var senderUsername = sysMessage.SenderUserId.HasValue
+            ? (await _userService.GetUserByIdAsync(sysMessage.SenderUserId.Value))?.Username
+            : "system";
+
+        var dto = new MessageDto
+        {
+            Id = sysMessage.Id,
+            RoomId = sysMessage.RoomId,
+            SenderUserId = sysMessage.SenderUserId,
+            SenderUsername = senderUsername,
+            MessageType = sysMessage.MessageType,
+            ServiceAction = sysMessage.ServiceAction,
+            Content = sysMessage.Content,
+            SentAt = sysMessage.SentAt,
+            IsEdited = false,
+            IsDeleted = false
+        };
+
+        var members = await _roomMemberService.GetMemberUserIdsAsync(roomId);
+        var targets = new HashSet<int>(members);
+        foreach (var userId in targets)
+        {
+            await Clients.Group(GetUserGroupName(userId)).SendAsync("MessageReceived", dto);
+        }
+    }
+
+    // ==================== SEARCH ====================
+    public async Task<ApiResponse<List<UserDto>>> SearchUsers(string sessionToken, string query)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var users = await _searchService.SearchUsersAsync(query, 20);
+
+            var result = users.Select(u => new UserDto
+            {
+                Id = u.Id,
+                Username = u.Username,
+                IsOnline = u.IsOnline,
+                LastSeenAt = u.LastSeenAt
+            }).ToList();
+
+            return new ApiResponse<List<UserDto>>
+            {
+                Success = true,
+                Data = result
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserDto>>(ex);
+        }
     }
 
     // ==================== AUTH ENDPOINTS ====================
@@ -399,21 +456,36 @@ public class ChatHub : Hub
             var room = await _roomService.UpdateRoomAsync(roomId, session.UserId, name, description, avatarUrl);
             _logger.LogInformation("Room updated: RoomId={RoomId} ByUserId={UserId}", room.Id, session.UserId);
 
+            var dto = new RoomDto
+            {
+                Id = room.Id,
+                RoomType = room.RoomType,
+                RoomName = room.RoomName,
+                RoomDescription = room.RoomDescription,
+                AvatarUrl = room.AvatarUrl,
+                IsGlobal = room.IsGlobal,
+                CreatedByUserId = room.CreatedByUserId,
+                CreatedAt = room.CreatedAt
+            };
+
+            // Broadcast rename to room members
+            if (!string.IsNullOrWhiteSpace(room.RoomName))
+            {
+                var sys = await _messageService.SendSystemMessageAsync(roomId, ServiceAction.RoomRenamed, room.RoomName, session.UserId);
+                await BroadcastSystemMessageToRoom(roomId, sys);
+            }
+
+            var members = await _roomMemberService.GetMemberUserIdsAsync(roomId);
+            foreach (var userId in members)
+            {
+                await Clients.Group(GetUserGroupName(userId)).SendAsync("RoomUpdated", dto);
+            }
+
             return new ApiResponse<RoomDto>
             {
                 Success = true,
                 Message = "Room updated successfully",
-                Data = new RoomDto
-                {
-                    Id = room.Id,
-                    RoomType = room.RoomType,
-                    RoomName = room.RoomName,
-                    RoomDescription = room.RoomDescription,
-                    AvatarUrl = room.AvatarUrl,
-                    IsGlobal = room.IsGlobal,
-                    CreatedByUserId = room.CreatedByUserId,
-                    CreatedAt = room.CreatedAt
-                }
+                Data = dto
             };
         }
         catch (Exception ex)
@@ -448,8 +520,30 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            // Track which users are newly active
+            var newlyAdded = new List<int>();
+            foreach (var userId in userIds.Distinct())
+            {
+                var member = await _roomMemberService.GetMemberAsync(roomId, userId);
+                var isActive = member != null && member.LeftAt == null;
+                if (!isActive)
+                {
+                    newlyAdded.Add(userId);
+                }
+            }
+
             await _roomMemberService.AddMembersAsync(roomId, session.UserId, userIds);
             _logger.LogInformation("Members added: RoomId={RoomId} ByUserId={UserId} Count={Count}", roomId, session.UserId, userIds.Count);
+
+            foreach (var userId in newlyAdded)
+            {
+                await Clients.Group(GetUserGroupName(userId)).SendAsync("RoomJoined", roomId);
+
+                var addedUser = await _userService.GetUserByIdAsync(userId);
+                var content = addedUser != null ? $"{addedUser.Username} joined the room" : "User joined the room";
+                var sys = await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined, content, userId);
+                await BroadcastSystemMessageToRoom(roomId, sys);
+            }
 
             return new ApiResponse<bool>
             {
@@ -715,11 +809,12 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+
             await _roomMemberService.JoinRoomAsync(roomId, session.UserId);
             _logger.LogInformation("User joined room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, GetRoomGroupName(roomId));
-            await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("RoomJoined", roomId);
+            // No RoomJoined event here to avoid duplicates on mere navigation; actual additions handled in AddRoomMembers
 
             return new ApiResponse<bool>
             {
@@ -743,7 +838,11 @@ public class ChatHub : Hub
             _logger.LogInformation("User left room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, GetRoomGroupName(roomId));
-            await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("RoomLeft", roomId);
+            // Notify other devices of this user
+            await Clients.GroupExcept(GetUserGroupName(session.UserId), Context.ConnectionId).SendAsync("RoomLeft", roomId);
+
+            var sys = await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserLeft, "User left the room", session.UserId);
+            await BroadcastSystemMessageToRoom(roomId, sys);
 
             return new ApiResponse<bool>
             {

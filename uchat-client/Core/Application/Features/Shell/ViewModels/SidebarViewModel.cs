@@ -119,6 +119,10 @@ public class SidebarViewModel : ViewModelBase
         _addContactViewModel = addContactViewModel;
         _addContactViewModel.SetCloseAction(() => IsAddContactOpen = false);
 
+        _messageService.RoomUpdated += OnRoomUpdated;
+        _messageService.RoomJoined += OnRoomJoined;
+        _messageService.RoomLeft += OnRoomLeft;
+
         Rooms = new ReadOnlyObservableCollection<RoomItemViewModel>(_rooms);
         FilteredRooms = new ReadOnlyObservableCollection<RoomItemViewModel>(_filteredRooms);
 
@@ -167,7 +171,7 @@ public class SidebarViewModel : ViewModelBase
         var room = SelectedRoom ?? GetDefaultRoom();
         if (room != null)
         {
-            _navigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal);
+            _navigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal, room.CreatedByUserId);
         }
     }
 
@@ -247,6 +251,7 @@ public class SidebarViewModel : ViewModelBase
             Name = string.IsNullOrWhiteSpace(room.RoomName) ? "Room" : room.RoomName,
             Description = room.RoomDescription ?? string.Empty,
             IsGlobal = room.IsGlobal,
+            CreatedByUserId = room.CreatedByUserId,
             LastActivityAt = room.CreatedAt
         };
     }
@@ -262,7 +267,51 @@ public class SidebarViewModel : ViewModelBase
     private void NavigateToRoom(RoomItemViewModel room)
     {
         // Defer navigation to allow ListBox selection to settle before view swap
-        Dispatcher.UIThread.Post(() => _navigationService.NavigateToChat(room.Id, room.Name, room.IsGlobal));
+        Dispatcher.UIThread.Post(() =>
+        {
+            IsOnSettingsPage = false;
+            _navigationService.NavigateToChat(room.Id, room.Name, room.IsGlobal, room.CreatedByUserId);
+        });
+    }
+
+    public void HandleRoomUpdated(RoomDto room)
+    {
+        var existing = _rooms.FirstOrDefault(r => r.Id == room.Id);
+        if (existing != null)
+        {
+            existing.Name = room.RoomName ?? existing.Name;
+            existing.Description = room.RoomDescription ?? existing.Description;
+            existing.CreatedByUserId = room.CreatedByUserId;
+            ApplyFilter();
+        }
+    }
+
+    private async void OnRoomJoined(object? sender, int roomId)
+    {
+        await EnsureRoomsLoadedAsync(forceReload: true);
+    }
+
+    private async void OnRoomLeft(object? sender, int roomId)
+    {
+        await EnsureRoomsLoadedAsync(forceReload: true);
+
+        if (SelectedRoom?.Id == roomId)
+        {
+            var fallback = GetDefaultRoom();
+            if (fallback != null)
+            {
+                NavigateToRoom(fallback);
+            }
+            else
+            {
+                _navigationService.NavigateToSettings();
+            }
+        }
+    }
+
+    private void OnRoomUpdated(object? sender, RoomDto room)
+    {
+        HandleRoomUpdated(room);
     }
 
     private void OpenAddContact()
@@ -280,6 +329,7 @@ public class RoomItemViewModel : ObservableObject
     private bool _isSelected;
     private int _unreadCount;
     private DateTime _lastActivityAt = DateTime.MinValue;
+    private int? _createdByUserId;
 
     public int Id
     {
@@ -323,5 +373,11 @@ public class RoomItemViewModel : ObservableObject
     {
         get => _lastActivityAt;
         set => SetProperty(ref _lastActivityAt, value);
+    }
+
+    public int? CreatedByUserId
+    {
+        get => _createdByUserId;
+        set => SetProperty(ref _createdByUserId, value);
     }
 }

@@ -21,6 +21,7 @@ public class SessionStorageService : ISessionStorageService
     private class SessionPayload
     {
         public string SessionToken { get; set; } = string.Empty;
+        public int UserId { get; set; }
         public string Username { get; set; } = string.Empty;
     }
 
@@ -38,7 +39,7 @@ public class SessionStorageService : ISessionStorageService
         _protector = dataProtectionProvider.CreateProtector("UchatSessionToken");
     }
 
-    public void SaveSession(string sessionToken, string username)
+    public void SaveSession(string sessionToken, int userId, string username)
     {
         if (_protector == null || _sessionFile == null)
             throw new InvalidOperationException("SessionStorageService not initialized");
@@ -50,7 +51,7 @@ public class SessionStorageService : ISessionStorageService
                 Directory.CreateDirectory(_sessionDir);
             }
 
-            var payload = new SessionPayload { SessionToken = sessionToken, Username = username };
+            var payload = new SessionPayload { SessionToken = sessionToken, UserId = userId, Username = username };
             var json = JsonSerializer.Serialize(payload);
             var protectedToken = _protector.Protect(json);
             File.WriteAllText(_sessionFile, protectedToken);
@@ -62,24 +63,24 @@ public class SessionStorageService : ISessionStorageService
         }
     }
 
-    public (string? token, string? username) LoadSession()
+    public (string? token, int? userId, string? username) LoadSession()
     {
         if (_protector == null || _sessionFile == null)
-            return (null, null);
+            return (null, null, null);
 
         try
         {
             if (!File.Exists(_sessionFile))
-                return (null, null);
+                return (null, null, null);
 
             var protectedToken = File.ReadAllText(_sessionFile);
             var json = _protector.Unprotect(protectedToken);
             var payload = JsonSerializer.Deserialize<SessionPayload>(json);
-            return (payload?.SessionToken, payload?.Username);
+            return (payload?.SessionToken, payload?.UserId, payload?.Username);
         }
         catch (Exception)
         {
-            return (null, null);
+            return (null, null, null);
         }
     }
 

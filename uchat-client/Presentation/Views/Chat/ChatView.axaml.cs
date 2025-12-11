@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
-using System.IO;
 using System.Collections.Specialized;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using uchat_client.Core.Application.Features.Chat.ViewModels;
+using Avalonia.Controls.Primitives;
 
 namespace uchat_client.Presentation.Views.Chat;
 
@@ -28,6 +29,11 @@ public partial class ChatView : UserControl
         InitializeComponent();
         DataContextChanged += ChatView_DataContextChanged;
         Loaded += ChatView_Loaded;
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 
     private void ChatView_Loaded(object? sender, RoutedEventArgs e)
@@ -58,14 +64,16 @@ public partial class ChatView : UserControl
     {
         if (MessagesScrollViewer == null) return;
         if (sender is not IList list) return;
+        if (e.NewItems == null && e.Action == NotifyCollectionChangedAction.Add) return;
 
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
                 // Only auto-scroll when items are appended at the end (new messages),
                 // not when older history is inserted at the top.
-                var appendedIndex = list.Count - e.NewItems!.Count;
-                if (e.NewStartingIndex >= appendedIndex)
+                var newCount = e.NewItems?.Count ?? 0;
+                var appendedIndex = list.Count - newCount;
+                if (newCount > 0 && e.NewStartingIndex >= appendedIndex)
                 {
                     ScrollToBottom();
                 }
@@ -159,6 +167,8 @@ public partial class ChatView : UserControl
             var container = MessagesItemsControl.ContainerFromIndex(i) as Control;
             if (container == null) continue;
 
+            if (MessagesScrollViewer == null) continue;
+
             var pt = container.TranslatePoint(new Point(0, 0), MessagesScrollViewer);
             if (pt.HasValue && pt.Value.Y + container.Bounds.Height > 0)
             {
@@ -186,6 +196,7 @@ public partial class ChatView : UserControl
             var container = MessagesItemsControl.ContainerFromIndex(i) as Control;
             if (container?.DataContext is ChatMessageViewModel vm && vm.MessageId == messageId)
             {
+                if (MessagesScrollViewer == null) continue;
                 return container;
             }
         }
@@ -250,5 +261,32 @@ public partial class ChatView : UserControl
 
             Console.WriteLine($"File selected: {file.Name} ({fileInfo.Length} bytes)");
         }
+    }
+
+    private void HeaderMenuButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not ChatViewModel vm || sender is not Control target)
+            return;
+
+        var menu = new ContextMenu();
+
+        if (vm.CanRename)
+        {
+            menu.Items.Add(new MenuItem
+            {
+                Header = "Rename",
+                Command = vm.StartRenameCommand
+            });
+        }
+
+        menu.Items.Add(new MenuItem
+        {
+            Header = "Leave",
+            Command = vm.LeaveRoomCommand
+        });
+
+        menu.PlacementTarget = target;
+        menu.Placement = PlacementMode.Bottom;
+        menu.Open(target);
     }
 }

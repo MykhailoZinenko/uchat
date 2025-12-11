@@ -10,6 +10,7 @@ using uchat_client.Core.Application.Common.Models;
 using uchat_client.Core.Application.Common.ViewModels;
 using uchat_client.Core.Application.Features.Shell.ViewModels;
 using uchat_common.Dtos;
+using uchat_common.Enums;
 
 namespace uchat_client.Core.Application.Features.Chat.ViewModels;
 
@@ -19,11 +20,15 @@ public class ChatViewModel : NavigableViewModelBase
     private readonly SidebarViewModel _sidebarViewModel;
     private readonly IMessageService _messageService;
     private readonly IAuthService _authService;
+    private readonly IRoomService _roomService;
     private int _roomId;
     private string _roomName = string.Empty;
+    private int? _roomCreatorUserId;
     private bool _isGlobal;
     private string _outgoingMessage = string.Empty;
     private ObservableCollection<ChatMessageViewModel> _messages = new();
+    private bool _isRenaming;
+    private string _editableRoomName = string.Empty;
     private bool _isLoadingMore;
     private bool _hasMoreMessages = true;
 
@@ -38,6 +43,32 @@ public class ChatViewModel : NavigableViewModelBase
         get => _roomName;
         set => SetProperty(ref _roomName, value);
     }
+
+    public bool IsRenaming
+    {
+        get => _isRenaming;
+        set
+        {
+            if (SetProperty(ref _isRenaming, value))
+            {
+                RefreshRenameCommands();
+            }
+        }
+    }
+
+    public string EditableRoomName
+    {
+        get => _editableRoomName;
+        set
+        {
+            if (SetProperty(ref _editableRoomName, value))
+            {
+                RefreshRenameCommands();
+            }
+        }
+    }
+
+    public bool CanRename => !_isGlobal && _roomCreatorUserId.HasValue && _authService.CurrentUserId == _roomCreatorUserId;
 
     public string Header => string.IsNullOrEmpty(RoomName)
         ? "Chat"
@@ -62,24 +93,34 @@ public class ChatViewModel : NavigableViewModelBase
     public ICommand SaveEditCommand { get; }
     public ICommand CancelEditCommand { get; }
     public ICommand DeleteMessageCommand { get; }
+    public ICommand StartRenameCommand { get; }
+    public ICommand SaveRenameCommand { get; }
+    public ICommand CancelRenameCommand { get; }
+    public ICommand LeaveRoomCommand { get; }
 
     public ChatViewModel(
         INavigationService navigationService,
         SidebarViewModel sidebarViewModel,
         IMessageService messageService,
         IAuthService authService,
+        IRoomService roomService,
         ILoggingService logger)
         : base(navigationService, logger)
     {
         _sidebarViewModel = sidebarViewModel;
         _messageService = messageService;
         _authService = authService;
+        _roomService = roomService;
 
         SendCommand = new RelayCommand(SendMessage);
         EditMessageCommand = new RelayCommand<ChatMessageViewModel>(StartEditMessage);
         SaveEditCommand = new RelayCommand<ChatMessageViewModel>(SaveEditMessage);
         CancelEditCommand = new RelayCommand<ChatMessageViewModel>(CancelEditMessage);
         DeleteMessageCommand = new RelayCommand<ChatMessageViewModel>(DeleteMessage);
+        StartRenameCommand = new RelayCommand(StartRename, () => CanRename);
+        SaveRenameCommand = new AsyncRelayCommand(SaveRenameAsync, () => CanRename && IsRenaming && !string.IsNullOrWhiteSpace(EditableRoomName));
+        CancelRenameCommand = new RelayCommand(CancelRename);
+        LeaveRoomCommand = new AsyncRelayCommand(LeaveRoomAsync);
     }
 
     public override async Task OnNavigatedToAsync(object? parameter = null)
@@ -104,7 +145,10 @@ public class ChatViewModel : NavigableViewModelBase
 
             _roomId = room.RoomId;
             RoomName = room.RoomName;
+            _roomCreatorUserId = room.CreatedByUserId;
             _isGlobal = room.IsGlobal;
+            OnPropertyChanged(nameof(CanRename));
+            RefreshRenameCommands();
             _sidebarViewModel.IsOnSettingsPage = false;
             await _sidebarViewModel.EnsureRoomsLoadedAsync(forceReload: true);
             _sidebarViewModel.SetActiveRoom(_roomId);
@@ -226,13 +270,17 @@ public class ChatViewModel : NavigableViewModelBase
         var isOutgoing = !string.IsNullOrWhiteSpace(dto.SenderUsername) &&
                          string.Equals(dto.SenderUsername, _authService.CurrentUsername, StringComparison.OrdinalIgnoreCase);
 
+        var isService = dto.MessageType == MessageType.Service;
+
         return new ChatMessageViewModel
         {
             MessageId = dto.Id,
             Sender = dto.SenderUsername,
             Text = dto.Content,
             Time = dto.SentAt.ToLocalTime().ToShortTimeString(),
-            IsOutgoing = isOutgoing
+            IsOutgoing = isOutgoing,
+            IsService = isService,
+            ServiceAction = dto.ServiceAction
         };
     }
 
@@ -266,6 +314,13 @@ public class ChatViewModel : NavigableViewModelBase
 
         var vm = MapMessage(message);
         Messages.Add(vm);
+
+        // Update room title if a rename system message arrives for current room
+        if (message.MessageType == MessageType.Service && message.ServiceAction == ServiceAction.RoomRenamed)
+        {
+            RoomName = message.Content;
+            EditableRoomName = RoomName;
+        }
     }
 
     private void OnMessageEdited(object? sender, (int messageId, string newContent) edit)
@@ -290,7 +345,7 @@ public class ChatViewModel : NavigableViewModelBase
 
     public void ToggleContextMenu(ChatMessageViewModel? message)
     {
-        if (message == null || !message.IsOutgoing) return;
+        if (message == null || !message.IsOutgoing || message.IsService) return;
 
         foreach (var msg in Messages)
         {
@@ -346,7 +401,7 @@ public class ChatViewModel : NavigableViewModelBase
 
     private async void DeleteMessage(ChatMessageViewModel? message)
     {
-        if (message == null) return;
+        if (message == null || message.IsService) return;
 
         Logger.LogDebug("Delete message requested: {Text}", message.Text);
 
@@ -367,6 +422,67 @@ public class ChatViewModel : NavigableViewModelBase
             Logger.LogError(ex, "Error deleting message");
         }
     }
+
+    private void StartRename()
+    {
+        if (!CanRename) return;
+        IsRenaming = true;
+        EditableRoomName = RoomName;
+        RefreshRenameCommands();
+    }
+
+    private async Task SaveRenameAsync()
+    {
+        if (!CanRename || string.IsNullOrWhiteSpace(EditableRoomName))
+            return;
+
+        var response = await _roomService.UpdateRoomAsync(_roomId, EditableRoomName, null, null);
+        if (response.Success && response.Data != null)
+        {
+            RoomName = response.Data.RoomName ?? EditableRoomName;
+            IsRenaming = false;
+        }
+        else
+        {
+            Logger.LogWarning("Failed to rename room: {Message}", response.Message);
+        }
+
+        RefreshRenameCommands();
+    }
+
+    private void CancelRename()
+    {
+        IsRenaming = false;
+        EditableRoomName = RoomName;
+        RefreshRenameCommands();
+    }
+
+    private async Task LeaveRoomAsync()
+    {
+        var response = await _roomService.LeaveRoomAsync(_roomId);
+        if (!response.Success)
+        {
+            Logger.LogWarning("Failed to leave room: {Message}", response.Message);
+            return;
+        }
+
+        await _sidebarViewModel.EnsureRoomsLoadedAsync(forceReload: true);
+        var fallback = _sidebarViewModel.GetDefaultRoom();
+        if (fallback != null)
+        {
+            NavigationService.NavigateToChat(fallback.Id, fallback.DisplayName, fallback.IsGlobal, fallback.CreatedByUserId);
+        }
+        else
+        {
+            NavigationService.NavigateToSettings();
+        }
+    }
+
+    private void RefreshRenameCommands()
+    {
+        (StartRenameCommand as RelayCommand)?.NotifyCanExecuteChanged();
+        (SaveRenameCommand as AsyncRelayCommand)?.NotifyCanExecuteChanged();
+    }
 }
 
 public class ChatMessageViewModel : ObservableObject
@@ -380,6 +496,8 @@ public class ChatMessageViewModel : ObservableObject
     private bool _isEdited;
     private bool _showContextMenu;
     private int _messageId;
+    private bool _isService;
+    private ServiceAction? _serviceAction;
 
     public int MessageId
     {
@@ -434,4 +552,24 @@ public class ChatMessageViewModel : ObservableObject
         get => _showContextMenu;
         set => SetProperty(ref _showContextMenu, value);
     }
+
+    public bool IsService
+    {
+        get => _isService;
+        set
+        {
+            if (SetProperty(ref _isService, value))
+            {
+                OnPropertyChanged(nameof(ShowBubble));
+            }
+        }
+    }
+
+    public ServiceAction? ServiceAction
+    {
+        get => _serviceAction;
+        set => SetProperty(ref _serviceAction, value);
+    }
+
+    public bool ShowBubble => !IsService;
 }

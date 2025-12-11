@@ -66,7 +66,7 @@ public class MainViewModel : ViewModelBase
                     var room = _sidebarViewModel.GetDefaultRoom();
                     if (room != null)
                     {
-                        _navigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal);
+                        _navigationService.NavigateToChat(room.Id, room.DisplayName, room.IsGlobal, room.CreatedByUserId);
                         return;
                     }
                     Logger.LogWarning("No rooms available after auto-login; navigating to settings");

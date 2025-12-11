@@ -10,6 +10,7 @@ public interface IAuthService
     event EventHandler? SessionRevoked;
     string? SessionToken { get; }
     string? CurrentUsername { get; }
+    int? CurrentUserId { get; }
     bool IsAuthenticated { get; }
 
     Task<ApiResponse<AuthDto>> RegisterAsync(string username, string password);
@@ -21,8 +22,9 @@ public interface IAuthService
     Task<ApiResponse<bool>> RevokeSessionsAsync(IEnumerable<int> sessionIds);
     Task<ApiResponse<bool>> RevokeAllSessionsAsync();
 
-    void SaveSession(string sessionToken, string username);
+    void SaveSession(string sessionToken, int userId, string username);
     string? LoadSessionToken();
     string? LoadUsername();
+    int? LoadUserId();
     void ClearSessionToken();
 }

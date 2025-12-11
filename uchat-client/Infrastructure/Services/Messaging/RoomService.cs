@@ -118,4 +118,26 @@ public class RoomService : IRoomService
             roomId,
             userIds);
     }
+
+    public async Task<ApiResponse<RoomDto>> UpdateRoomAsync(int roomId, string? name, string? description, string? avatarUrl)
+    {
+        if (!_authService.IsAuthenticated || string.IsNullOrEmpty(_authService.SessionToken))
+        {
+            _logger.LogWarning("UpdateRoomAsync called without an authenticated session");
+            return new ApiResponse<RoomDto>
+            {
+                Success = false,
+                Message = "Not authenticated"
+            };
+        }
+
+        _logger.LogDebug("Updating room: RoomId={RoomId}", roomId);
+        return await _hubConnection.InvokeAsync<ApiResponse<RoomDto>>(
+            "UpdateRoom",
+            _authService.SessionToken!,
+            roomId,
+            name,
+            description,
+            avatarUrl);
+    }
 }

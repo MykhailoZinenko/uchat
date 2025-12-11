@@ -35,9 +35,9 @@ public class NavigationService : INavigationService
         NavigateTo("uchat_client.Core.Application.Features.Authentication.ViewModels.RegistrationViewModel");
     }
 
-    public void NavigateToChat(int roomId, string roomName, bool isGlobal)
+    public void NavigateToChat(int roomId, string roomName, bool isGlobal, int? createdByUserId)
     {
-        var roomContext = new RoomNavigationContext(roomId, roomName, isGlobal);
+        var roomContext = new RoomNavigationContext(roomId, roomName, isGlobal, createdByUserId);
         NavigateTo("uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel", roomContext);
     }
 

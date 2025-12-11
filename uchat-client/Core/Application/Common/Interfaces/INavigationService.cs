@@ -6,7 +6,7 @@ public interface INavigationService
 {
     void NavigateToLogin();
     void NavigateToRegistration();
-    void NavigateToChat(int roomId, string roomName, bool isGlobal);
+    void NavigateToChat(int roomId, string roomName, bool isGlobal, int? createdByUserId);
     void NavigateToSettings();
     void NavigateToMyAccount();
     void NavigateToSessions();

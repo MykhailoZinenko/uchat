@@ -11,4 +11,5 @@ public interface IRoomService
     Task<ApiResponse<bool>> JoinRoomAsync(int roomId);
     Task<ApiResponse<bool>> LeaveRoomAsync(int roomId);
     Task<ApiResponse<bool>> AddRoomMembersAsync(int roomId, List<int> userIds);
+    Task<ApiResponse<RoomDto>> UpdateRoomAsync(int roomId, string? name, string? description, string? avatarUrl);
 }

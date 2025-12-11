@@ -217,7 +217,7 @@ public class AddContactViewModel : NavigableViewModelBase
 
             // Navigate to the newly created group
             Close();
-            NavigationService.NavigateToChat(roomId, GroupName, false);
+            NavigationService.NavigateToChat(roomId, GroupName, false, createResponse.Data.CreatedByUserId);
         });
     }
 
@@ -241,7 +241,7 @@ public class AddContactViewModel : NavigableViewModelBase
             return;
         }
 
-        NavigationService.NavigateToChat(room.Id, room.RoomName ?? "Room", room.IsGlobal);
+        NavigationService.NavigateToChat(room.Id, room.RoomName ?? "Room", room.IsGlobal, room.CreatedByUserId);
     }
 
     private void ToggleSelectContact(ContactItemViewModel? contact)
