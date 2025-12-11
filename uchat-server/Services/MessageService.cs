@@ -21,12 +21,14 @@ public class MessageService : IMessageService
         IRoomMemberRepository roomMemberRepository,
         IMessageEditRepository messageEditRepository,
         IMessageDeletionRepository messageDeletionRepository,
+        IBlockedUserRepository blockedUserRepository)
     {
         _messageRepository = messageRepository;
         _roomRepository = roomRepository;
         _roomMemberRepository = roomMemberRepository;
         _messageEditRepository = messageEditRepository;
         _messageDeletionRepository = messageDeletionRepository;
+        _blockedUserRepository = blockedUserRepository;
     }
 
     public async Task<Message> SendMessageAsync(int roomId, int senderUserId, string content, int? replyToMessageId = null)
@@ -48,8 +50,7 @@ public class MessageService : IMessageService
             var members = await _roomMemberRepository.GetMembersByRoomIdAsync(roomId);
             foreach (var otherMember in members.Where(m => m.UserId != senderUserId && m.LeftAt == null))
             {
-                var isBlocked = await _blockedUserRepository.IsBlockedAsync(senderUserId, otherMember.UserId);
-                if (isBlocked)
+                if (await _blockedUserRepository.IsBlockedAsync(senderUserId, otherMember.UserId))
                 {
                     throw new ForbiddenException("Cannot send message - you have blocked or been blocked by a member of this room");
                 }
