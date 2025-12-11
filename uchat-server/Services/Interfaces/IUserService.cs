@@ -8,6 +8,7 @@ public interface IUserService
     Task<User> UpdateUserAsync(User user);
     Task<User?> GetUserByIdAsync(int userId);
     Task<User?> GetUserByUsernameAsync(string username);
+    Task<List<User>> SearchUsersAsync(string query, int limit = 20);
     Task<User> SetUserOfflineAsync(int userId);
     Task<User> SetUserOnlineAsync(int userId);
 }

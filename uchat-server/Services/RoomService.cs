@@ -18,6 +18,23 @@ public class RoomService : IRoomService
 
     public async Task<List<Room>> GetAccessibleRoomsAsync(int userId)
     {
+        // Ensure a global room exists (seed may have failed or DB reset)
+        var globalRoomId = await _roomRepository.GetGlobalRoomIdAsync();
+        if (globalRoomId == null)
+        {
+            var globalRoom = new Room
+            {
+                RoomType = RoomType.Global,
+                RoomName = "Global Chat",
+                RoomDescription = "Welcome to uchat! This is the global chat room where everyone can communicate.",
+                IsGlobal = true,
+                CreatedByUserId = null
+            };
+
+            var created = await _roomRepository.CreateAsync(globalRoom);
+            globalRoomId = created.Id;
+        }
+
         var roomIds = await _roomMemberRepository.GetAccessibleRoomIdsAsync(userId);
         return await _roomRepository.GetByIdsAsync(roomIds);
     }

@@ -41,6 +41,14 @@ namespace uchat_server.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime?>("SenderAcknowledgedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderDeliveryStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("SenderUserId")
                         .HasColumnType("INTEGER");
 
@@ -89,6 +97,42 @@ namespace uchat_server.Migrations
                     b.ToTable("MessageDeletions");
                 });
 
+            modelBuilder.Entity("uchat_server.Data.Entities.MessageDeliveryStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeliveredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("MessageId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("MessageDeliveryStatuses");
+                });
+
             modelBuilder.Entity("uchat_server.Data.Entities.MessageEdit", b =>
                 {
                     b.Property<int>("Id")
@@ -119,6 +163,36 @@ namespace uchat_server.Migrations
                     b.HasIndex("MessageId");
 
                     b.ToTable("MessageEdits");
+                });
+
+            modelBuilder.Entity("uchat_server.Data.Entities.MessageQueue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("DeliveredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("QueuedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RecipientUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("RecipientUserId", "IsDelivered");
+
+                    b.ToTable("MessageQueues");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
@@ -306,6 +380,53 @@ namespace uchat_server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("uchat_server.Data.Entities.UserPts", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CurrentPts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserPts");
+                });
+
+            modelBuilder.Entity("uchat_server.Data.Entities.UserUpdate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Pts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UpdateData")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdateType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Pts");
+
+                    b.ToTable("UserUpdates");
+                });
+
             modelBuilder.Entity("uchat_server.Data.Entities.Message", b =>
                 {
                     b.HasOne("uchat_server.Data.Entities.Message", "ForwardedFromMessage")
@@ -357,6 +478,25 @@ namespace uchat_server.Migrations
                     b.Navigation("Message");
                 });
 
+            modelBuilder.Entity("uchat_server.Data.Entities.MessageDeliveryStatus", b =>
+                {
+                    b.HasOne("uchat_server.Data.Entities.Message", "Message")
+                        .WithMany("DeliveryStatuses")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("uchat_server.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("uchat_server.Data.Entities.MessageEdit", b =>
                 {
                     b.HasOne("uchat_server.Data.Entities.User", "EditedBy")
@@ -374,6 +514,25 @@ namespace uchat_server.Migrations
                     b.Navigation("EditedBy");
 
                     b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("uchat_server.Data.Entities.MessageQueue", b =>
+                {
+                    b.HasOne("uchat_server.Data.Entities.Message", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("uchat_server.Data.Entities.User", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+
+                    b.Navigation("Recipient");
                 });
 
             modelBuilder.Entity("uchat_server.Data.Entities.Room", b =>
@@ -423,9 +582,33 @@ namespace uchat_server.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("uchat_server.Data.Entities.UserPts", b =>
+                {
+                    b.HasOne("uchat_server.Data.Entities.User", "User")
+                        .WithOne()
+                        .HasForeignKey("uchat_server.Data.Entities.UserPts", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("uchat_server.Data.Entities.UserUpdate", b =>
+                {
+                    b.HasOne("uchat_server.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("uchat_server.Data.Entities.Message", b =>
                 {
                     b.Navigation("Deletion");
+
+                    b.Navigation("DeliveryStatuses");
 
                     b.Navigation("Edits");
                 });

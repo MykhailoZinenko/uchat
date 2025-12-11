@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using uchat_server.Data;
 using uchat_server.Data.Entities;
@@ -64,6 +65,42 @@ public class SessionRepository : ISessionRepository
         var sessions = await _context.Sessions
             .Where(s => s.UserId == userId)
             .ToListAsync();
+
+        _context.Sessions.RemoveRange(sessions);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RevokeAllByUserIdExceptAsync(int userId, int sessionIdToKeep)
+    {
+        var sessions = await _context.Sessions
+            .Where(s => s.UserId == userId && s.Id != sessionIdToKeep)
+            .ToListAsync();
+
+        if (sessions.Count == 0)
+        {
+            return;
+        }
+
+        _context.Sessions.RemoveRange(sessions);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RevokeByIdsAsync(IEnumerable<int> sessionIds)
+    {
+        var ids = sessionIds.ToList();
+        if (ids.Count == 0)
+        {
+            return;
+        }
+
+        var sessions = await _context.Sessions
+            .Where(s => ids.Contains(s.Id))
+            .ToListAsync();
+
+        if (sessions.Count == 0)
+        {
+            return;
+        }
 
         _context.Sessions.RemoveRange(sessions);
         await _context.SaveChangesAsync();

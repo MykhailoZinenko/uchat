@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using uchat_server.Data;
 using uchat_server.Data.Entities;
@@ -54,6 +55,17 @@ public class SessionService : ISessionService
     public async Task RevokeAllUserSessionsAsync(int userId)
     {
         await _sessionRepository.RevokeAllByUserIdAsync(userId);
+    }
+
+    public async Task RevokeAllUserSessionsExceptAsync(int userId, int sessionIdToKeep)
+    {
+        await _sessionRepository.RevokeAllByUserIdExceptAsync(userId, sessionIdToKeep);
+    }
+
+    public async Task<bool> RevokeSessionsAsync(IEnumerable<int> sessionIds)
+    {
+        await _sessionRepository.RevokeByIdsAsync(sessionIds);
+        return true;
     }
 
     public async Task CleanupExpiredSessionsAsync()

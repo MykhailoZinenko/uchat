@@ -1,0 +1,227 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Chat.ViewModels;assembly=uchat"
+             xmlns:views="clr-namespace:uchat_client.Presentation.Views.Shell"
+             xmlns:converters="clr-namespace:uchat_client.Presentation.Converters"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Chat.ChatView"
+             x:DataType="viewModels:ChatViewModel"
+             Background="{DynamicResource BackgroundBrush}">
+
+    <UserControl.Resources>
+        <!-- Converters -->
+        <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter"/>
+        <converters:BoolToPopupColumnConverter x:Key="BoolToPopupColumnConverter"/>
+        <converters:BoolToMessageColumnConverter x:Key="BoolToMessageColumnConverter"/>
+        <converters:BoolToPopupMarginConverter x:Key="BoolToPopupMarginConverter"/>
+        <converters:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
+        <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                           DataContext="{Binding SidebarViewModel}" />
+
+        <!-- CHAT AREA -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+
+            <!-- HEADER -->
+            <Border Grid.Row="0"
+                    Classes="card"
+                    Margin="16,16,16,8"
+                    Padding="16,14"
+                    Height="56">
+                <TextBlock Text="{Binding Header}"
+                           Classes="h4"
+                           HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- MESSAGES AREA -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="16"
+                          Margin="0,0,0,0" Background="Red">
+                <ItemsControl ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,56"
+                                        PointerPressed="Message_PointerPressed"
+                                        HorizontalAlignment="{Binding IsOutgoing, Converter={StaticResource BoolToAlignmentConverter}}">
+
+                                <!-- Message Bubble with Edit/Delete Popup -->
+                                <Grid ColumnDefinitions="Auto,Auto">
+
+                                    <!-- Edit/Delete Popup -->
+                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToPopupColumnConverter}}"
+                                            Background="{DynamicResource SurfaceVariantBrush}"
+                                            CornerRadius="{DynamicResource RadiusMD}"
+                                            Padding="8"
+                                            IsVisible="{Binding IsEditing}"
+                                            Margin="{Binding IsOutgoing, Converter={StaticResource BoolToPopupMarginConverter}}"
+                                            VerticalAlignment="Center"
+                                            BoxShadow="{DynamicResource ShadowMD}">
+                                        <StackPanel Spacing="4">
+                                            <Button Classes="secondary"
+                                                    Content="Edit"
+                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).EditMessageCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Padding="12,6"/>
+                                            <Button Background="{DynamicResource ErrorBrush}"
+                                                    Foreground="White"
+                                                    BorderThickness="0"
+                                                    CornerRadius="{DynamicResource RadiusMD}"
+                                                    Content="Delete"
+                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).DeleteMessageCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Padding="12,6"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Message Bubble -->
+                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToMessageColumnConverter}}"
+                                            Background="{Binding IsOutgoing, Converter={x:Static converters:BoolToColorConverter.Instance}}"
+                                            CornerRadius="{DynamicResource RadiusMD}"
+                                            Padding="12,8"
+                                            MaxWidth="500">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding Sender}"
+                                                       Classes="caption"
+                                                       FontWeight="SemiBold"
+                                                       IsVisible="{Binding !IsOutgoing}"/>
+                                            <TextBlock Text="{Binding Text}"
+                                                       Classes="body"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
+
+                                            <!-- Time and Delivery Status -->
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="4"
+                                                        HorizontalAlignment="Right">
+                                                <TextBlock Text="{Binding Time}"
+                                                           Classes="caption"
+                                                           Opacity="0.7"
+                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
+
+                                                <!-- Delivery Status Checkmarks (Telegram-style) -->
+                                                <!-- Single checkmark: Sent ✓ -->
+                                                <TextBlock Text="✓"
+                                                           Classes="caption"
+                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"
+                                                           Opacity="0.7"
+                                                           IsVisible="{Binding ShowSingleCheckmark}"/>
+
+                                                <!-- Double checkmark: Delivered ✓✓ -->
+                                                <TextBlock Text="✓✓"
+                                                           Classes="caption"
+                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"
+                                                           Opacity="0.7"
+                                                           IsVisible="{Binding ShowDoubleCheckmark}"/>
+
+                                                <!-- Blue double checkmark: Read ✓✓ -->
+                                                <TextBlock Text="✓✓"
+                                                           Classes="caption"
+                                                           Foreground="#0088CC"
+                                                           IsVisible="{Binding ShowBlueCheckmark}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- MESSAGE INPUT -->
+            <Border Grid.Row="2"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource RadiusFull}"
+                    Margin="16,0,16,10"
+                    Padding="8,0"
+                    Height="56">
+
+                <Grid ColumnDefinitions="Auto,*,Auto">
+
+                    <!-- Attach Button -->
+                    <Button Grid.Column="0"
+                            Classes="text"
+                            Width="{StaticResource SidebarIconButtonSize}"
+                            Height="{StaticResource SidebarIconButtonSize}"
+                            CornerRadius="{StaticResource RadiusFull}"
+                            Padding="0"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="FileUploadButton_Click">
+                        <controls:Icon IconKey="AttachIcon"
+                                      Size="{StaticResource SidebarIconSize}"
+                                      Stroke="{DynamicResource TextSecondaryBrush}"
+                                      StrokeThickness="1.8"
+                                      Fill="Transparent"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Button>
+
+                    <!-- Message Input -->
+                    <TextBox Grid.Column="1"
+                             Name="MessageTextBox"
+                             Text="{Binding OutgoingMessage}"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Foreground="{DynamicResource TextPrimaryBrush}"
+                             FontSize="{StaticResource FontSizeBody}"
+                             Watermark="Type a message..."
+                             VerticalContentAlignment="Center"
+                             Padding="0"
+                             KeyDown="MessageTextBox_KeyDown">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                            </Style>
+                            <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
+
+                    <!-- Send Button -->
+                    <Button Grid.Column="2"
+                            Classes="primary"
+                            Width="{StaticResource SidebarIconButtonSize}"
+                            Height="{StaticResource SidebarIconButtonSize}"
+                            CornerRadius="{StaticResource RadiusFull}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding SendCommand}"
+                            Padding="0">
+                        <controls:Icon IconKey="SendIcon"
+                                      Size="{StaticResource SidebarIconSize}"
+                                      Stroke="White"
+                                      StrokeThickness="1.8"
+                                      Fill="Transparent"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Add Contact/Group Overlay -->
+        <ContentControl Grid.ColumnSpan="2"
+                        Content="{Binding SidebarViewModel.AddContactViewModel}"
+                        IsVisible="{Binding SidebarViewModel.IsAddContactOpen}"
+                        ZIndex="1000"/>
+    </Grid>
+</UserControl>

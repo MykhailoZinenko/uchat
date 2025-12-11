@@ -1,0 +1,84 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Typography Constants -->
+    <x:Double x:Key="FontSizeH1">32</x:Double>
+    <x:Double x:Key="FontSizeH2">28</x:Double>
+    <x:Double x:Key="FontSizeH3">24</x:Double>
+    <x:Double x:Key="FontSizeH4">20</x:Double>
+    <x:Double x:Key="FontSizeH5">18</x:Double>
+    <x:Double x:Key="FontSizeH6">16</x:Double>
+    <x:Double x:Key="FontSizeBody">14</x:Double>
+    <x:Double x:Key="FontSizeCaption">12</x:Double>
+    <x:Double x:Key="FontSizeSmall">11</x:Double>
+
+    <!-- Spacing Constants (for Spacing properties) -->
+    <x:Double x:Key="SpacingXS">4</x:Double>
+    <x:Double x:Key="SpacingSM">8</x:Double>
+    <x:Double x:Key="SpacingMD">16</x:Double>
+    <x:Double x:Key="SpacingLG">24</x:Double>
+    <x:Double x:Key="SpacingXL">32</x:Double>
+    <x:Double x:Key="SpacingXXL">48</x:Double>
+
+    <!-- Thickness Constants (for Margin and Padding) -->
+    <Thickness x:Key="ThicknessXS">4</Thickness>
+    <Thickness x:Key="ThicknessSM">8</Thickness>
+    <Thickness x:Key="ThicknessMD">16</Thickness>
+    <Thickness x:Key="ThicknessLG">24</Thickness>
+    <Thickness x:Key="ThicknessXL">32</Thickness>
+    <Thickness x:Key="ThicknessXXL">48</Thickness>
+
+    <!-- Sidebar Layout Constants -->
+    <x:Double x:Key="SidebarWidthExpanded">320</x:Double>
+    <x:Double x:Key="SidebarWidthCollapsed">80</x:Double>
+    <x:Double x:Key="SidebarIconButtonSize">44</x:Double>
+    <x:Double x:Key="SidebarPrimaryButtonSize">48</x:Double>
+    <x:Double x:Key="SidebarAvatarSize">48</x:Double>
+    <x:Double x:Key="SidebarIconSize">20</x:Double>
+    <Thickness x:Key="SidebarSectionMargin">16,16,16,12</Thickness>
+    <Thickness x:Key="SidebarListMargin">12,0,12,12</Thickness>
+    <Thickness x:Key="SidebarBottomPadding">16,12,16,16</Thickness>
+    <Thickness x:Key="SidebarCollapsedTopMargin">16,16,16,8</Thickness>
+    <Thickness x:Key="SidebarCollapsedListMargin">16,0</Thickness>
+    <Thickness x:Key="SidebarCollapsedBottomPadding">12,14</Thickness>
+    <Thickness x:Key="SidebarControlGap">0,0,8,0</Thickness>
+
+    <!-- Border Radius Constants -->
+    <CornerRadius x:Key="RadiusXS">4</CornerRadius>
+    <CornerRadius x:Key="RadiusSM">8</CornerRadius>
+    <CornerRadius x:Key="RadiusMD">12</CornerRadius>
+    <CornerRadius x:Key="RadiusLG">16</CornerRadius>
+    <CornerRadius x:Key="RadiusXL">20</CornerRadius>
+    <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
+
+    <!-- Shadow Constants -->
+    <BoxShadows x:Key="ShadowSM">0 1 2 0 #10000000</BoxShadows>
+    <BoxShadows x:Key="ShadowMD">0 4 6 -1 #10000000, 0 2 4 -1 #06000000</BoxShadows>
+    <BoxShadows x:Key="ShadowLG">0 10 15 -3 #10000000, 0 4 6 -2 #05000000</BoxShadows>
+    <BoxShadows x:Key="ShadowXL">0 20 25 -5 #10000000, 0 10 10 -5 #04000000</BoxShadows>
+
+    <!-- Icon Sizes -->
+    <x:Double x:Key="IconSizeXS">18</x:Double>
+    <x:Double x:Key="IconSizeSM">20</x:Double>
+    <x:Double x:Key="IconSizeMD">24</x:Double>
+    <x:Double x:Key="IconSizeLG">32</x:Double>
+
+    <!-- Icon Paths -->
+    <StreamGeometry x:Key="AccountIcon">M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z</StreamGeometry>
+    <StreamGeometry x:Key="AttachIcon">M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48</StreamGeometry>
+    <StreamGeometry x:Key="BellRingIcon">M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21</StreamGeometry>
+    <StreamGeometry x:Key="ChatIcon">M20 12C20 16.4183 16.4183 20 12 20C10.5937 20 9.27223 19.6372 8.12398 19C7.53267 18.6719 4.48731 20.4615 3.99998 20C3.44096 19.4706 5.4583 16.6708 5.07024 16C4.38956 14.8233 3.99999 13.4571 3.99999 12C3.99999 7.58172 7.58171 4 12 4C16.4183 4 20 7.58172 20 12Z</StreamGeometry>
+    <StreamGeometry x:Key="ChevronLeftIcon">M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z</StreamGeometry>
+    <StreamGeometry x:Key="ChevronRightIcon">M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z</StreamGeometry>
+    <StreamGeometry x:Key="EditIcon">M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z</StreamGeometry>
+    <StreamGeometry x:Key="GroupIcon">M16,13C15.71,13 15.38,13 15.03,13.05C16.19,13.89 17,15 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M8,11A3,3 0 0,0 11,8A3,3 0 0,0 8,5A3,3 0 0,0 5,8A3,3 0 0,0 8,11M16,11A3,3 0 0,0 19,8A3,3 0 0,0 16,5A3,3 0 0,0 13,8A3,3 0 0,0 16,11Z</StreamGeometry>
+    <StreamGeometry x:Key="LaptopIcon">M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z</StreamGeometry>
+    <StreamGeometry x:Key="LogoutIcon">M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z</StreamGeometry>
+    <StreamGeometry x:Key="PlusIcon">M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z</StreamGeometry>
+    <StreamGeometry x:Key="ProfileIcon">M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z</StreamGeometry>
+    <StreamGeometry x:Key="SearchIcon">M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z</StreamGeometry>
+    <StreamGeometry x:Key="SendIcon">M22 2L11 13 M22 2L15 22L11 13L2 9L22 2Z</StreamGeometry>
+    <StreamGeometry x:Key="SettingsIcon">M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z</StreamGeometry>
+    <StreamGeometry x:Key="UploadIcon">M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z</StreamGeometry>
+    <StreamGeometry x:Key="VolumeHighIcon">M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z</StreamGeometry>
+</ResourceDictionary>

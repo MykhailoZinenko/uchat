@@ -9,7 +9,9 @@ using uchat_server.Configuration;
 using uchat_server.Data;
 using uchat_server.Hubs;
 using uchat_server.Repositories;
+using uchat_server.Repositories.Interfaces;
 using uchat_server.Services;
+using uchat_server.Data.Entities;
 
 if (args.Length == 0)
 {
@@ -93,6 +95,10 @@ builder.Services.AddScoped<IRoomMemberRepository, RoomMemberRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageEditRepository, MessageEditRepository>();
 builder.Services.AddScoped<IMessageDeletionRepository, MessageDeletionRepository>();
+builder.Services.AddScoped<IMessageDeliveryStatusRepository, MessageDeliveryStatusRepository>();
+builder.Services.AddScoped<IUserPtsRepository, UserPtsRepository>();
+builder.Services.AddScoped<IMessageQueueRepository, MessageQueueRepository>();
+builder.Services.AddScoped<IUserUpdateRepository, UserUpdateRepository>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<ICryptographyService, CryptographyService>();
@@ -132,6 +138,36 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<UchatDbContext>();
     await db.Database.MigrateAsync();
+
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    var rooms = await db.Rooms
+        .Include(r => r.Members)
+        .ThenInclude(rm => rm.User)
+        .ToListAsync();
+    if (rooms.Count == 0)
+    {
+        logger.LogWarning("Startup: No rooms found in DB");
+    }
+    else
+    {
+        foreach (var room in rooms)
+        {
+            logger.LogInformation("Startup: Room Id={Id} Name={Name} IsGlobal={IsGlobal} CreatedBy={CreatedByUserId}", room.Id, room.RoomName ?? "(null)", room.IsGlobal, room.CreatedByUserId);
+
+            var members = room.Members?.Where(rm => rm.LeftAt == null).ToList() ?? new List<RoomMember>();
+            if (members.Count == 0)
+            {
+                logger.LogWarning("Startup: Room Id={Id} has no active members", room.Id);
+            }
+            else
+            {
+                foreach (var member in members)
+                {
+                    logger.LogInformation("Startup: Room Id={RoomId} Member UserId={UserId} Username={Username}", room.Id, member.UserId, member.User?.Username ?? "(unknown)");
+                }
+            }
+        }
+    }
 }
 
 app.UseCors();

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using uchat_common.Dtos;
+using uchat_common.Enums;
 using uchat_server.Data.Entities;
 using uchat_server.Exceptions;
 using uchat_server.Repositories;
@@ -12,6 +13,8 @@ public class AuthService : IAuthService
     private readonly IHashService _hashService;
     private readonly ICryptographyService _cryptographyService;
     private readonly ISessionService _sessionService;
+    private readonly IRoomRepository _roomRepository;
+    private readonly IRoomMemberService _roomMemberService;
     private readonly ILogger<AuthService> _logger;
 
     public AuthService(
@@ -19,12 +22,16 @@ public class AuthService : IAuthService
         IHashService hashService,
         ICryptographyService cryptographyService,
         ISessionService sessionService,
+        IRoomRepository roomRepository,
+        IRoomMemberService roomMemberService,
         ILogger<AuthService> logger)
     {
         _userService = userService;
         _hashService = hashService;
         _cryptographyService = cryptographyService;
         _sessionService = sessionService;
+        _roomRepository = roomRepository;
+        _roomMemberService = roomMemberService;
         _logger = logger;
     }
 
@@ -59,6 +66,8 @@ public class AuthService : IAuthService
         };
 
         await _sessionService.CreateSessionAsync(session);
+
+        await EnsureGlobalMembershipAsync(createdUser.Id, createdUser.Username);
 
         _logger.LogInformation("AuthService.Register success Username={Username} SessionId={SessionId}", username, session.Id);
 
@@ -137,5 +146,28 @@ public class AuthService : IAuthService
             UserId = user?.Id ?? session.UserId,
             Username = user?.Username ?? string.Empty
         };
+    }
+
+    private async Task EnsureGlobalMembershipAsync(int userId, string username)
+    {
+        var globalRoomId = await _roomRepository.GetGlobalRoomIdAsync();
+        if (globalRoomId == null)
+        {
+            var globalRoom = new Room
+            {
+                RoomType = RoomType.Global,
+                RoomName = "Global Chat",
+                RoomDescription = "Welcome to uchat! This is the global chat room where everyone can communicate.",
+                IsGlobal = true,
+                CreatedByUserId = null
+            };
+
+            var created = await _roomRepository.CreateAsync(globalRoom);
+            globalRoomId = created.Id;
+            _logger.LogInformation("Created missing global room with Id={RoomId}", globalRoomId);
+        }
+
+        await _roomMemberService.JoinRoomAsync(globalRoomId.Value, userId);
+        _logger.LogInformation("User added to global room. UserId={UserId} Username={Username} RoomId={RoomId}", userId, username, globalRoomId);
     }
 }

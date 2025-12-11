@@ -47,4 +47,11 @@ public class MessageRepository : IMessageRepository
         await _context.Entry(message).Reference(m => m.Sender).LoadAsync();
         return message;
     }
+
+    public async Task<Message> UpdateAsync(Message message)
+    {
+        _context.Messages.Update(message);
+        await _context.SaveChangesAsync();
+        return message;
+    }
 }

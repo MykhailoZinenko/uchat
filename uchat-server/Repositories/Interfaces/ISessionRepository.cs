@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using uchat_server.Data.Entities;
 
 namespace uchat_server.Repositories;
@@ -12,5 +13,7 @@ public interface ISessionRepository
     Task UpdateAsync(Session session);
     Task RevokeAsync(int sessionId);
     Task RevokeAllByUserIdAsync(int userId);
+    Task RevokeAllByUserIdExceptAsync(int userId, int sessionIdToKeep);
+    Task RevokeByIdsAsync(IEnumerable<int> sessionIds);
     Task DeleteRangeAsync(List<Session> sessions);
 }

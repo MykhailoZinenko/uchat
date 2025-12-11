@@ -14,12 +14,17 @@ public class Message
     public string Content { get; set; } = string.Empty;
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
 
+    // Delivery status tracking (Telegram-like)
+    public DeliveryStatus SenderDeliveryStatus { get; set; } = DeliveryStatus.Pending;
+    public DateTime? SenderAcknowledgedAt { get; set; }
+
     public Room Room { get; set; } = null!;
     public User? Sender { get; set; }
     public Message? ReplyToMessage { get; set; }
     public Message? ForwardedFromMessage { get; set; }
     public ICollection<MessageEdit> Edits { get; set; } = new List<MessageEdit>();
     public MessageDeletion? Deletion { get; set; }
+    public ICollection<MessageDeliveryStatus> DeliveryStatuses { get; set; } = new List<MessageDeliveryStatus>();
 }
 
 

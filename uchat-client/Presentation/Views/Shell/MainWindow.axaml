@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:authViews="clr-namespace:uchat_client.Presentation.Views.Authentication"
+        xmlns:chatViews="clr-namespace:uchat_client.Presentation.Views.Chat"
+        xmlns:contactViews="clr-namespace:uchat_client.Presentation.Views.Contacts"
+        xmlns:authViewModels="clr-namespace:uchat_client.Core.Application.Features.Authentication.ViewModels;assembly=uchat"
+        xmlns:chatViewModels="clr-namespace:uchat_client.Core.Application.Features.Chat.ViewModels;assembly=uchat"
+        xmlns:contactViewModels="clr-namespace:uchat_client.Core.Application.Features.Contacts.ViewModels;assembly=uchat"
+        xmlns:shellViewModels="clr-namespace:uchat_client.Core.Application.Features.Shell.ViewModels;assembly=uchat"
+        x:Class="uchat_client.MainWindow"
+        x:DataType="shellViewModels:MainViewModel"
+        Width="1200" Height="800"
+        Title="uchat"
+        Background="{DynamicResource BackgroundBrush}">
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="{x:Type authViewModels:LoginViewModel}">
+            <authViews:LoginView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type authViewModels:RegistrationViewModel}">
+            <authViews:RegistrationView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type chatViewModels:ChatViewModel}">
+            <chatViews:ChatView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type contactViewModels:AddContactViewModel}">
+            <contactViews:AddContactView />
+        </DataTemplate>
+
+    </Window.DataTemplates>
+
+    <ContentControl Content="{Binding CurrentView}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" />
+</Window>

@@ -1,0 +1,344 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Shell.ViewModels;assembly=uchat"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Shell.SidebarView"
+             x:DataType="viewModels:SidebarViewModel">
+
+    <Grid>
+        <!-- Expanded Sidebar -->
+        <Border Width="{StaticResource SidebarWidthExpanded}"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,0,1,0"
+                IsVisible="{Binding !IsSidebarCollapsed}">
+            <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- Search and Add Section -->
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="*,Auto"
+                      Margin="16"
+                      Height="56">
+                    <!-- Search Box -->
+                    <Border Grid.Column="0"
+                            Background="{DynamicResource SurfaceBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource RadiusFull}"
+                            Height="{StaticResource SidebarIconButtonSize}"
+                            Padding="12,0"
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <controls:Icon Grid.Column="0"
+                                          IconKey="SearchIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextSecondaryBrush}"
+                                          Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1"
+                                     Name="SearchTextBox"
+                                     Text="{Binding SearchText}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="{DynamicResource TextPrimaryBrush}"
+                                     FontSize="{StaticResource FontSizeBody}"
+                                     VerticalContentAlignment="Center"
+                                     Watermark="Search"
+                                     Padding="0"
+                                     KeyDown="SearchTextBox_KeyDown">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </Grid>
+                    </Border>
+
+                    <!-- Add Contact Button -->
+                    <Button Grid.Column="1"
+                            Classes="primary"
+                            Width="{StaticResource SidebarIconButtonSize}"
+                            Height="{StaticResource SidebarIconButtonSize}"
+                            CornerRadius="{StaticResource RadiusFull}"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Command="{Binding OpenAddContactCommand}">
+                        <controls:Icon IconKey="PlusIcon"
+                                      Size="{StaticResource SidebarIconSize}"
+                                      Fill="White"/>
+                    </Button>
+                </Grid>
+
+                <!-- Chats List -->
+                <ListBox Grid.Row="1"
+                         ItemsSource="{Binding FilteredRooms}"
+                         SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Margin="{StaticResource SidebarListMargin}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="{StaticResource ThicknessSM}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  Margin="4,2"
+                                  VerticalAlignment="Center">
+                                <Border Grid.Column="0"
+                                        Width="{StaticResource SidebarAvatarSize}"
+                                        Height="{StaticResource SidebarAvatarSize}"
+                                        CornerRadius="{StaticResource RadiusFull}"
+                                        Background="{DynamicResource SurfaceVariantBrush}">
+                                    <Grid>
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Grid.Column="1"
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Spacing="4">
+                                    <TextBlock Classes="body"
+                                               FontWeight="SemiBold"
+                                               Text="{Binding DisplayName}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Classes="caption"
+                                               Text="{Binding Description}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <Border Grid.Column="2"
+                                        MinWidth="28"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        CornerRadius="{StaticResource RadiusSM}"
+                                        Padding="8,4"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        IsVisible="False"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- Bottom Actions -->
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="0,1,0,0"
+                        Padding="{StaticResource SidebarBottomPadding}">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <!-- Profile Button -->
+                        <Button Grid.Column="0"
+                                Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                CornerRadius="{StaticResource RadiusFull}"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                Click="ProfilePictureButton_Click">
+                            <Border Width="{StaticResource SidebarIconButtonSize}"
+                                    Height="{StaticResource SidebarIconButtonSize}"
+                                    CornerRadius="{StaticResource RadiusFull}"
+                                    Background="{DynamicResource PrimaryBrush}">
+                                <controls:Icon IconKey="ProfileIcon"
+                                              Size="22"
+                                              Fill="White"/>
+                            </Border>
+                        </Button>
+
+                        <!-- Settings/Back Button -->
+                        <Button Grid.Column="1"
+                                Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                CornerRadius="{StaticResource RadiusFull}"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding OpenSettingsCommand}"
+                                IsVisible="{Binding !IsOnSettingsPage}">
+                            <controls:Icon IconKey="SettingsIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+
+                        <Button Grid.Column="1"
+                                Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                CornerRadius="{StaticResource RadiusFull}"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding BackCommand}"
+                                IsVisible="{Binding IsOnSettingsPage}">
+                            <controls:Icon IconKey="ChatIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+
+                        <!-- Collapse Button -->
+                        <Button Grid.Column="2"
+                                Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                CornerRadius="{StaticResource RadiusFull}"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding ToggleSidebarCommand}">
+                            <controls:Icon IconKey="ChevronLeftIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Collapsed Sidebar -->
+        <Border Width="{StaticResource SidebarWidthCollapsed}"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,0,1,0"
+                IsVisible="{Binding IsSidebarCollapsed}">
+            <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- Add Button -->
+                <Button Grid.Row="0"
+                        Classes="primary"
+                        Width="{StaticResource SidebarPrimaryButtonSize}"
+                        Height="{StaticResource SidebarPrimaryButtonSize}"
+                        CornerRadius="{StaticResource RadiusFull}"
+                        Padding="0"
+                        Margin="{StaticResource SidebarCollapsedTopMargin}"
+                        HorizontalAlignment="Center"
+                        Command="{Binding OpenAddContactCommand}">
+                    <controls:Icon IconKey="PlusIcon"
+                                  Size="{StaticResource SidebarIconSize}"
+                                  Fill="White"/>
+                </Button>
+
+                <!-- Chats Icons -->
+                <ListBox Grid.Row="1"
+                         ItemsSource="{Binding FilteredRooms}"
+                         SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Margin="{StaticResource SidebarCollapsedListMargin}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="0,4"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="{StaticResource SidebarAvatarSize}"
+                                    Height="{StaticResource SidebarAvatarSize}"
+                                    CornerRadius="{StaticResource RadiusFull}"
+                                    Background="{DynamicResource SurfaceVariantBrush}">
+                                <Grid>
+                                    <TextBlock Text="{Binding DisplayName}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- Bottom Actions -->
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="0,1,0,0"
+                        Padding="{StaticResource SidebarCollapsedBottomPadding}">
+                    <StackPanel Spacing="{StaticResource SpacingSM}"
+                                HorizontalAlignment="Center">
+                        <!-- Profile Button -->
+                        <Button Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                CornerRadius="{StaticResource RadiusFull}"
+                                Padding="0"
+                                Click="ProfilePictureButton_Click">
+                            <Border Width="{StaticResource SidebarIconButtonSize}"
+                                    Height="{StaticResource SidebarIconButtonSize}"
+                                    CornerRadius="{StaticResource RadiusFull}"
+                                    Background="{DynamicResource PrimaryBrush}">
+                                <controls:Icon IconKey="ProfileIcon"
+                                              Size="22"
+                                              Fill="White"/>
+                            </Border>
+                        </Button>
+
+                        <!-- Expand Button -->
+                        <Button Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                Padding="0"
+                                Command="{Binding ToggleSidebarCommand}">
+                            <controls:Icon IconKey="ChevronRightIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+
+                        <!-- Settings/Back Button -->
+                        <Button Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                Padding="0"
+                                Command="{Binding OpenSettingsCommand}"
+                                IsVisible="{Binding !IsOnSettingsPage}">
+                            <controls:Icon IconKey="SettingsIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+
+                        <Button Classes="text"
+                                Width="{StaticResource SidebarIconButtonSize}"
+                                Height="{StaticResource SidebarIconButtonSize}"
+                                Padding="0"
+                                Command="{Binding BackCommand}"
+                                IsVisible="{Binding IsOnSettingsPage}">
+                            <controls:Icon IconKey="ChatIcon"
+                                          Size="{StaticResource SidebarIconSize}"
+                                          Fill="{DynamicResource TextPrimaryBrush}"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

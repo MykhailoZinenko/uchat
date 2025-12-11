@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Override brushes for Dark Theme -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{DynamicResource DarkPrimaryColor}" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{DynamicResource DarkPrimaryHoverColor}" />
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{DynamicResource DarkPrimaryPressedColor}" />
+
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{DynamicResource DarkSecondaryColor}" />
+    <SolidColorBrush x:Key="SecondaryHoverBrush" Color="{DynamicResource DarkSecondaryHoverColor}" />
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource DarkBackgroundColor}" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{DynamicResource DarkSurfaceColor}" />
+    <SolidColorBrush x:Key="SurfaceVariantBrush" Color="{DynamicResource DarkSurfaceVariantColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource DarkTextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource DarkTextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{DynamicResource DarkTextTertiaryColor}" />
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource DarkBorderColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{DynamicResource DarkDividerColor}" />
+
+    <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource DarkErrorColor}" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="{DynamicResource DarkSuccessColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{DynamicResource DarkWarningColor}" />
+    <SolidColorBrush x:Key="InfoBrush" Color="{DynamicResource DarkInfoColor}" />
+</ResourceDictionary>

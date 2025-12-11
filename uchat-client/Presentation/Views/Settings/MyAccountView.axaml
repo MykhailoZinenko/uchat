@@ -1,0 +1,105 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Settings.ViewModels;assembly=uchat"
+             xmlns:views="clr-namespace:uchat_client.Presentation.Views.Shell"
+             x:Class="uchat_client.Presentation.Views.Settings.MyAccountView"
+             x:DataType="viewModels:MyAccountViewModel"
+             Background="{DynamicResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                           DataContext="{Binding SidebarViewModel}" />
+
+        <!-- ACCOUNT CONTENT -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                    Classes="card"
+                    Margin="16,16,16,8"
+                    Padding="16,14"
+                    Height="56">
+                <TextBlock Text="My Account"
+                           Classes="h4"
+                           HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="16">
+                <StackPanel Spacing="{StaticResource SpacingLG}"
+                            MaxWidth="500">
+
+                    <!-- Change Password Section -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <StackPanel Spacing="{StaticResource SpacingMD}">
+                            <TextBlock Text="Change Password"
+                                       Classes="h5"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                            <!-- Current Password -->
+                            <StackPanel Classes="form-group">
+                                <TextBlock Classes="label"
+                                           Text="Current Password"/>
+                                <TextBox Classes="input"
+                                         Text="{Binding CurrentPassword}"
+                                         PasswordChar="•"
+                                         Watermark="Enter current password"/>
+                            </StackPanel>
+
+                            <!-- New Password -->
+                            <StackPanel Classes="form-group">
+                                <TextBlock Classes="label"
+                                           Text="New Password"/>
+                                <TextBox Classes="input"
+                                         Text="{Binding NewPassword}"
+                                         PasswordChar="•"
+                                         Watermark="Enter new password"/>
+                            </StackPanel>
+
+                            <!-- Save Button -->
+                            <Button Classes="primary"
+                                    Content="Save Password"
+                                    Command="{Binding ChangePasswordCommand}"
+                                    HorizontalAlignment="Right"
+                                    MinWidth="140"
+                                    Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Delete Account Section -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <StackPanel Spacing="{StaticResource SpacingMD}">
+                            <TextBlock Text="Danger Zone"
+                                       Classes="h5"
+                                       Foreground="{DynamicResource ErrorBrush}"/>
+
+                            <TextBlock Text="Once you delete your account, there is no going back. Please be certain."
+                                       Classes="caption"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       TextWrapping="Wrap"/>
+
+                            <!-- Delete Account Button -->
+                            <Button Classes="secondary"
+                                    Content="Delete Account"
+                                    Command="{Binding DeleteAccountCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Foreground="{DynamicResource ErrorBrush}"
+                                    BorderBrush="{DynamicResource ErrorBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

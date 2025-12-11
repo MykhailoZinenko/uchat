@@ -30,6 +30,16 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower() && u.PasswordHash == passwordHash);
     }
 
+    public async Task<List<User>> SearchByUsernameAsync(string query, int limit = 20)
+    {
+        var lowerQuery = query.ToLower();
+        return await _context.Users
+            .Where(u => u.Username.ToLower().Contains(lowerQuery))
+            .OrderBy(u => u.Username)
+            .Take(limit)
+            .ToListAsync();
+    }
+
     public async Task<User> CreateAsync(User user)
     {
         user.CreatedAt = DateTime.UtcNow;

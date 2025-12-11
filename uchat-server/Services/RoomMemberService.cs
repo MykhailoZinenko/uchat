@@ -12,7 +12,7 @@ public class RoomMemberService : IRoomMemberService
     private readonly IMessageService _messageService;
 
     public RoomMemberService(
-        IRoomRepository roomRepository, 
+        IRoomRepository roomRepository,
         IRoomMemberRepository roomMemberRepository,
         IMessageService messageService)
     {
@@ -30,7 +30,7 @@ public class RoomMemberService : IRoomMemberService
         }
 
         var existingMember = await _roomMemberRepository.GetByRoomAndUserAsync(roomId, userId);
-        
+
         if (existingMember != null)
         {
             if (existingMember.LeftAt != null)
@@ -38,9 +38,11 @@ public class RoomMemberService : IRoomMemberService
                 existingMember.LeftAt = null;
                 existingMember.JoinedAt = DateTime.UtcNow;
                 await _roomMemberRepository.UpdateAsync(existingMember);
-                
-                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined, 
+
+                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined,
                     "User joined the room", userId);
+
+                return;
             }
             return;
         }
@@ -53,8 +55,8 @@ public class RoomMemberService : IRoomMemberService
         };
 
         await _roomMemberRepository.CreateAsync(newMember);
-        
-        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined, 
+
+        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined,
             "User joined the room", userId);
     }
 
@@ -73,8 +75,8 @@ public class RoomMemberService : IRoomMemberService
 
         member.LeftAt = DateTime.UtcNow;
         await _roomMemberRepository.UpdateAsync(member);
-        
-        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserLeft, 
+
+        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserLeft,
             "User left the room", userId);
     }
 
@@ -92,6 +94,12 @@ public class RoomMemberService : IRoomMemberService
     public async Task<RoomMember?> GetMemberAsync(int roomId, int userId)
     {
         return await _roomMemberRepository.GetByRoomAndUserAsync(roomId, userId);
+    }
+
+    public async Task<List<int>> GetMemberUserIdsAsync(int roomId)
+    {
+        var members = await _roomMemberRepository.GetMembersByRoomIdAsync(roomId);
+        return members.Where(m => m.LeftAt == null).Select(m => m.UserId).ToList();
     }
 
     public async Task AddMembersAsync(int roomId, int requestingUserId, List<int> userIds)
@@ -131,8 +139,8 @@ public class RoomMemberService : IRoomMemberService
                     existingMember.JoinedAt = DateTime.UtcNow;
                     existingMember.MemberRole = MemberRole.Member;
                     await _roomMemberRepository.UpdateAsync(existingMember);
-                    
-                    await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined, 
+
+                    await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined,
                         $"User joined the room", userId);
                 }
                 continue;
@@ -149,10 +157,10 @@ public class RoomMemberService : IRoomMemberService
         if (newMembers.Count > 0)
         {
             await _roomMemberRepository.CreateRangeAsync(newMembers);
-            
+
             foreach (var member in newMembers)
             {
-                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined, 
+                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserJoined,
                     $"User joined the room", member.UserId);
             }
         }
@@ -194,8 +202,8 @@ public class RoomMemberService : IRoomMemberService
             {
                 member.LeftAt = DateTime.UtcNow;
                 await _roomMemberRepository.UpdateAsync(member);
-                
-                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserLeft, 
+
+                await _messageService.SendSystemMessageAsync(roomId, ServiceAction.UserLeft,
                     $"User left the room", userId);
             }
         }
@@ -245,7 +253,7 @@ public class RoomMemberService : IRoomMemberService
             await _roomMemberRepository.UpdateAsync(targetMember);
         }
 
-        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.MemberRoleChanged, 
+        await _messageService.SendSystemMessageAsync(roomId, ServiceAction.MemberRoleChanged,
             $"Member role changed to {newRole}", targetUserId);
     }
 

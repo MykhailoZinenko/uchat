@@ -48,6 +48,16 @@ public class UserService : IUserService
         return await _userRepository.GetByIdAsync(userId);
     }
 
+    public async Task<List<User>> SearchUsersAsync(string query, int limit = 20)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return new List<User>();
+        }
+
+        return await _userRepository.SearchByUsernameAsync(query, limit);
+    }
+
     public async Task<User> SetUserOfflineAsync(int userId)
     {
         var user = await _userRepository.GetByIdAsync(userId);

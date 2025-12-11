@@ -2,23 +2,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="uchat_client.App"
              xmlns:local="using:uchat_client"
-             xmlns:conv="clr-namespace:uchat_client.Converters"
+             xmlns:helpers="clr-namespace:uchat_client.Presentation.Helpers"
+             xmlns:conv="clr-namespace:uchat_client.Presentation.Converters"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Resources>
-        <FontFamily x:Key="PoppinsFont">avares://uchat/Assets/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
-        <FontFamily x:Key="LibraFont">avares://uchat/Assets/Fonts/LibraSerifModern-Regular.otf#Libra Serif Modern</FontFamily>
-        <FontFamily x:Key="LibraFontBold">avares://uchat/Assets/Fonts/LibraSerifModern-Bold.otf#Libra Serif Modern</FontFamily>
-        <FontFamily x:Key="InterFont">Inter</FontFamily>
-        <conv:BooleanToStringConverter x:Key="BooleanToStringConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Merge color and resource dictionaries -->
+                <ResourceInclude Source="avares://uchat/Presentation/Resources/Colors.axaml" />
+                <ResourceInclude Source="avares://uchat/Presentation/Resources/Resources.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Fonts -->
+            <FontFamily x:Key="PoppinsFont">avares://uchat/Assets/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
+            <FontFamily x:Key="LibraFont">avares://uchat/Assets/Fonts/LibraSerifModern-Regular.otf#Libra Serif Modern</FontFamily>
+            <FontFamily x:Key="LibraFontBold">avares://uchat/Assets/Fonts/LibraSerifModern-Bold.otf#Libra Serif Modern</FontFamily>
+            <FontFamily x:Key="InterFont">Inter</FontFamily>
+
+            <!-- Converters -->
+            <conv:BooleanToStringConverter x:Key="BooleanToStringConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <helpers:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
         <FluentTheme />
+
+        <!-- Application Styles -->
+        <StyleInclude Source="avares://uchat/Presentation/Resources/Styles.axaml" />
+        <StyleInclude Source="avares://uchat/Presentation/Controls/Icon.axaml" />
+
+        <!-- Dark Theme Override -->
+        <Style Selector=":is(Application)[RequestedThemeVariant=Dark]">
+            <Style.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceInclude Source="avares://uchat/Presentation/Resources/DarkTheme.axaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Style.Resources>
+        </Style>
     </Application.Styles>
 </Application>

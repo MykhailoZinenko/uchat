@@ -16,6 +16,11 @@ public class MessageDto
     public bool IsEdited { get; set; }
     public DateTime? EditedAt { get; set; }
     public bool IsDeleted { get; set; }
+
+    // Telegram-like delivery status tracking
+    public DeliveryStatus DeliveryStatus { get; set; } = DeliveryStatus.Pending;
+    public DateTime? DeliveredAt { get; set; }
+    public DateTime? ReadAt { get; set; }
 }
 
 

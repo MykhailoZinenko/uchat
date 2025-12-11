@@ -13,5 +13,6 @@ public interface IRoomMemberService
     Task UpdateMutedStatusAsync(int roomId, int userId, bool isMuted);
     Task<bool> CanUserAccessRoomAsync(int roomId, int userId);
     Task<RoomMember?> GetMemberAsync(int roomId, int userId);
+    Task<List<int>> GetMemberUserIdsAsync(int roomId);
 }
 

@@ -1,0 +1,98 @@
+// ChatView.axaml.cs
+
+using System;
+using System.IO;
+using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
+using uchat_client.Core.Application.Features.Chat.ViewModels;
+
+namespace uchat_client.Presentation.Views.Chat;
+
+public partial class ChatView : UserControl
+{
+    private const long MaxProfilePictureSize = 5 * 1024 * 1024; // 5 MB
+    private const long MaxFileUploadSize = 15 * 1024 * 1024; // 15 MB
+
+    public ChatView()
+    {
+        InitializeComponent();
+    }
+
+    private void Message_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        // Check if it's a right-click
+        var properties = e.GetCurrentPoint(this).Properties;
+        if (!properties.IsRightButtonPressed)
+            return;
+
+        // Get the data context (ChatMessageViewModel)
+        if (sender is StackPanel panel && panel.DataContext is ChatMessageViewModel message)
+        {
+            // Get the ChatViewModel
+            if (DataContext is ChatViewModel viewModel)
+            {
+                // TODO: Implement toggle editing
+                // viewModel.ToggleEditingPopup(message);
+            }
+        }
+
+        e.Handled = true;
+    }
+
+    private void MessageTextBox_KeyDown(object? sender, KeyEventArgs e)
+    {
+        // Check if Enter key was pressed
+        if (e.Key == Key.Enter)
+        {
+            // Get the ChatViewModel
+            if (DataContext is ChatViewModel viewModel)
+            {
+                // Execute SendCommand
+                if (viewModel.SendCommand.CanExecute(null))
+                {
+                    viewModel.SendCommand.Execute(null);
+                }
+            }
+
+            e.Handled = true;
+        }
+    }
+
+    private async void FileUploadButton_Click(object? sender, RoutedEventArgs e)
+    {
+        // Get the top level (window)
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel == null) return;
+
+        // Configure file picker options for any file
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Select File to Send",
+            AllowMultiple = false
+        });
+
+        // If a file was selected
+        if (files.Count > 0)
+        {
+            var file = files[0];
+            var filePath = file.Path.LocalPath;
+
+            // Check file size
+            var fileInfo = new FileInfo(filePath);
+            if (fileInfo.Length > MaxFileUploadSize)
+            {
+                // TODO: Show error message to user
+                // File too large (> 15 MB)
+                return;
+            }
+
+            // TODO: Implement file sending logic
+            // For now, just log the file info
+            Console.WriteLine($"File selected: {file.Name} ({fileInfo.Length} bytes)");
+        }
+    }
+}

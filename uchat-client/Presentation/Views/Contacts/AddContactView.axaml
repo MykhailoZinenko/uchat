@@ -1,0 +1,182 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Contacts.ViewModels;assembly=uchat"
+             xmlns:converters="clr-namespace:uchat_client.Presentation.Converters"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Contacts.AddContactView"
+             x:DataType="viewModels:AddContactViewModel">
+
+    <UserControl.Resources>
+        <converters:BoolToSelectionColorConverter x:Key="BoolToSelectionColorConverter"/>
+        <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+    </UserControl.Resources>
+
+    <!-- Modal Overlay -->
+    <Border Background="#CC000000" PointerPressed="Background_Click">
+        <Border Classes="card-elevated"
+                MaxWidth="900"
+                MaxHeight="700"
+                Margin="{DynamicResource ThicknessXL}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                PointerPressed="Content_Click">
+
+            <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0"
+                           Classes="h3"
+                           Text="Add Contact or Create Group"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,24"/>
+
+                <!-- Content -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="{DynamicResource SpacingLG}">
+
+                        <!-- Find Contact Section -->
+                        <Border Classes="card"
+                                Padding="{DynamicResource ThicknessLG}">
+                            <StackPanel Spacing="{DynamicResource SpacingMD}">
+                                <TextBlock Classes="h4" Text="Find Contact"/>
+
+                                <!-- Search Box -->
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="{DynamicResource SpacingSM}">
+                                    <TextBox Classes="input"
+                                             Text="{Binding SearchQuery}"
+                                             Watermark="Search by username..."
+                                             HorizontalAlignment="Stretch"
+                                             MinWidth="200"/>
+                                    <Button Classes="primary"
+                                            Content="Search"
+                                            Command="{Binding SearchCommand}"
+                                            MinWidth="100"/>
+                                </StackPanel>
+
+                                <!-- Search Results -->
+                                <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding SearchResults}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button Classes="text"
+                                                        Command="{Binding $parent[ItemsControl].((viewModels:AddContactViewModel)DataContext).OpenChatCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Padding="8"
+                                                        Margin="4">
+                                                    <StackPanel Spacing="8" Width="80">
+                                                        <Border Width="48"
+                                                                Height="48"
+                                                                CornerRadius="24"
+                                                                Background="{DynamicResource PrimaryBrush}">
+                                                            <controls:Icon IconKey="ProfileIcon"
+                                                                           Size="{StaticResource IconSizeLG}"
+                                                                           Fill="White"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <TextBlock Classes="caption"
+                                                                   Text="{Binding Username}"
+                                                                   TextAlignment="Center"
+                                                                   TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Create Group Section -->
+                        <Border Classes="card"
+                                Padding="{DynamicResource ThicknessLG}">
+                            <StackPanel Spacing="{DynamicResource SpacingMD}">
+                                <TextBlock Classes="h4" Text="Create Group"/>
+
+                                <!-- Contact Selection -->
+                                <TextBlock Classes="label" Text="Select Members"/>
+                                <ScrollViewer MaxHeight="180" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding SearchResults}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button Classes="text"
+                                                        Command="{Binding $parent[ItemsControl].((viewModels:AddContactViewModel)DataContext).ToggleSelectContactCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Padding="8"
+                                                        Margin="4">
+                                                    <StackPanel Spacing="8" Width="80">
+                                                        <Border Width="48"
+                                                                Height="48"
+                                                                CornerRadius="24"
+                                                                Background="{Binding IsSelected, Converter={StaticResource BoolToSelectionColorConverter}}">
+                                                            <controls:Icon IconKey="ProfileIcon"
+                                                                           Size="{StaticResource IconSizeLG}"
+                                                                           Fill="White"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <TextBlock Classes="caption"
+                                                                   Text="{Binding Username}"
+                                                                   TextAlignment="Center"
+                                                                   TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                                <!-- Group Name -->
+                                <StackPanel Classes="form-group">
+                                    <TextBlock Classes="label" Text="Group Name"/>
+                                    <TextBox Classes="input"
+                                             Text="{Binding GroupName}"
+                                             Watermark="Enter group name..."/>
+                                </StackPanel>
+
+                                <!-- Upload Photo Button -->
+                                <Button Classes="secondary"
+                                        Click="UploadGroupPicture_Click"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <controls:Icon IconKey="UploadIcon"
+                                                       Size="{StaticResource IconSizeXS}"
+                                                       Fill="{DynamicResource PrimaryBrush}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        <TextBlock Text="Upload Photo"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Error Message -->
+                                <TextBlock Classes="error"
+                                           Text="{Binding ErrorMessage}"
+                                           IsVisible="{Binding HasError}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Action Button -->
+                <Button Grid.Row="2"
+                        Classes="primary"
+                        Content="Create Group"
+                        Command="{Binding CreateGroupCommand}"
+                        HorizontalAlignment="Right"
+                        MinWidth="120"
+                        Margin="0,24,0,0"/>
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>

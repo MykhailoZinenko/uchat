@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using uchat_server.Services;
 using uchat_common.Dtos;
 using uchat_common.Enums;
 using uchat_server.Exceptions;
+using System.Threading.Tasks;
+using uchat_server.Repositories;
 
 namespace uchat_server.Hubs;
 
@@ -17,8 +21,11 @@ public class ChatHub : Hub
     private readonly IRoomService _roomService;
     private readonly IRoomMemberService _roomMemberService;
     private readonly IMessageService _messageService;
+    private readonly IMessageRepository _messageRepository;
     private readonly ILogger<ChatHub> _logger;
 
+    private static string GetRoomGroupName(int roomId) => $"room:{roomId}";
+    private static string GetUserGroupName(int userId) => $"user:{userId}";
     public ChatHub(
         IAuthService authService,
         ISessionService sessionService,
@@ -28,6 +35,7 @@ public class ChatHub : Hub
         IRoomService roomService,
         IRoomMemberService roomMemberService,
         IMessageService messageService,
+        IMessageRepository messageRepository,
         ILogger<ChatHub> logger)
     {
         _authService = authService;
@@ -38,6 +46,7 @@ public class ChatHub : Hub
         _roomService = roomService;
         _roomMemberService = roomMemberService;
         _messageService = messageService;
+        _messageRepository = messageRepository;
         _logger = logger;
     }
 
@@ -139,6 +148,28 @@ public class ChatHub : Hub
         }
     }
 
+    public async Task<ApiResponse<bool>> RegisterSession(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await Groups.AddToGroupAsync(Context.ConnectionId, GetSessionGroupName(session.Id));
+            await Groups.AddToGroupAsync(Context.ConnectionId, GetUserGroupName(session.UserId));
+            _logger.LogInformation("RegisterSession: ConnectionId={ConnectionId} SessionId={SessionId}", Context.ConnectionId, session.Id);
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Session registered",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
     public async Task<ApiResponse<List<SessionInfo>>> GetActiveSessions(string sessionToken)
     {
         try
@@ -173,8 +204,23 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var targetSession = await _sessionService.GetSessionByIdAsync(sessionId);
+            if (targetSession.UserId != session.UserId)
+            {
+                throw new AppException("Session does not belong to the current user");
+            }
+
+            if (targetSession.Id == session.Id)
+            {
+                throw new AppException("Cannot revoke the current session");
+            }
+
             var success = await _sessionService.RevokeSessionAsync(sessionId);
             _logger.LogInformation("RevokeSession requested by UserId={UserId} TargetSessionId={SessionId} Success={Success}", session.UserId, sessionId, success);
+            if (success)
+            {
+                await Clients.Group(GetSessionGroupName(targetSession.Id)).SendAsync("SessionRevoked");
+            }
 
             return new ApiResponse<bool>
             {
@@ -189,13 +235,112 @@ public class ChatHub : Hub
         }
     }
 
+    public async Task<ApiResponse<bool>> RevokeAllSessions(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var activeSessions = await _sessionService.GetActiveSessionsByUserIdAsync(session.UserId);
+            var revokedSessions = activeSessions.Where(s => s.Id != session.Id).ToList();
+
+            await _sessionService.RevokeAllUserSessionsExceptAsync(session.UserId, session.Id);
+            _logger.LogInformation("RevokeAllSessions requested by UserId={UserId} KeepingSessionId={SessionId}", session.UserId, session.Id);
+
+            foreach (var revoked in revokedSessions)
+            {
+                await Clients.Group(GetSessionGroupName(revoked.Id)).SendAsync("SessionRevoked");
+            }
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Message = "Other sessions revoked",
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> RevokeSessions(string sessionToken, List<int> sessionIds)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var activeSessions = await _sessionService.GetActiveSessionsByUserIdAsync(session.UserId);
+
+            var validSessionIds = activeSessions
+                .Where(s => sessionIds.Contains(s.Id) && s.Id != session.Id)
+                .Select(s => s.Id)
+                .ToList();
+
+            if (validSessionIds.Count == 0)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = true,
+                    Message = "No sessions to revoke",
+                    Data = true
+                };
+            }
+
+            var success = await _sessionService.RevokeSessionsAsync(validSessionIds);
+            _logger.LogInformation("RevokeSessions requested by UserId={UserId} Count={Count}", session.UserId, validSessionIds.Count);
+            foreach (var revokedId in validSessionIds)
+            {
+                await Clients.Group(GetSessionGroupName(revokedId)).SendAsync("SessionRevoked");
+            }
+
+            return new ApiResponse<bool>
+            {
+                Success = success,
+                Message = success ? "Selected sessions revoked" : "Failed to revoke selected sessions",
+                Data = success
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<UserDto>>> SearchUsers(string sessionToken, string query)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var users = await _userService.SearchUsersAsync(query, 20);
+            _logger.LogInformation("SearchUsers query={Query} by UserId={UserId} Results={Count}", query, session.UserId, users.Count);
+
+            var userDtos = users.Select(u => new UserDto
+            {
+                Id = u.Id,
+                Username = u.Username,
+                IsOnline = u.IsOnline,
+                LastSeenAt = u.LastSeenAt
+            }).ToList();
+
+            return new ApiResponse<List<UserDto>>
+            {
+                Success = true,
+                Data = userDtos
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserDto>>(ex);
+        }
+    }
+
     public async Task<ApiResponse<List<RoomDto>>> GetAccessibleRooms(string sessionToken)
     {
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
             var rooms = await _roomService.GetAccessibleRoomsAsync(session.UserId);
-            _logger.LogDebug("GetAccessibleRooms for UserId={UserId} Count={Count}", session.UserId, rooms.Count);
+            _logger.LogInformation("GetAccessibleRooms for UserId={UserId} Count={Count}", session.UserId, rooms.Count);
 
             var roomDtos = rooms.Select(r => new RoomDto
             {
@@ -408,7 +553,7 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<MessageDto>> SendMessage(string sessionToken, int roomId, string content, int? replyToMessageId = null)
+    public async Task<ApiResponse<MessageDto>> SendMessage(string sessionToken, int roomId, string content, int? replyToMessageId = null, string? clientMessageId = null)
     {
         try
         {
@@ -424,6 +569,7 @@ public class ChatHub : Hub
                 };
             }
 
+            // Send message (creates with Pending->Sent status and delivery tracking)
             var message = await _messageService.SendMessageAsync(roomId, session.UserId, content, replyToMessageId);
             _logger.LogDebug("Message sent: MessageId={MessageId} RoomId={RoomId} UserId={UserId}", message.Id, roomId, session.UserId);
 
@@ -437,8 +583,72 @@ public class ChatHub : Hub
                 ServiceAction = message.ServiceAction,
                 ReplyToMessageId = message.ReplyToMessageId,
                 Content = message.Content,
-                SentAt = message.SentAt
+                SentAt = message.SentAt,
+                DeliveryStatus = message.SenderDeliveryStatus,
+                IsEdited = false,
+                IsDeleted = false
             };
+
+            // Step 1: Send ACK to sender immediately (Telegram-style)
+            if (clientMessageId != null)
+            {
+                var ack = new MessageAckDto
+                {
+                    ClientMessageId = clientMessageId,
+                    ServerMessageId = message.Id,
+                    SentAt = message.SentAt
+                };
+                await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("MessageAck", ack);
+            }
+
+            // Step 2: Build recipients list
+            var room = await _roomService.GetRoomByIdAsync(roomId);
+            var recipients = new HashSet<int>();
+
+            if (room != null)
+            {
+                // Get all room members (works for both global and private rooms)
+                var members = await _roomMemberService.GetMemberUserIdsAsync(roomId);
+                foreach (var m in members)
+                {
+                    recipients.Add(m);
+                }
+            }
+
+            // Step 3: Broadcast to online recipients (excluding sender)
+            foreach (var userId in recipients.Where(id => id != session.UserId))
+            {
+                await Clients.Group(GetUserGroupName(userId)).SendAsync("MessageReceived", messageDto);
+            }
+
+            // Step 4: Also send to sender's other devices
+            await Clients.GroupExcept(GetUserGroupName(session.UserId), Context.ConnectionId).SendAsync("MessageReceived", messageDto);
+
+            // Step 5: Create user updates for dialog list
+            foreach (var userId in recipients)
+            {
+                var pts = await _messageService.IncrementPtsAsync(userId);
+                var unread = await _messageService.GetUnreadCountAsync(roomId, userId);
+                var dialogUpdate = new UserUpdateDto
+                {
+                    Pts = pts,
+                    Type = UserUpdateType.Dialog,
+                    Dialog = new DialogUpdateDto
+                    {
+                        RoomId = roomId,
+                        RoomName = room?.RoomName ?? $"Room {roomId}",
+                        IsGlobal = room?.IsGlobal ?? false,
+                        MessageId = message.Id,
+                        SenderUsername = user.Username,
+                        ContentPreview = message.Content,
+                        SentAt = message.SentAt,
+                        UnreadCount = unread
+                    }
+                };
+
+                await _messageService.AddUserUpdateAsync(userId, dialogUpdate);
+                await Clients.Group(GetUserGroupName(userId)).SendAsync("UserUpdate", dialogUpdate);
+            }
 
             return new ApiResponse<MessageDto>
             {
@@ -522,6 +732,9 @@ public class ChatHub : Hub
             await _roomMemberService.JoinRoomAsync(roomId, session.UserId);
             _logger.LogInformation("User joined room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
+            await Groups.AddToGroupAsync(Context.ConnectionId, GetRoomGroupName(roomId));
+            await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("RoomJoined", roomId);
+
             return new ApiResponse<bool>
             {
                 Success = true,
@@ -543,6 +756,9 @@ public class ChatHub : Hub
             await _roomMemberService.LeaveRoomAsync(roomId, session.UserId);
             _logger.LogInformation("User left room: RoomId={RoomId} UserId={UserId}", roomId, session.UserId);
 
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, GetRoomGroupName(roomId));
+            await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("RoomLeft", roomId);
+
             return new ApiResponse<bool>
             {
                 Success = true,
@@ -556,6 +772,135 @@ public class ChatHub : Hub
         }
     }
 
+    public async Task<ApiResponse<List<UserUpdateDto>>> GetUserUpdates(string sessionToken, int fromPts, int limit = 100)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var updates = await _messageService.GetUserUpdatesAsync(session.UserId, fromPts, limit);
+
+            return new ApiResponse<List<UserUpdateDto>>
+            {
+                Success = true,
+                Data = updates
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<UserUpdateDto>>(ex);
+        }
+    }
+
+    // ==================== DELIVERY TRACKING ====================
+
+    public async Task<ApiResponse<bool>> MarkMessageDelivered(string sessionToken, int messageId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _messageService.MarkMessageAsDeliveredAsync(messageId, session.UserId);
+
+            // Get the message to find the sender
+            var message = await _messageRepository.GetByIdAsync(messageId);
+
+            if (message?.SenderUserId != null)
+            {
+                var receipt = new DeliveryReceiptDto
+                {
+                    MessageId = messageId,
+                    UserId = session.UserId,
+                    Status = DeliveryStatus.Delivered,
+                    Timestamp = DateTime.UtcNow
+                };
+                await Clients.Group(GetUserGroupName(message.SenderUserId.Value)).SendAsync("DeliveryReceipt", receipt);
+            }
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<bool>> MarkMessageRead(string sessionToken, int messageId)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            await _messageService.MarkMessageAsReadAsync(messageId, session.UserId);
+
+            // Get the message to find the sender
+            var message = await _messageRepository.GetByIdAsync(messageId);
+
+            if (message?.SenderUserId != null)
+            {
+                var receipt = new DeliveryReceiptDto
+                {
+                    MessageId = messageId,
+                    UserId = session.UserId,
+                    Status = DeliveryStatus.Read,
+                    Timestamp = DateTime.UtcNow
+                };
+                await Clients.Group(GetUserGroupName(message.SenderUserId.Value)).SendAsync("DeliveryReceipt", receipt);
+            }
+
+            return new ApiResponse<bool>
+            {
+                Success = true,
+                Data = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<bool>(ex);
+        }
+    }
+
+    public async Task<ApiResponse<List<MessageDto>>> GetPendingMessages(string sessionToken)
+    {
+        try
+        {
+            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var pendingMessages = await _messageService.GetPendingMessagesAsync(session.UserId);
+
+            var messageDtos = new List<MessageDto>();
+            foreach (var queueItem in pendingMessages)
+            {
+                var msg = queueItem.Message;
+                messageDtos.Add(new MessageDto
+                {
+                    Id = msg.Id,
+                    RoomId = msg.RoomId,
+                    SenderUserId = msg.SenderUserId,
+                    SenderUsername = msg.Sender?.Username,
+                    MessageType = msg.MessageType,
+                    ServiceAction = msg.ServiceAction,
+                    ReplyToMessageId = msg.ReplyToMessageId,
+                    Content = msg.Content,
+                    SentAt = msg.SentAt,
+                    DeliveryStatus = DeliveryStatus.Sent,
+                    IsEdited = false,
+                    IsDeleted = false
+                });
+            }
+
+            return new ApiResponse<List<MessageDto>>
+            {
+                Success = true,
+                Data = messageDtos
+            };
+        }
+        catch (Exception ex)
+        {
+            return _errorMapper.MapException<List<MessageDto>>(ex);
+        }
+    }
+
     public override async Task OnConnectedAsync()
     {
         _logger.LogInformation("Client connected: ConnectionId={ConnectionId} RemoteIp={RemoteIp}",
@@ -563,6 +908,8 @@ public class ChatHub : Hub
             Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString() ?? "unknown");
         await base.OnConnectedAsync();
     }
+
+    private static string GetSessionGroupName(int sessionId) => $"session:{sessionId}";
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {

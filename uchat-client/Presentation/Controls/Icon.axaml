@@ -1,0 +1,34 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:uchat_client.Presentation.Controls">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="#1E1E1E">
+            <StackPanel Spacing="10">
+                <controls:Icon IconKey="AccountIcon" Size="24" Fill="White"/>
+                <controls:Icon IconKey="LaptopIcon" Size="32" Fill="#6366F1"/>
+                <controls:Icon IconKey="BellRingIcon" Size="40" Fill="#10B981"/>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|Icon">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Viewbox Width="{TemplateBinding Width}"
+                         Height="{TemplateBinding Height}"
+                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                         VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <Path Data="{TemplateBinding IconData}"
+                          Fill="{TemplateBinding Fill}"
+                          Stroke="{TemplateBinding Stroke}"
+                          StrokeThickness="{TemplateBinding StrokeThickness}"
+                          Stretch="Uniform"/>
+                </Viewbox>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+</Styles>

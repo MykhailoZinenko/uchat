@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:uchat_client.Core.Application.Features.Settings.ViewModels;assembly=uchat"
+             xmlns:views="clr-namespace:uchat_client.Presentation.Views.Shell"
+             xmlns:controls="clr-namespace:uchat_client.Presentation.Controls"
+             x:Class="uchat_client.Presentation.Views.Settings.SoundNotificationsView"
+             x:DataType="viewModels:SoundNotificationsViewModel"
+             Background="{DynamicResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <views:SidebarView Grid.Column="0"
+                           DataContext="{Binding SidebarViewModel}" />
+
+        <!-- NOTIFICATIONS CONTENT -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                    Classes="card"
+                    Margin="16,16,16,8"
+                    Padding="16,14"
+                    Height="56">
+                <TextBlock Text="Sound and Notifications"
+                           Classes="h4"
+                           HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="16">
+                <StackPanel Spacing="{StaticResource SpacingLG}"
+                            MaxWidth="600">
+
+                    <!-- Sound Volume -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <StackPanel Spacing="{StaticResource SpacingMD}">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <controls:Icon Grid.Column="0"
+                                               IconKey="VolumeHighIcon"
+                                               Size="{StaticResource IconSizeLG}"
+                                               Fill="{DynamicResource PrimaryBrush}"
+                                               Margin="0,0,12,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="Sound Volume"
+                                               Classes="body"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Adjust notification sound volume"
+                                               Classes="caption"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Slider Minimum="0"
+                                    Maximum="100"
+                                    Value="{Binding SoundVolume}"
+                                    TickFrequency="10"
+                                    IsSnapToTickEnabled="False"
+                                    Margin="0,8,0,0"/>
+
+                            <TextBlock Text="{Binding SoundVolume, StringFormat='{}{0}%'}"
+                                       Classes="caption"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Notifications Toggle -->
+                    <Border Classes="card"
+                            Padding="{StaticResource ThicknessLG}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <controls:Icon Grid.Column="0"
+                                           IconKey="BellRingIcon"
+                                           Size="{StaticResource IconSizeLG}"
+                                           Fill="{DynamicResource PrimaryBrush}"
+                                           Margin="0,0,12,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="Notifications"
+                                           Classes="body"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Enable desktop notifications"
+                                           Classes="caption"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
+
+                            <ToggleSwitch Grid.Column="2"
+                                          IsChecked="{Binding NotificationsEnabled}"
+                                          VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
