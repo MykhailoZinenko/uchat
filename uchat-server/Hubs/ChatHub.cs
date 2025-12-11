@@ -569,7 +569,6 @@ public class ChatHub : Hub
                 };
             }
 
-            // Send message (creates with Pending->Sent status and delivery tracking)
             var message = await _messageService.SendMessageAsync(roomId, session.UserId, content, replyToMessageId);
             _logger.LogDebug("Message sent: MessageId={MessageId} RoomId={RoomId} UserId={UserId}", message.Id, roomId, session.UserId);
 
@@ -584,12 +583,10 @@ public class ChatHub : Hub
                 ReplyToMessageId = message.ReplyToMessageId,
                 Content = message.Content,
                 SentAt = message.SentAt,
-                DeliveryStatus = message.SenderDeliveryStatus,
                 IsEdited = false,
                 IsDeleted = false
             };
 
-            // Step 1: Send ACK to sender immediately (Telegram-style)
             if (clientMessageId != null)
             {
                 var ack = new MessageAckDto
@@ -601,13 +598,11 @@ public class ChatHub : Hub
                 await Clients.Group(GetUserGroupName(session.UserId)).SendAsync("MessageAck", ack);
             }
 
-            // Step 2: Build recipients list
             var room = await _roomService.GetRoomByIdAsync(roomId);
             var recipients = new HashSet<int>();
 
             if (room != null)
             {
-                // Get all room members (works for both global and private rooms)
                 var members = await _roomMemberService.GetMemberUserIdsAsync(roomId);
                 foreach (var m in members)
                 {
@@ -615,40 +610,12 @@ public class ChatHub : Hub
                 }
             }
 
-            // Step 3: Broadcast to online recipients (excluding sender)
             foreach (var userId in recipients.Where(id => id != session.UserId))
             {
                 await Clients.Group(GetUserGroupName(userId)).SendAsync("MessageReceived", messageDto);
             }
 
-            // Step 4: Also send to sender's other devices
             await Clients.GroupExcept(GetUserGroupName(session.UserId), Context.ConnectionId).SendAsync("MessageReceived", messageDto);
-
-            // Step 5: Create user updates for dialog list
-            foreach (var userId in recipients)
-            {
-                var pts = await _messageService.IncrementPtsAsync(userId);
-                var unread = await _messageService.GetUnreadCountAsync(roomId, userId);
-                var dialogUpdate = new UserUpdateDto
-                {
-                    Pts = pts,
-                    Type = UserUpdateType.Dialog,
-                    Dialog = new DialogUpdateDto
-                    {
-                        RoomId = roomId,
-                        RoomName = room?.RoomName ?? $"Room {roomId}",
-                        IsGlobal = room?.IsGlobal ?? false,
-                        MessageId = message.Id,
-                        SenderUsername = user.Username,
-                        ContentPreview = message.Content,
-                        SentAt = message.SentAt,
-                        UnreadCount = unread
-                    }
-                };
-
-                await _messageService.AddUserUpdateAsync(userId, dialogUpdate);
-                await Clients.Group(GetUserGroupName(userId)).SendAsync("UserUpdate", dialogUpdate);
-            }
 
             return new ApiResponse<MessageDto>
             {
@@ -667,7 +634,7 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            var messages = await _messageService.GetMessagesAsync(roomId, session.UserId, limit, beforeMessageId);
+            var messages = await _messageService.GetMessagesAsync(roomId, limit, beforeMessageId);
             _logger.LogDebug("Messages fetched: RoomId={RoomId} UserId={UserId} Count={Count}", roomId, session.UserId, messages.Count);
 
             return new ApiResponse<List<MessageDto>>
@@ -687,8 +654,18 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            await _messageService.EditMessageAsync(messageId, session.UserId, newContent);
+            var message = await _messageService.EditMessageAsync(messageId, session.UserId, newContent);
             _logger.LogInformation("Message edited: MessageId={MessageId} UserId={UserId}", messageId, session.UserId);
+
+            var room = await _roomService.GetRoomByIdAsync(message.RoomId);
+            if (room != null)
+            {
+                var members = await _roomMemberService.GetMemberUserIdsAsync(message.RoomId);
+                foreach (var userId in members)
+                {
+                    await Clients.Group(GetUserGroupName(userId)).SendAsync("MessageEdited", messageId, newContent);
+                }
+            }
 
             return new ApiResponse<bool>
             {
@@ -708,8 +685,28 @@ public class ChatHub : Hub
         try
         {
             var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
+            var message = await _messageRepository.GetByIdAsync(messageId);
+            if (message == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = "Message not found"
+                };
+            }
+
             await _messageService.DeleteMessageAsync(messageId, session.UserId);
             _logger.LogInformation("Message deleted: MessageId={MessageId} UserId={UserId}", messageId, session.UserId);
+
+            var room = await _roomService.GetRoomByIdAsync(message.RoomId);
+            if (room != null)
+            {
+                var members = await _roomMemberService.GetMemberUserIdsAsync(message.RoomId);
+                foreach (var userId in members)
+                {
+                    await Clients.Group(GetUserGroupName(userId)).SendAsync("MessageDeleted", messageId);
+                }
+            }
 
             return new ApiResponse<bool>
             {
@@ -772,134 +769,6 @@ public class ChatHub : Hub
         }
     }
 
-    public async Task<ApiResponse<List<UserUpdateDto>>> GetUserUpdates(string sessionToken, int fromPts, int limit = 100)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            var updates = await _messageService.GetUserUpdatesAsync(session.UserId, fromPts, limit);
-
-            return new ApiResponse<List<UserUpdateDto>>
-            {
-                Success = true,
-                Data = updates
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<List<UserUpdateDto>>(ex);
-        }
-    }
-
-    // ==================== DELIVERY TRACKING ====================
-
-    public async Task<ApiResponse<bool>> MarkMessageDelivered(string sessionToken, int messageId)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            await _messageService.MarkMessageAsDeliveredAsync(messageId, session.UserId);
-
-            // Get the message to find the sender
-            var message = await _messageRepository.GetByIdAsync(messageId);
-
-            if (message?.SenderUserId != null)
-            {
-                var receipt = new DeliveryReceiptDto
-                {
-                    MessageId = messageId,
-                    UserId = session.UserId,
-                    Status = DeliveryStatus.Delivered,
-                    Timestamp = DateTime.UtcNow
-                };
-                await Clients.Group(GetUserGroupName(message.SenderUserId.Value)).SendAsync("DeliveryReceipt", receipt);
-            }
-
-            return new ApiResponse<bool>
-            {
-                Success = true,
-                Data = true
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<bool>(ex);
-        }
-    }
-
-    public async Task<ApiResponse<bool>> MarkMessageRead(string sessionToken, int messageId)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            await _messageService.MarkMessageAsReadAsync(messageId, session.UserId);
-
-            // Get the message to find the sender
-            var message = await _messageRepository.GetByIdAsync(messageId);
-
-            if (message?.SenderUserId != null)
-            {
-                var receipt = new DeliveryReceiptDto
-                {
-                    MessageId = messageId,
-                    UserId = session.UserId,
-                    Status = DeliveryStatus.Read,
-                    Timestamp = DateTime.UtcNow
-                };
-                await Clients.Group(GetUserGroupName(message.SenderUserId.Value)).SendAsync("DeliveryReceipt", receipt);
-            }
-
-            return new ApiResponse<bool>
-            {
-                Success = true,
-                Data = true
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<bool>(ex);
-        }
-    }
-
-    public async Task<ApiResponse<List<MessageDto>>> GetPendingMessages(string sessionToken)
-    {
-        try
-        {
-            var session = await _cryptographyService.ValidateSessionTokenAsync(sessionToken);
-            var pendingMessages = await _messageService.GetPendingMessagesAsync(session.UserId);
-
-            var messageDtos = new List<MessageDto>();
-            foreach (var queueItem in pendingMessages)
-            {
-                var msg = queueItem.Message;
-                messageDtos.Add(new MessageDto
-                {
-                    Id = msg.Id,
-                    RoomId = msg.RoomId,
-                    SenderUserId = msg.SenderUserId,
-                    SenderUsername = msg.Sender?.Username,
-                    MessageType = msg.MessageType,
-                    ServiceAction = msg.ServiceAction,
-                    ReplyToMessageId = msg.ReplyToMessageId,
-                    Content = msg.Content,
-                    SentAt = msg.SentAt,
-                    DeliveryStatus = DeliveryStatus.Sent,
-                    IsEdited = false,
-                    IsDeleted = false
-                });
-            }
-
-            return new ApiResponse<List<MessageDto>>
-            {
-                Success = true,
-                Data = messageDtos
-            };
-        }
-        catch (Exception ex)
-        {
-            return _errorMapper.MapException<List<MessageDto>>(ex);
-        }
-    }
 
     public override async Task OnConnectedAsync()
     {

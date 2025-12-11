@@ -28,8 +28,6 @@ public class SidebarViewModel : ViewModelBase
     private string _searchText = string.Empty;
     private bool _isAddContactOpen;
     private bool _hasLoadedRooms;
-    private bool _updatesInitialized;
-    private int _lastPts;
     private bool _suppressSelectionNavigation;
     private RoomItemViewModel? _selectedRoom;
     private readonly ObservableCollection<RoomItemViewModel> _rooms = new();
@@ -139,7 +137,6 @@ public class SidebarViewModel : ViewModelBase
         });
 
         // Only start updates after authentication; otherwise wait for login/registration flow
-        _ = InitializeUserUpdatesAsync();
     }
 
     public async Task EnsureRoomsLoadedAsync(bool forceReload = false)
@@ -242,53 +239,6 @@ public class SidebarViewModel : ViewModelBase
         }, showBusy: false);
     }
 
-    private async Task InitializeUserUpdatesAsync()
-    {
-        if (_updatesInitialized)
-        {
-            return;
-        }
-
-        _updatesInitialized = true;
-        _messageService.UserUpdateReceived += OnUserUpdateReceived;
-
-        if (_authService.IsAuthenticated)
-        {
-            await CatchUpUserUpdatesAsync();
-        }
-    }
-
-    private async Task CatchUpUserUpdatesAsync()
-    {
-        var response = await _messageService.GetUserUpdatesAsync(_lastPts);
-        if (response.Success && response.Data != null)
-        {
-            foreach (var update in response.Data)
-            {
-                HandleUserUpdate(update);
-                _lastPts = Math.Max(_lastPts, update.Pts);
-            }
-        }
-        else
-        {
-            Logger.LogWarning("Failed to fetch user updates: {Message}", response.Message);
-        }
-    }
-
-    private void OnUserUpdateReceived(object? sender, UserUpdateDto update)
-    {
-        HandleUserUpdate(update);
-        _lastPts = Math.Max(_lastPts, update.Pts);
-    }
-
-    private void HandleUserUpdate(UserUpdateDto update)
-    {
-        if (update.Type == UserUpdateType.Dialog && update.Dialog != null)
-        {
-            UpdateRoomFromDialog(update.Dialog);
-        }
-    }
-
     private RoomItemViewModel MapToRoom(RoomDto room)
     {
         return new RoomItemViewModel
@@ -299,34 +249,6 @@ public class SidebarViewModel : ViewModelBase
             IsGlobal = room.IsGlobal,
             LastActivityAt = room.CreatedAt
         };
-    }
-
-    private void UpdateRoomFromDialog(DialogUpdateDto dialog)
-    {
-        var room = _rooms.FirstOrDefault(r => r.Id == dialog.RoomId);
-        if (room == null)
-        {
-            room = new RoomItemViewModel
-            {
-                Id = dialog.RoomId,
-                Name = dialog.RoomName,
-                IsGlobal = dialog.IsGlobal
-            };
-            _rooms.Add(room);
-        }
-
-        room.Description = dialog.ContentPreview;
-        room.LastActivityAt = dialog.SentAt;
-        room.UnreadCount = dialog.UnreadCount;
-
-        var ordered = _rooms.OrderByDescending(r => r.LastActivityAt).ThenBy(r => r.Name).ToList();
-        _rooms.Clear();
-        foreach (var item in ordered)
-        {
-            _rooms.Add(item);
-        }
-
-        ApplyFilter();
     }
 
     private void UpdateSelectionState(RoomItemViewModel selected)

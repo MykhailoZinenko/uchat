@@ -12,10 +12,6 @@ public class UchatDbContext : DbContext
     public DbSet<RoomMember> RoomMembers { get; set; }
     public DbSet<MessageEdit> MessageEdits { get; set; }
     public DbSet<MessageDeletion> MessageDeletions { get; set; }
-    public DbSet<MessageDeliveryStatus> MessageDeliveryStatuses { get; set; }
-    public DbSet<UserPts> UserPts { get; set; }
-    public DbSet<MessageQueue> MessageQueues { get; set; }
-    public DbSet<UserUpdate> UserUpdates { get; set; }
 
     public UchatDbContext(DbContextOptions<UchatDbContext> options) : base(options)
     {
@@ -86,7 +82,6 @@ public class UchatDbContext : DbContext
             entity.Property(e => e.ServiceAction).HasConversion<string>().HasMaxLength(30);
             entity.Property(e => e.Content).IsRequired();
             entity.Property(e => e.SentAt).IsRequired();
-            entity.Property(e => e.SenderDeliveryStatus).HasConversion<string>().HasMaxLength(20).IsRequired();
 
             entity.HasOne(e => e.Room)
                 .WithMany(r => r.Messages)
@@ -157,69 +152,5 @@ public class UchatDbContext : DbContext
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        modelBuilder.Entity<MessageDeliveryStatus>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => new { e.MessageId, e.UserId }).IsUnique();
-            entity.Property(e => e.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
-            entity.Property(e => e.CreatedAt).IsRequired();
-
-            entity.HasOne(e => e.Message)
-                .WithMany(m => m.DeliveryStatuses)
-                .HasForeignKey(e => e.MessageId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasOne(e => e.User)
-                .WithMany()
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<UserPts>(entity =>
-        {
-            entity.HasKey(e => e.UserId);
-            entity.Property(e => e.CurrentPts).IsRequired();
-            entity.Property(e => e.LastUpdated).IsRequired();
-
-            entity.HasOne(e => e.User)
-                .WithOne()
-                .HasForeignKey<UserPts>(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<MessageQueue>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => new { e.RecipientUserId, e.IsDelivered });
-            entity.Property(e => e.QueuedAt).IsRequired();
-            entity.Property(e => e.IsDelivered).IsRequired();
-
-            entity.HasOne(e => e.Message)
-                .WithMany()
-                .HasForeignKey(e => e.MessageId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasOne(e => e.Recipient)
-                .WithMany()
-                .HasForeignKey(e => e.RecipientUserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<UserUpdate>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => new { e.UserId, e.Pts });
-            entity.Property(e => e.Pts).IsRequired();
-            entity.Property(e => e.UpdateType).HasMaxLength(50).IsRequired();
-            entity.Property(e => e.UpdateData).IsRequired();
-            entity.Property(e => e.CreatedAt).IsRequired();
-
-            entity.HasOne(e => e.User)
-                .WithMany()
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
     }
 }
-

@@ -30,114 +30,151 @@
                            DataContext="{Binding SidebarViewModel}" />
 
         <!-- CHAT AREA -->
-        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,*,Auto"
+              Background="{DynamicResource BackgroundBrush}">
 
             <!-- HEADER -->
             <Border Grid.Row="0"
                     Classes="card"
                     Margin="16,16,16,8"
-                    Padding="16,14"
-                    Height="56">
+                    Padding="16,14">
                 <TextBlock Text="{Binding Header}"
                            Classes="h4"
                            HorizontalAlignment="Center"/>
             </Border>
 
             <!-- MESSAGES AREA -->
-            <ScrollViewer Grid.Row="1"
-                          VerticalScrollBarVisibility="Auto"
-                          Padding="16"
-                          Margin="0,0,0,0" Background="Red">
-                <ItemsControl ItemsSource="{Binding Messages}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,56"
-                                        PointerPressed="Message_PointerPressed"
-                                        HorizontalAlignment="{Binding IsOutgoing, Converter={StaticResource BoolToAlignmentConverter}}">
-
-                                <!-- Message Bubble with Edit/Delete Popup -->
-                                <Grid ColumnDefinitions="Auto,Auto">
-
-                                    <!-- Edit/Delete Popup -->
-                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToPopupColumnConverter}}"
-                                            Background="{DynamicResource SurfaceVariantBrush}"
-                                            CornerRadius="{DynamicResource RadiusMD}"
-                                            Padding="8"
-                                            IsVisible="{Binding IsEditing}"
-                                            Margin="{Binding IsOutgoing, Converter={StaticResource BoolToPopupMarginConverter}}"
-                                            VerticalAlignment="Center"
-                                            BoxShadow="{DynamicResource ShadowMD}">
-                                        <StackPanel Spacing="4">
-                                            <Button Classes="secondary"
-                                                    Content="Edit"
-                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).EditMessageCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Padding="12,6"/>
-                                            <Button Background="{DynamicResource ErrorBrush}"
-                                                    Foreground="White"
-                                                    BorderThickness="0"
-                                                    CornerRadius="{DynamicResource RadiusMD}"
-                                                    Content="Delete"
-                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).DeleteMessageCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Padding="12,6"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- Message Bubble -->
-                                    <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToMessageColumnConverter}}"
-                                            Background="{Binding IsOutgoing, Converter={x:Static converters:BoolToColorConverter.Instance}}"
-                                            CornerRadius="{DynamicResource RadiusMD}"
-                                            Padding="12,8"
-                                            MaxWidth="500">
-                                        <StackPanel Spacing="4">
-                                            <TextBlock Text="{Binding Sender}"
-                                                       Classes="caption"
-                                                       FontWeight="SemiBold"
-                                                       IsVisible="{Binding !IsOutgoing}"/>
-                                            <TextBlock Text="{Binding Text}"
-                                                       Classes="body"
-                                                       TextWrapping="Wrap"
-                                                       Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
-
-                                            <!-- Time and Delivery Status -->
-                                            <StackPanel Orientation="Horizontal"
-                                                        Spacing="4"
-                                                        HorizontalAlignment="Right">
-                                                <TextBlock Text="{Binding Time}"
-                                                           Classes="caption"
-                                                           Opacity="0.7"
-                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
-
-                                                <!-- Delivery Status Checkmarks (Telegram-style) -->
-                                                <!-- Single checkmark: Sent ✓ -->
-                                                <TextBlock Text="✓"
-                                                           Classes="caption"
-                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"
-                                                           Opacity="0.7"
-                                                           IsVisible="{Binding ShowSingleCheckmark}"/>
-
-                                                <!-- Double checkmark: Delivered ✓✓ -->
-                                                <TextBlock Text="✓✓"
-                                                           Classes="caption"
-                                                           Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"
-                                                           Opacity="0.7"
-                                                           IsVisible="{Binding ShowDoubleCheckmark}"/>
-
-                                                <!-- Blue double checkmark: Read ✓✓ -->
-                                                <TextBlock Text="✓✓"
-                                                           Classes="caption"
-                                                           Foreground="#0088CC"
-                                                           IsVisible="{Binding ShowBlueCheckmark}"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
+            <Border Grid.Row="1"
+                    Margin="16,0,16,8"
+                    Background="{DynamicResource SurfaceBrush}"
+                    CornerRadius="{DynamicResource RadiusLG}">
+                <ScrollViewer x:Name="MessagesScrollViewer"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="16">
+                    <StackPanel>
+                        <!-- Loading indicator -->
+                        <Border Height="40"
+                                IsVisible="{Binding IsLoadingMore}"
+                                HorizontalAlignment="Center"
+                                Margin="0,8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="Loading more messages..."
+                                           Classes="caption"
+                                           VerticalAlignment="Center"/>
                             </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                        </Border>
+
+                        <ItemsControl x:Name="MessagesItemsControl"
+                                      ItemsSource="{Binding Messages}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!-- Non-virtualizing to ensure full extent is measured -->
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,0,0,16"
+                                                PointerPressed="Message_PointerPressed"
+                                                HorizontalAlignment="{Binding IsOutgoing, Converter={StaticResource BoolToAlignmentConverter}}">
+
+                                        <!-- Message Bubble with Edit/Delete Popup -->
+                                        <Grid ColumnDefinitions="Auto,Auto">
+
+                                            <!-- Edit/Delete Popup -->
+                                            <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToPopupColumnConverter}}"
+                                                    Background="{DynamicResource SurfaceVariantBrush}"
+                                                    CornerRadius="{DynamicResource RadiusMD}"
+                                                    Padding="8"
+                                                    IsVisible="{Binding ShowContextMenu}"
+                                                    Margin="{Binding IsOutgoing, Converter={StaticResource BoolToPopupMarginConverter}}"
+                                                    VerticalAlignment="Center"
+                                                    BoxShadow="{DynamicResource ShadowMD}">
+                                                <StackPanel Spacing="4">
+                                                    <Button Classes="secondary"
+                                                            Content="Edit"
+                                                            Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).EditMessageCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Padding="12,6"/>
+                                                    <Button Background="{DynamicResource ErrorBrush}"
+                                                            Foreground="White"
+                                                            BorderThickness="0"
+                                                            CornerRadius="{DynamicResource RadiusMD}"
+                                                            Content="Delete"
+                                                            Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).DeleteMessageCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Padding="12,6"/>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <!-- Message Bubble -->
+                                            <Border Grid.Column="{Binding IsOutgoing, Converter={StaticResource BoolToMessageColumnConverter}}"
+                                                    Background="{Binding IsOutgoing, Converter={x:Static converters:BoolToColorConverter.Instance}}"
+                                                    CornerRadius="{DynamicResource RadiusMD}"
+                                                    Padding="12,8"
+                                                    MaxWidth="500">
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="{Binding Sender}"
+                                                               Classes="caption"
+                                                               FontWeight="SemiBold"
+                                                               IsVisible="{Binding !IsOutgoing}"/>
+
+                                                    <!-- Normal message text -->
+                                                    <TextBlock Text="{Binding Text}"
+                                                               Classes="body"
+                                                               TextWrapping="Wrap"
+                                                               IsVisible="{Binding !IsEditing}"
+                                                               Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
+
+                                                    <!-- Edit mode -->
+                                                    <StackPanel Spacing="8" IsVisible="{Binding IsEditing}">
+                                                        <TextBox Text="{Binding EditedText}"
+                                                                 TextWrapping="Wrap"
+                                                                 MinWidth="200"
+                                                                 AcceptsReturn="True"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <Button Content="Save"
+                                                                    Classes="primary"
+                                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).SaveEditCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Padding="12,4"/>
+                                                            <Button Content="Cancel"
+                                                                    Classes="secondary"
+                                                                    Command="{Binding $parent[ItemsControl].((viewModels:ChatViewModel)DataContext).CancelEditCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Padding="12,4"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                    <!-- Time and Status -->
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Spacing="4"
+                                                                HorizontalAlignment="Right">
+                                                        <TextBlock Text="(edited)"
+                                                                   Classes="caption"
+                                                                   Opacity="0.7"
+                                                                   IsVisible="{Binding IsEdited}"
+                                                                   Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
+                                                        <TextBlock Text="{Binding Time}"
+                                                                   Classes="caption"
+                                                                   Opacity="0.7"
+                                                                   Foreground="{Binding IsOutgoing, Converter={x:Static converters:BoolToTextColorConverter.Instance}}"/>
+
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!-- Small spacer so last message clears the input -->
+                        <Border Height="48" IsHitTestVisible="False"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
 
             <!-- MESSAGE INPUT -->
             <Border Grid.Row="2"
@@ -145,7 +182,7 @@
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="{StaticResource RadiusFull}"
-                    Margin="16,0,16,10"
+                    Margin="16,0,16,16"
                     Padding="8,0"
                     Height="56">
 

@@ -9,7 +9,6 @@ using uchat_server.Configuration;
 using uchat_server.Data;
 using uchat_server.Hubs;
 using uchat_server.Repositories;
-using uchat_server.Repositories.Interfaces;
 using uchat_server.Services;
 using uchat_server.Data.Entities;
 
@@ -95,10 +94,6 @@ builder.Services.AddScoped<IRoomMemberRepository, RoomMemberRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageEditRepository, MessageEditRepository>();
 builder.Services.AddScoped<IMessageDeletionRepository, MessageDeletionRepository>();
-builder.Services.AddScoped<IMessageDeliveryStatusRepository, MessageDeliveryStatusRepository>();
-builder.Services.AddScoped<IUserPtsRepository, UserPtsRepository>();
-builder.Services.AddScoped<IMessageQueueRepository, MessageQueueRepository>();
-builder.Services.AddScoped<IUserUpdateRepository, UserUpdateRepository>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<ICryptographyService, CryptographyService>();

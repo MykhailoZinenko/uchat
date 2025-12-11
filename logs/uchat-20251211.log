@@ -5641,3 +5641,2421 @@ oing=true, DeliveryStatus="Sent"
 2025-12-11 16:40:47.786 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
 2025-12-11 16:40:47.787 +01:00 [INF] CurrentView updated to: ChatViewModel
 2025-12-11 16:40:47.788 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 16:44:51.398 +01:00 [INF] Application starting up
+2025-12-11 16:44:51.496 +01:00 [INF] NavigationService initialized
+2025-12-11 16:44:51.498 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 16:44:51.524 +01:00 [INF] Starting application initialization
+2025-12-11 16:44:51.525 +01:00 [INF] Starting hub connection
+2025-12-11 16:44:51.525 +01:00 [INF] Starting SignalR connection
+2025-12-11 16:44:51.658 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 16:44:51.659 +01:00 [INF] Hub connection started
+2025-12-11 16:44:51.694 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 16:44:51.695 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 16:44:51.695 +01:00 [INF] Attempting refresh token login
+2025-12-11 16:44:51.696 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 16:44:51.799 +01:00 [INF] Refresh token login successful
+2025-12-11 16:44:51.803 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 16:44:51.803 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 16:44:51.841 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 16:44:51.841 +01:00 [INF] Auto-login successful
+2025-12-11 16:44:51.841 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 16:44:51.842 +01:00 [INF] Loading rooms...
+2025-12-11 16:44:51.842 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 16:44:51.842 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 16:44:51.875 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 16:44:51.876 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 16:44:51.878 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 16:44:51.878 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 16:44:51.878 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 16:44:51.879 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 16:44:51.879 +01:00 [INF] Loading rooms...
+2025-12-11 16:44:51.879 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 16:44:51.879 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 16:44:51.886 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 16:44:51.886 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 16:44:51.887 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 16:44:51.887 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 16:44:51.888 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 16:44:51.906 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=5, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=6, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=7, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=8, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=9, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=10, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=11, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=12, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=13, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=14, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=15, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=16, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=17, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=18, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.907 +01:00 [DBG] MapMessage: Id=19, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 16:44:51.908 +01:00 [DBG] MapMessage: Id=20, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 16:44:51.908 +01:00 [DBG] MapMessage: Id=21, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.908 +01:00 [DBG] MapMessage: Id=22, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.908 +01:00 [DBG] MapMessage: Id=23, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.908 +01:00 [DBG] MapMessage: Id=24, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 16:44:51.909 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 16:44:51.915 +01:00 [DBG] Marking 5 unread messages as read
+2025-12-11 16:44:51.915 +01:00 [DBG] Marking message as read: 1
+2025-12-11 16:44:51.915 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 16:44:51.918 +01:00 [DBG] Marking message as read: 4
+2025-12-11 16:44:51.918 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 16:44:51.920 +01:00 [DBG] Marking message as read: 5
+2025-12-11 16:44:51.920 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 16:44:51.921 +01:00 [DBG] Marking message as read: 6
+2025-12-11 16:44:51.921 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 16:44:51.922 +01:00 [DBG] Marking message as read: 7
+2025-12-11 16:44:51.922 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 16:44:51.923 +01:00 [INF] Raising Navigated event
+2025-12-11 16:44:51.923 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 16:44:51.991 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 16:44:51.991 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 16:45:01.323 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Settings.ViewModels.SettingsViewModel
+2025-12-11 16:45:01.325 +01:00 [INF] Type found, resolving from DI: SettingsViewModel
+2025-12-11 16:45:01.326 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 16:45:01.326 +01:00 [INF] NavigateToInternal called with SettingsViewModel
+2025-12-11 16:45:01.328 +01:00 [INF] Raising Navigated event
+2025-12-11 16:45:01.328 +01:00 [INF] OnNavigated called with ViewModel: SettingsViewModel
+2025-12-11 16:45:01.350 +01:00 [INF] CurrentView updated to: SettingsViewModel
+2025-12-11 16:45:01.350 +01:00 [INF] Navigation completed successfully to SettingsViewModel
+2025-12-11 16:45:03.423 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Settings.ViewModels.MyAccountViewModel
+2025-12-11 16:45:03.423 +01:00 [INF] Type found, resolving from DI: MyAccountViewModel
+2025-12-11 16:45:03.424 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 16:45:03.424 +01:00 [INF] NavigateToInternal called with MyAccountViewModel
+2025-12-11 16:45:03.424 +01:00 [INF] Raising Navigated event
+2025-12-11 16:45:03.424 +01:00 [INF] OnNavigated called with ViewModel: MyAccountViewModel
+2025-12-11 16:45:03.433 +01:00 [INF] CurrentView updated to: MyAccountViewModel
+2025-12-11 16:45:03.434 +01:00 [INF] Navigation completed successfully to MyAccountViewModel
+2025-12-11 16:47:53.770 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 16:47:53.772 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 16:47:53.773 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 16:47:53.774 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 16:47:53.774 +01:00 [INF] Loading rooms...
+2025-12-11 16:47:53.774 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 16:47:53.774 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 16:47:53.794 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 16:47:53.795 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 16:47:53.796 +01:00 [INF] Navigated to room: hey, test group (3)
+2025-12-11 16:47:53.796 +01:00 [DBG] Fetching messages for room: 3
+2025-12-11 16:47:53.796 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 16:47:53.809 +01:00 [DBG] MapMessage: Id=26, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 16:47:53.810 +01:00 [DBG] MapMessage: Id=27, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 16:47:53.810 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 16:47:53.823 +01:00 [INF] Raising Navigated event
+2025-12-11 16:47:53.824 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 16:47:53.834 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 16:47:53.834 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 17:03:07.452 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 17:03:07.459 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 17:03:09.471 +01:00 [INF] SignalR reconnected with connection ID: eVfui2JnmW-7pHh9KDxApg
+2025-12-11 17:21:02.373 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 17:21:02.375 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 17:21:04.398 +01:00 [INF] SignalR reconnected with connection ID: gbKOXlOxGH8GFTnwybXrTA
+2025-12-11 17:38:14.799 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 17:38:14.836 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 17:38:16.909 +01:00 [INF] SignalR reconnected with connection ID: TeRBZ-hMjmH8YDQMiE71Ag
+2025-12-11 17:55:37.965 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 17:55:37.976 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 17:55:40.015 +01:00 [INF] SignalR reconnected with connection ID: 2-V9OnTR6GuGJgyuK_IDjw
+2025-12-11 18:11:40.483 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 18:11:40.508 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 18:11:42.552 +01:00 [INF] SignalR reconnected with connection ID: 5ohMFDF2dGSCWAjvw9Y1IQ
+2025-12-11 18:28:13.778 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 18:28:13.833 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 18:28:15.847 +01:00 [INF] SignalR reconnected with connection ID: LfarqmyW0e6xQmVEN7sEVw
+2025-12-11 18:34:14.097 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 18:34:14.367 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 18:34:16.404 +01:00 [INF] SignalR reconnected with connection ID: ZA9wRFSbapBH5-29wvEkYw
+2025-12-11 19:00:13.911 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 19:00:13.992 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 19:00:16.099 +01:00 [INF] SignalR reconnected with connection ID: ziLMhWqrT1xCzqZWVFLbfA
+2025-12-11 19:08:50.413 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 19:08:50.524 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 19:08:52.609 +01:00 [INF] SignalR reconnected with connection ID: UlSBr5EiweBSBQjTPo5zEQ
+2025-12-11 19:13:23.184 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 19:13:23.220 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 19:13:25.236 +01:00 [INF] SignalR reconnected with connection ID: 0x1YVhCa-TuGFbH0EXsWFA
+2025-12-11 19:17:19.361 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 19:17:19.363 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 19:17:21.705 +01:00 [INF] SignalR reconnected with connection ID: oSxZ6nsj9FfveelpJ94Dxw
+2025-12-11 19:49:39.075 +01:00 [INF] Application starting up
+2025-12-11 19:49:39.195 +01:00 [INF] NavigationService initialized
+2025-12-11 19:49:39.197 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 19:49:39.225 +01:00 [INF] Starting application initialization
+2025-12-11 19:49:39.226 +01:00 [INF] Starting hub connection
+2025-12-11 19:49:39.226 +01:00 [INF] Starting SignalR connection
+2025-12-11 19:49:39.364 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 19:49:39.365 +01:00 [INF] Hub connection started
+2025-12-11 19:49:39.401 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 19:49:39.401 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 19:49:39.401 +01:00 [INF] Attempting refresh token login
+2025-12-11 19:49:39.403 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 19:49:39.513 +01:00 [INF] Refresh token login successful
+2025-12-11 19:49:39.518 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 19:49:39.519 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 19:49:39.555 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 19:49:39.555 +01:00 [INF] Auto-login successful
+2025-12-11 19:49:39.555 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 19:49:39.556 +01:00 [INF] Loading rooms...
+2025-12-11 19:49:39.556 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:49:39.556 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:49:39.611 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 19:49:39.612 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 19:49:39.613 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:49:39.613 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:49:39.614 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:49:39.614 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:49:39.616 +01:00 [INF] Loading rooms...
+2025-12-11 19:49:39.616 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:49:39.616 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:49:39.634 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 19:49:39.634 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 19:49:39.635 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:49:39.635 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:49:39.635 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:49:39.701 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:39.702 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:39.702 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=5, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=6, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=7, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=8, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=9, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=10, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=11, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=12, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=13, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=14, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=15, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=16, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=17, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=18, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=19, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=20, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=21, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.703 +01:00 [DBG] MapMessage: Id=22, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.704 +01:00 [DBG] MapMessage: Id=23, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.704 +01:00 [DBG] MapMessage: Id=24, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:39.704 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:49:39.713 +01:00 [DBG] Marking 5 unread messages as read
+2025-12-11 19:49:39.713 +01:00 [DBG] Marking message as read: 1
+2025-12-11 19:49:39.713 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:39.723 +01:00 [DBG] Marking message as read: 4
+2025-12-11 19:49:39.723 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:39.725 +01:00 [DBG] Marking message as read: 5
+2025-12-11 19:49:39.725 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:39.726 +01:00 [DBG] Marking message as read: 6
+2025-12-11 19:49:39.726 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:39.727 +01:00 [DBG] Marking message as read: 7
+2025-12-11 19:49:39.727 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:39.729 +01:00 [INF] Raising Navigated event
+2025-12-11 19:49:39.729 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:49:39.783 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:49:39.783 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 19:49:45.403 +01:00 [DBG] DeliveryReceipt: MessageId=2 Status="Read"
+2025-12-11 19:49:45.403 +01:00 [DBG] Delivery receipt: MessageId=2 Status="Read"
+2025-12-11 19:49:45.403 +01:00 [DBG] Updating message 2 status from "Pending" to "Read"
+2025-12-11 19:49:45.403 +01:00 [DBG] DeliveryReceipt: MessageId=3 Status="Read"
+2025-12-11 19:49:45.404 +01:00 [DBG] Delivery receipt: MessageId=3 Status="Read"
+2025-12-11 19:49:45.404 +01:00 [DBG] Updating message 3 status from "Pending" to "Read"
+2025-12-11 19:49:45.405 +01:00 [DBG] DeliveryReceipt: MessageId=8 Status="Read"
+2025-12-11 19:49:45.405 +01:00 [DBG] Delivery receipt: MessageId=8 Status="Read"
+2025-12-11 19:49:45.405 +01:00 [DBG] Updating message 8 status from "Pending" to "Read"
+[INF] Attempting refresh token login
+2025-12-11 19:49:45.208 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 19:49:45.289 +01:00 [INF] Refresh token login successful
+2025-12-11 19:49:45.294 +01:00 [DBG] Session saved for user: misha
+2025-12-11 19:49:45.295 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 19:49:45.310 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 19:49:45.313 +01:00 [INF] Auto-login successful
+2025-12-11 19:49:45.313 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 19:49:45.315 +01:00 [INF] Loading rooms...
+2025-12-11 19:49:45.315 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:49:45.315 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:49:45.347 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 19:49:45.349 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 19:49:45.350 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:49:45.350 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:49:45.350 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:49:45.350 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:49:45.351 +01:00 [INF] Loading rooms...
+2025-12-11 19:49:45.351 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:49:45.351 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:49:45.358 +01:00 [INF] Rooms fetched: Count=3
+2025-12-11 19:49:45.358 +01:00 [INF] Rooms after ordering: Count=3
+2025-12-11 19:49:45.359 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:49:45.360 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:49:45.360 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:49:45.385 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=5, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=6, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=7, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=8, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=9, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=10, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=11, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:45.387 +01:00 [DBG] MapMessage: Id=12, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=13, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=14, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=15, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=16, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=17, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=18, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=19, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=20, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=21, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=22, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=23, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.388 +01:00 [DBG] MapMessage: Id=24, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:49:45.389 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:49:45.394 +01:00 [DBG] Marking 3 unread messages as read
+2025-12-11 19:49:45.395 +01:00 [DBG] Marking message as read: 2
+2025-12-11 19:49:45.395 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:45.399 +01:00 [DBG] Marking message as read: 3
+2025-12-11 19:49:45.399 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:45.402 +01:00 [DBG] Marking message as read: 8
+2025-12-11 19:49:45.402 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:49:45.405 +01:00 [INF] Raising Navigated event
+2025-12-11 19:49:45.406 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:49:45.464 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:49:45.464 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 19:50:11.640 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 19:50:11.645 +01:00 [WRN] SignalR reconnecting due to error: The remote party closed the WebSocket connection without completing the close handshake.
+2025-12-11 19:50:13.661 +01:00 [INF] SignalR retry #2 - waiting 2s before reconnect
+2025-12-11 19:50:15.669 +01:00 [INF] SignalR retry #3 - waiting 5s before reconnect
+2025-12-11 19:50:20.674 +01:00 [INF] SignalR retry #4 - waiting 10s before reconnect
+2025-12-11 19:50:30.686 +01:00 [INF] SignalR retry #5 - waiting 15s before reconnect
+2025-12-11 19:50:45.724 +01:00 [INF] SignalR reconnected with connection ID: XtpXLjV6mmU4B6ZYRNvVIg
+2025-12-11 19:50:47.984 +01:00 [INF] Application starting up
+2025-12-11 19:50:48.079 +01:00 [INF] NavigationService initialized
+2025-12-11 19:50:48.080 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 19:50:48.100 +01:00 [INF] Starting application initialization
+2025-12-11 19:50:48.100 +01:00 [INF] Starting hub connection
+2025-12-11 19:50:48.101 +01:00 [INF] Starting SignalR connection
+2025-12-11 19:50:48.214 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 19:50:48.216 +01:00 [INF] Hub connection started
+2025-12-11 19:50:48.254 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 19:50:48.255 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 19:50:48.255 +01:00 [INF] Attempting refresh token login
+2025-12-11 19:50:48.257 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 19:50:48.358 +01:00 [WRN] Refresh token login failed: Invalid or expired refresh token
+2025-12-11 19:50:48.359 +01:00 [WRN] Auto-login failed: Invalid or expired refresh token
+2025-12-11 19:50:48.359 +01:00 [INF] NavigateToLogin called
+2025-12-11 19:50:48.359 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Authentication.ViewModels.LoginViewModel
+2025-12-11 19:50:48.359 +01:00 [INF] Type found, resolving from DI: LoginViewModel
+2025-12-11 19:50:48.360 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:50:48.360 +01:00 [INF] NavigateToInternal called with LoginViewModel
+2025-12-11 19:50:48.360 +01:00 [INF] Raising Navigated event
+2025-12-11 19:50:48.360 +01:00 [INF] OnNavigated called with ViewModel: LoginViewModel
+2025-12-11 19:50:48.404 +01:00 [INF] CurrentView updated to: LoginViewModel
+2025-12-11 19:50:48.405 +01:00 [INF] Navigation completed successfully to LoginViewModel
+2025-12-11 19:50:49.960 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Authentication.ViewModels.RegistrationViewModel
+2025-12-11 19:50:49.960 +01:00 [INF] Type found, resolving from DI: RegistrationViewModel
+2025-12-11 19:50:49.961 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:50:49.961 +01:00 [INF] NavigateToInternal called with RegistrationViewModel
+2025-12-11 19:50:49.961 +01:00 [INF] Raising Navigated event
+2025-12-11 19:50:49.961 +01:00 [INF] OnNavigated called with ViewModel: RegistrationViewModel
+2025-12-11 19:50:49.978 +01:00 [INF] CurrentView updated to: RegistrationViewModel
+2025-12-11 19:50:49.978 +01:00 [INF] Navigation completed successfully to RegistrationViewModel
+2025-12-11 19:51:23.911 +01:00 [INF] Attempting registration for user: misha
+2025-12-11 19:51:23.914 +01:00 [INF] Attempting registration for user: misha
+2025-12-11 19:51:23.914 +01:00 [DBG] Invoking SignalR method: Register
+2025-12-11 19:51:24.054 +01:00 [INF] Registration successful for user: misha
+2025-12-11 19:51:24.058 +01:00 [DBG] Session saved for user: misha
+2025-12-11 19:51:24.058 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 19:51:24.062 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 19:51:24.062 +01:00 [INF] Registration successful for user: misha
+2025-12-11 19:51:24.063 +01:00 [INF] Loading rooms...
+2025-12-11 19:51:24.063 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:51:24.063 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:51:24.076 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 19:51:24.078 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 19:51:24.078 +01:00 [INF] Post-registration rooms loaded: Count=1
+2025-12-11 19:51:24.078 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:51:24.078 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:51:24.079 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:51:24.079 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:51:24.079 +01:00 [INF] Loading rooms...
+2025-12-11 19:51:24.079 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:51:24.079 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:51:24.083 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 19:51:24.083 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 19:51:24.084 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:51:24.084 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:51:24.084 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:51:24.098 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:24.099 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:51:24.100 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:51:24.105 +01:00 [DBG] Marking 1 unread messages as read
+2025-12-11 19:51:24.106 +01:00 [DBG] Marking message as read: 1
+2025-12-11 19:51:24.106 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:24.119 +01:00 [INF] Raising Navigated event
+2025-12-11 19:51:24.119 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:51:24.161 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:51:24.161 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 19:51:33.177 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=3
+2025-12-11 19:51:33.178 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:33.180 +01:00 [DBG] Marking message as delivered: 3
+2025-12-11 19:51:33.181 +01:00 [DBG] Invoking SignalR method: MarkMessageDelivered
+2025-12-11 19:51:33.222 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:51:33.223 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:51:33.224 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:51:33.224 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:51:33.224 +01:00 [INF] Loading rooms...
+2025-12-11 19:51:33.224 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:51:33.224 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:51:33.236 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 19:51:33.236 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 19:51:33.241 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:51:33.241 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:51:33.241 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:51:33.246 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:33.246 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:51:33.246 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=false, DeliveryStatus="Delivered"
+2025-12-11 19:51:33.246 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:51:33.249 +01:00 [DBG] DeliveryReceipt: MessageId=2 Status="Read"
+2025-12-11 19:51:33.250 +01:00 [DBG] Delivery receipt: MessageId=2 Status="Read"
+2025-12-11 19:51:33.251 +01:00 [DBG] Updating message 2 status from "Pending" to "Read"
+2025-12-11 19:51:33.251 +01:00 [DBG] Marking 2 unread messages as read
+2025-12-11 19:51:33.251 +01:00 [DBG] Marking message as read: 1
+2025-12-11 19:51:33.251 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:33.254 +01:00 [DBG] Marking message as read: 3
+2025-12-11 19:51:33.254 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:33.259 +01:00 [INF] Raising Navigated event
+2025-12-11 19:51:33.259 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:51:33.261 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:51:33.261 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 19:51:38.753 +01:00 [DBG] Sending message: hi
+2025-12-11 19:51:38.756 +01:00 [DBG] Sending message to room: 1 with clientId: 842220ef-8429-404a-a31f-5872be3455cf
+2025-12-11 19:51:38.757 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 19:51:38.781 +01:00 [DBG] MessageAck received: ClientId=842220ef-8429-404a-a31f-5872be3455cf ServerId=4
+2025-12-11 19:51:38.781 +01:00 [DBG] Message acknowledged: ClientId=842220ef-8429-404a-a31f-5872be3455cf ServerId=4
+2025-12-11 19:51:38.784 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:51:38.785 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:51:38.786 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:51:38.786 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:51:38.786 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:51:38.786 +01:00 [INF] Loading rooms...
+2025-12-11 19:51:38.786 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:51:38.786 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:51:38.790 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 19:51:38.790 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 19:51:38.791 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:51:38.791 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:51:38.792 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:51:38.800 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:38.801 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:51:38.801 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=false, DeliveryStatus="Read"
+2025-12-11 19:51:38.801 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:51:38.801 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:51:38.806 +01:00 [DBG] Marking 1 unread messages as read
+2025-12-11 19:51:38.806 +01:00 [DBG] Marking message as read: 1
+2025-12-11 19:51:38.806 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:38.840 +01:00 [INF] Raising Navigated event
+2025-12-11 19:51:38.840 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:51:38.842 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:51:38.842 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 19:51:38.941 +01:00 [DBG] DeliveryReceipt: MessageId=4 Status="Delivered"
+2025-12-11 19:51:38.942 +01:00 [DBG] Delivery receipt: MessageId=4 Status="Delivered"
+2025-12-11 19:51:38.942 +01:00 [DBG] Updating message 4 status from "Sent" to "Delivered"
+2025-12-11 19:51:38.960 +01:00 [DBG] DeliveryReceipt: MessageId=2 Status="Read"
+2025-12-11 19:51:38.960 +01:00 [DBG] Delivery receipt: MessageId=2 Status="Read"
+2025-12-11 19:51:38.960 +01:00 [DBG] Updating message 2 status from "Pending" to "Read"
+2025-12-11 19:51:38.962 +01:00 [DBG] DeliveryReceipt: MessageId=4 Status="Read"
+2025-12-11 19:51:38.962 +01:00 [DBG] Delivery receipt: MessageId=4 Status="Read"
+2025-12-11 19:51:38.962 +01:00 [DBG] Updating message 4 status from "Delivered" to "Read"
+1 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:38.782 +01:00 [DBG] Marking message as delivered: 4
+2025-12-11 19:51:38.783 +01:00 [DBG] Invoking SignalR method: MarkMessageDelivered
+2025-12-11 19:51:38.788 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 19:51:38.788 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 19:51:38.789 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 19:51:38.789 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 19:51:38.789 +01:00 [INF] Loading rooms...
+2025-12-11 19:51:38.789 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 19:51:38.789 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 19:51:38.829 +01:00 [DBG] DeliveryReceipt: MessageId=1 Status="Read"
+2025-12-11 19:51:38.942 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 19:51:38.942 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 19:51:38.944 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 19:51:38.945 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 19:51:38.945 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 19:51:38.952 +01:00 [DBG] MapMessage: Id=1, IsOutgoing=true, DeliveryStatus="Pending"
+2025-12-11 19:51:38.952 +01:00 [DBG] MapMessage: Id=2, IsOutgoing=false, DeliveryStatus="Sent"
+2025-12-11 19:51:38.952 +01:00 [DBG] MapMessage: Id=3, IsOutgoing=true, DeliveryStatus="Sent"
+2025-12-11 19:51:38.952 +01:00 [DBG] MapMessage: Id=4, IsOutgoing=false, DeliveryStatus="Delivered"
+2025-12-11 19:51:38.952 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 19:51:38.956 +01:00 [DBG] Marking 2 unread messages as read
+2025-12-11 19:51:38.956 +01:00 [DBG] Marking message as read: 2
+2025-12-11 19:51:38.956 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:38.960 +01:00 [DBG] Marking message as read: 4
+2025-12-11 19:51:38.960 +01:00 [DBG] Invoking SignalR method: MarkMessageRead
+2025-12-11 19:51:38.962 +01:00 [INF] Raising Navigated event
+2025-12-11 19:51:38.962 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 19:51:38.963 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 19:51:38.963 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:07:51.507 +01:00 [INF] Application starting up
+2025-12-11 20:07:51.633 +01:00 [INF] NavigationService initialized
+2025-12-11 20:07:51.635 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:07:51.666 +01:00 [INF] Starting application initialization
+2025-12-11 20:07:51.668 +01:00 [INF] Starting hub connection
+2025-12-11 20:07:51.668 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:07:51.820 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:07:51.821 +01:00 [INF] Hub connection started
+2025-12-11 20:07:51.859 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 20:07:51.859 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:07:51.859 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:07:51.861 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:07:52.021 +01:00 [INF] Refresh token login successful
+2025-12-11 20:07:52.024 +01:00 [DBG] Session saved for user: misha
+2025-12-11 20:07:52.025 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:07:52.056 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:07:52.056 +01:00 [INF] Auto-login successful
+2025-12-11 20:07:52.056 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 20:07:52.057 +01:00 [INF] Loading rooms...
+2025-12-11 20:07:52.058 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:07:52.058 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:07:52.130 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:07:52.133 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:07:52.135 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:07:52.135 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:07:52.135 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:07:52.136 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:07:52.136 +01:00 [INF] Loading rooms...
+2025-12-11 20:07:52.136 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:07:52.136 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:07:52.142 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:07:52.143 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:07:52.143 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:07:52.144 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:07:52.144 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:07:52.205 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:07:52.214 +01:00 [INF] Raising Navigated event
+2025-12-11 20:07:52.214 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:07:52.274 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:07:52.274 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:08:16.465 +01:00 [DBG] Sending message: hi
+2025-12-11 20:08:16.466 +01:00 [DBG] Sending message to room: 1 with clientId: 97777ec5-6d79-4786-812a-919ba145c012
+2025-12-11 20:08:16.467 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:08:16.562 +01:00 [DBG] MessageAck received: ClientId=97777ec5-6d79-4786-812a-919ba145c012 ServerId=5
+2025-12-11 20:08:19.255 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=6
+2025-12-11 20:08:21.852 +01:00 [DBG] Sending message: yes
+2025-12-11 20:08:21.853 +01:00 [DBG] Sending message to room: 1 with clientId: 46a2b2d8-dc2d-4cf7-8ef4-a02429c1718b
+2025-12-11 20:08:21.853 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:08:21.867 +01:00 [DBG] MessageAck received: ClientId=46a2b2d8-dc2d-4cf7-8ef4-a02429c1718b ServerId=7
+2025-12-11 20:08:24.977 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=8
+2025-12-11 20:28:20.854 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 20:28:20.873 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 20:28:22.891 +01:00 [INF] SignalR reconnected with connection ID: 6KcFmZZHBjP9kIHCmGLssQ
+tication.ViewModels.LoginViewModel
+2025-12-11 20:08:01.107 +01:00 [INF] Type found, resolving from DI: LoginViewModel
+2025-12-11 20:08:01.107 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:08:01.108 +01:00 [INF] NavigateToInternal called with LoginViewModel
+2025-12-11 20:08:01.108 +01:00 [INF] Raising Navigated event
+2025-12-11 20:08:01.108 +01:00 [INF] OnNavigated called with ViewModel: LoginViewModel
+2025-12-11 20:08:01.173 +01:00 [INF] CurrentView updated to: LoginViewModel
+2025-12-11 20:08:01.173 +01:00 [INF] Navigation completed successfully to LoginViewModel
+2025-12-11 20:08:09.865 +01:00 [INF] Attempting login for user: cindy
+2025-12-11 20:08:09.871 +01:00 [INF] Attempting login for user: cindy
+2025-12-11 20:08:09.871 +01:00 [DBG] Invoking SignalR method: Login
+2025-12-11 20:08:10.246 +01:00 [INF] Login successful for user: cindy
+2025-12-11 20:08:10.249 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:08:10.250 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:08:10.253 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:08:10.254 +01:00 [INF] Login successful for user: cindy
+2025-12-11 20:08:10.255 +01:00 [INF] Loading rooms...
+2025-12-11 20:08:10.256 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:08:10.256 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:08:10.273 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:08:10.274 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:08:10.275 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:08:10.275 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:08:10.275 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:08:10.275 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:08:10.275 +01:00 [INF] Loading rooms...
+2025-12-11 20:08:10.276 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:08:10.276 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:08:10.279 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:08:10.279 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:08:10.279 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:08:10.280 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:08:10.280 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:08:10.301 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:08:10.310 +01:00 [INF] Raising Navigated event
+2025-12-11 20:08:10.310 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:08:10.336 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:08:10.336 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:08:16.570 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=5
+2025-12-11 20:08:19.223 +01:00 [DBG] Sending message: helo
+2025-12-11 20:08:19.226 +01:00 [DBG] Sending message to room: 1 with clientId: fd62150c-38af-4699-87ae-18d32d9eca77
+2025-12-11 20:08:19.226 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:08:19.256 +01:00 [DBG] MessageAck received: ClientId=fd62150c-38af-4699-87ae-18d32d9eca77 ServerId=6
+2025-12-11 20:08:21.868 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=7
+2025-12-11 20:08:24.952 +01:00 [DBG] Sending message: yep yep
+2025-12-11 20:08:24.953 +01:00 [DBG] Sending message to room: 1 with clientId: b0846d9b-f513-487e-8523-8b71a98436ec
+2025-12-11 20:08:24.953 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:08:24.971 +01:00 [DBG] MessageAck received: ClientId=b0846d9b-f513-487e-8523-8b71a98436ec ServerId=8
+2025-12-11 20:28:20.854 +01:00 [INF] SignalR retry #1 - waiting 2s before reconnect
+2025-12-11 20:28:20.871 +01:00 [WRN] SignalR reconnecting due to error: Server timeout (30000.00ms) elapsed without receiving a message from the server.
+2025-12-11 20:28:22.891 +01:00 [INF] SignalR reconnected with connection ID: zLVhuyCrq-O2PdnHw71_oQ
+2025-12-11 20:29:52.379 +01:00 [INF] Application starting up
+2025-12-11 20:29:52.506 +01:00 [INF] NavigationService initialized
+2025-12-11 20:29:52.508 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:29:52.535 +01:00 [INF] Starting application initialization
+2025-12-11 20:29:52.536 +01:00 [INF] Starting hub connection
+2025-12-11 20:29:52.536 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:29:52.672 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:29:52.673 +01:00 [INF] Hub connection started
+2025-12-11 20:29:52.709 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:29:52.709 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:29:52.710 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:29:52.711 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:29:52.880 +01:00 [INF] Refresh token login successful
+2025-12-11 20:29:52.883 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:29:52.884 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:29:52.913 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:29:52.913 +01:00 [INF] Auto-login successful
+2025-12-11 20:29:52.913 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:29:52.914 +01:00 [INF] Loading rooms...
+2025-12-11 20:29:52.914 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:29:52.914 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:29:52.964 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:29:52.965 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:29:52.966 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:29:52.966 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:29:52.966 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:29:52.966 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:29:52.967 +01:00 [INF] Loading rooms...
+2025-12-11 20:29:52.967 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:29:52.967 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:29:52.971 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:29:52.971 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:29:52.972 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:29:52.972 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:29:52.972 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:29:53.030 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:29:53.043 +01:00 [INF] Raising Navigated event
+2025-12-11 20:29:53.044 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:29:53.103 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:29:53.103 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:30:12.696 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:14.661 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:16.675 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:17.258 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:27.615 +01:00 [DBG] MessageDeleted event: MessageId=2
+2025-12-11 20:30:31.339 +01:00 [DBG] MessageDeleted event: MessageId=5
+2025-12-11 20:30:37.513 +01:00 [DBG] Delete message requested: yep yep
+2025-12-11 20:30:37.514 +01:00 [DBG] Deleting message: 8
+2025-12-11 20:30:37.514 +01:00 [DBG] Invoking SignalR method: DeleteMessage
+2025-12-11 20:30:37.529 +01:00 [DBG] MessageDeleted event: MessageId=8
+2025-12-11 20:30:39.799 +01:00 [DBG] Delete message requested: hello
+2025-12-11 20:30:39.799 +01:00 [DBG] Deleting message: 3
+2025-12-11 20:30:39.799 +01:00 [DBG] Invoking SignalR method: DeleteMessage
+2025-12-11 20:30:39.810 +01:00 [DBG] MessageDeleted event: MessageId=3
+G] Session saved for user: misha
+2025-12-11 20:29:56.043 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:29:56.047 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:29:56.047 +01:00 [INF] Auto-login successful
+2025-12-11 20:29:56.047 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 20:29:56.048 +01:00 [INF] Loading rooms...
+2025-12-11 20:29:56.048 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:29:56.048 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:29:56.069 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:29:56.073 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:29:56.074 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:29:56.074 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:29:56.074 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:29:56.075 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:29:56.075 +01:00 [INF] Loading rooms...
+2025-12-11 20:29:56.075 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:29:56.075 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:29:56.078 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:29:56.078 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:29:56.079 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:29:56.079 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:29:56.079 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:29:56.100 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:29:56.109 +01:00 [INF] Raising Navigated event
+2025-12-11 20:29:56.109 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:29:56.167 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:29:56.167 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:30:12.598 +01:00 [DBG] Saving edited message: 4
+2025-12-11 20:30:12.599 +01:00 [DBG] Editing message: 4
+2025-12-11 20:30:12.599 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:30:12.692 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:12.696 +01:00 [ERR] Error editing message
+Microsoft.AspNetCore.SignalR.HubException: Error trying to deserialize result to ApiResponse`1. The JSON value could not be converted to uchat_common.Dtos.MessageDto. Path: $.data | LineNumber: 0 | BytePositionInLine: 54.
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsyncCore(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsync(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnectionExtensions.InvokeCoreAsync[TResult](HubConnection hubConnection, String methodName, Object[] args, CancellationToken cancellationToken)
+   at uchat_client.Infrastructure.Services.SignalR.HubConnectionService.InvokeAsync[T](String methodName, Object[] args) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/SignalR/HubConnectionService.cs:line 93
+   at uchat_client.Infrastructure.Services.Messaging.MessageService.EditMessageAsync(Int32 messageId, String newContent) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/Messaging/MessageService.cs:line 109
+   at uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel.SaveEditMessage(ChatMessageViewModel message) in /Users/mz/RiderProjects/uchat/uchat-client/Core/Application/Features/Chat/ViewModels/ChatViewModel.cs:line 251
+2025-12-11 20:30:14.651 +01:00 [DBG] Saving edited message: 4
+2025-12-11 20:30:14.651 +01:00 [DBG] Editing message: 4
+2025-12-11 20:30:14.651 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:30:14.661 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:14.662 +01:00 [ERR] Error editing message
+Microsoft.AspNetCore.SignalR.HubException: Error trying to deserialize result to ApiResponse`1. The JSON value could not be converted to uchat_common.Dtos.MessageDto. Path: $.data | LineNumber: 0 | BytePositionInLine: 54.
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsyncCore(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsync(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnectionExtensions.InvokeCoreAsync[TResult](HubConnection hubConnection, String methodName, Object[] args, CancellationToken cancellationToken)
+   at uchat_client.Infrastructure.Services.SignalR.HubConnectionService.InvokeAsync[T](String methodName, Object[] args) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/SignalR/HubConnectionService.cs:line 93
+   at uchat_client.Infrastructure.Services.Messaging.MessageService.EditMessageAsync(Int32 messageId, String newContent) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/Messaging/MessageService.cs:line 109
+   at uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel.SaveEditMessage(ChatMessageViewModel message) in /Users/mz/RiderProjects/uchat/uchat-client/Core/Application/Features/Chat/ViewModels/ChatViewModel.cs:line 251
+2025-12-11 20:30:16.664 +01:00 [DBG] Saving edited message: 4
+2025-12-11 20:30:16.665 +01:00 [DBG] Editing message: 4
+2025-12-11 20:30:16.665 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:30:16.674 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:16.675 +01:00 [ERR] Error editing message
+Microsoft.AspNetCore.SignalR.HubException: Error trying to deserialize result to ApiResponse`1. The JSON value could not be converted to uchat_common.Dtos.MessageDto. Path: $.data | LineNumber: 0 | BytePositionInLine: 54.
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsyncCore(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsync(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnectionExtensions.InvokeCoreAsync[TResult](HubConnection hubConnection, String methodName, Object[] args, CancellationToken cancellationToken)
+   at uchat_client.Infrastructure.Services.SignalR.HubConnectionService.InvokeAsync[T](String methodName, Object[] args) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/SignalR/HubConnectionService.cs:line 93
+   at uchat_client.Infrastructure.Services.Messaging.MessageService.EditMessageAsync(Int32 messageId, String newContent) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/Messaging/MessageService.cs:line 109
+   at uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel.SaveEditMessage(ChatMessageViewModel message) in /Users/mz/RiderProjects/uchat/uchat-client/Core/Application/Features/Chat/ViewModels/ChatViewModel.cs:line 251
+2025-12-11 20:30:17.250 +01:00 [DBG] Saving edited message: 4
+2025-12-11 20:30:17.250 +01:00 [DBG] Editing message: 4
+2025-12-11 20:30:17.250 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:30:17.257 +01:00 [DBG] MessageEdited event: MessageId=4
+2025-12-11 20:30:17.258 +01:00 [ERR] Error editing message
+Microsoft.AspNetCore.SignalR.HubException: Error trying to deserialize result to ApiResponse`1. The JSON value could not be converted to uchat_common.Dtos.MessageDto. Path: $.data | LineNumber: 0 | BytePositionInLine: 54.
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsyncCore(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsync(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnectionExtensions.InvokeCoreAsync[TResult](HubConnection hubConnection, String methodName, Object[] args, CancellationToken cancellationToken)
+   at uchat_client.Infrastructure.Services.SignalR.HubConnectionService.InvokeAsync[T](String methodName, Object[] args) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/SignalR/HubConnectionService.cs:line 93
+   at uchat_client.Infrastructure.Services.Messaging.MessageService.EditMessageAsync(Int32 messageId, String newContent) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/Messaging/MessageService.cs:line 109
+   at uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel.SaveEditMessage(ChatMessageViewModel message) in /Users/mz/RiderProjects/uchat/uchat-client/Core/Application/Features/Chat/ViewModels/ChatViewModel.cs:line 251
+2025-12-11 20:30:27.548 +01:00 [DBG] Delete message requested: User joined the room
+2025-12-11 20:30:27.549 +01:00 [DBG] Deleting message: 2
+2025-12-11 20:30:27.550 +01:00 [DBG] Invoking SignalR method: DeleteMessage
+2025-12-11 20:30:27.608 +01:00 [DBG] MessageDeleted event: MessageId=2
+2025-12-11 20:30:31.314 +01:00 [DBG] Delete message requested: hi
+2025-12-11 20:30:31.315 +01:00 [DBG] Deleting message: 5
+2025-12-11 20:30:31.315 +01:00 [DBG] Invoking SignalR method: DeleteMessage
+2025-12-11 20:30:31.334 +01:00 [DBG] MessageDeleted event: MessageId=5
+2025-12-11 20:30:37.534 +01:00 [DBG] MessageDeleted event: MessageId=8
+2025-12-11 20:30:39.810 +01:00 [DBG] MessageDeleted event: MessageId=3
+2025-12-11 20:37:43.074 +01:00 [INF] Application starting up
+2025-12-11 20:37:43.234 +01:00 [INF] NavigationService initialized
+2025-12-11 20:37:43.239 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:37:43.284 +01:00 [INF] Starting application initialization
+2025-12-11 20:37:43.285 +01:00 [INF] Starting hub connection
+2025-12-11 20:37:43.286 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:37:43.440 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:37:43.442 +01:00 [INF] Hub connection started
+2025-12-11 20:37:43.477 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 20:37:43.477 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:37:43.478 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:37:43.479 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:37:43.596 +01:00 [INF] Refresh token login successful
+2025-12-11 20:37:43.600 +01:00 [DBG] Session saved for user: misha
+2025-12-11 20:37:43.600 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:37:43.650 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:37:43.650 +01:00 [INF] Auto-login successful
+2025-12-11 20:37:43.650 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 20:37:43.651 +01:00 [INF] Loading rooms...
+2025-12-11 20:37:43.651 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:37:43.652 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:37:43.676 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:37:43.678 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:37:43.679 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:37:43.679 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:37:43.679 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:37:43.680 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:37:43.680 +01:00 [INF] Loading rooms...
+2025-12-11 20:37:43.680 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:37:43.680 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:37:43.683 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:37:43.683 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:37:43.683 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:37:43.684 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:37:43.684 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:37:43.702 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:37:43.706 +01:00 [INF] Raising Navigated event
+2025-12-11 20:37:43.706 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:37:43.763 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:37:43.763 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:37:51.085 +01:00 [DBG] Saving edited message: 7
+2025-12-11 20:37:51.086 +01:00 [DBG] Editing message: 7
+2025-12-11 20:37:51.086 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:37:51.102 +01:00 [DBG] MessageEdited event: MessageId=7
+2025-12-11 20:37:51.108 +01:00 [ERR] Error editing message
+Microsoft.AspNetCore.SignalR.HubException: Error trying to deserialize result to ApiResponse`1. The JSON value could not be converted to uchat_common.Dtos.MessageDto. Path: $.data | LineNumber: 0 | BytePositionInLine: 54.
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsyncCore(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnection.InvokeCoreAsync(String methodName, Type returnType, Object[] args, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.SignalR.Client.HubConnectionExtensions.InvokeCoreAsync[TResult](HubConnection hubConnection, String methodName, Object[] args, CancellationToken cancellationToken)
+   at uchat_client.Infrastructure.Services.SignalR.HubConnectionService.InvokeAsync[T](String methodName, Object[] args) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/SignalR/HubConnectionService.cs:line 93
+   at uchat_client.Infrastructure.Services.Messaging.MessageService.EditMessageAsync(Int32 messageId, String newContent) in /Users/mz/RiderProjects/uchat/uchat-client/Infrastructure/Services/Messaging/MessageService.cs:line 109
+   at uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel.SaveEditMessage(ChatMessageViewModel message) in /Users/mz/RiderProjects/uchat/uchat-client/Core/Application/Features/Chat/ViewModels/ChatViewModel.cs:line 252
+2025-12-11 20:42:39.202 +01:00 [INF] Application starting up
+2025-12-11 20:42:39.297 +01:00 [INF] NavigationService initialized
+2025-12-11 20:42:39.297 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:42:39.316 +01:00 [INF] Starting application initialization
+2025-12-11 20:42:39.317 +01:00 [INF] Starting hub connection
+2025-12-11 20:42:39.317 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:42:39.449 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:42:39.450 +01:00 [INF] Hub connection started
+2025-12-11 20:42:39.490 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 20:42:39.490 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:42:39.491 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:42:39.493 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:42:39.587 +01:00 [INF] Refresh token login successful
+2025-12-11 20:42:39.590 +01:00 [DBG] Session saved for user: misha
+2025-12-11 20:42:39.591 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:42:39.597 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:42:39.597 +01:00 [INF] Auto-login successful
+2025-12-11 20:42:39.597 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 20:42:39.598 +01:00 [INF] Loading rooms...
+2025-12-11 20:42:39.599 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:42:39.599 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:42:39.619 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:42:39.620 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:42:39.622 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:42:39.622 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:42:39.622 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:42:39.622 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:42:39.623 +01:00 [INF] Loading rooms...
+2025-12-11 20:42:39.623 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:42:39.623 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:42:39.626 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:42:39.626 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:42:39.627 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:42:39.627 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:42:39.627 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:42:39.646 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:42:39.652 +01:00 [INF] Raising Navigated event
+2025-12-11 20:42:39.652 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:42:39.708 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:42:39.708 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:42:46.215 +01:00 [DBG] Saving edited message: 7
+2025-12-11 20:42:46.218 +01:00 [DBG] Editing message: 7
+2025-12-11 20:42:46.218 +01:00 [DBG] Invoking SignalR method: EditMessage
+2025-12-11 20:42:46.290 +01:00 [DBG] MessageEdited event: MessageId=7
+2025-12-11 20:46:01.657 +01:00 [INF] Application starting up
+2025-12-11 20:46:01.772 +01:00 [INF] NavigationService initialized
+2025-12-11 20:46:01.773 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:46:01.794 +01:00 [INF] Starting application initialization
+2025-12-11 20:46:01.795 +01:00 [INF] Starting hub connection
+2025-12-11 20:46:01.795 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:46:01.938 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:46:01.939 +01:00 [INF] Hub connection started
+2025-12-11 20:46:01.976 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 20:46:01.976 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:46:01.976 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:46:01.978 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:46:02.065 +01:00 [INF] Refresh token login successful
+2025-12-11 20:46:02.069 +01:00 [DBG] Session saved for user: misha
+2025-12-11 20:46:02.070 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:46:02.079 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:46:02.079 +01:00 [INF] Auto-login successful
+2025-12-11 20:46:02.079 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 20:46:02.080 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:02.081 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:02.081 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:02.106 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:02.108 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:02.109 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:46:02.109 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:46:02.110 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:46:02.110 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:46:02.110 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:02.111 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:02.111 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:02.113 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:02.113 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:02.114 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:46:02.114 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:46:02.114 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:46:02.128 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:46:02.131 +01:00 [INF] Raising Navigated event
+2025-12-11 20:46:02.131 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:46:02.185 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:46:02.185 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:46:05.609 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:05.611 +01:00 [DBG] Sending message to room: 1 with clientId: 06cf0b99-c859-4230-8838-0cb0f93984e7
+2025-12-11 20:46:05.611 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:05.652 +01:00 [DBG] MessageAck received: ClientId=06cf0b99-c859-4230-8838-0cb0f93984e7 ServerId=9
+2025-12-11 20:46:06.420 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:06.421 +01:00 [DBG] Sending message to room: 1 with clientId: 502c0b14-0702-4047-978a-f4c9889bf2bd
+2025-12-11 20:46:06.421 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:06.427 +01:00 [DBG] MessageAck received: ClientId=502c0b14-0702-4047-978a-f4c9889bf2bd ServerId=10
+2025-12-11 20:46:07.035 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:07.036 +01:00 [DBG] Sending message to room: 1 with clientId: a5936b9d-954c-42fb-991a-6f20dec51920
+2025-12-11 20:46:07.036 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:07.044 +01:00 [DBG] MessageAck received: ClientId=a5936b9d-954c-42fb-991a-6f20dec51920 ServerId=11
+2025-12-11 20:46:07.546 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:07.547 +01:00 [DBG] Sending message to room: 1 with clientId: d73f5e90-bf31-4c70-9afa-f314b65d3d36
+2025-12-11 20:46:07.547 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:07.559 +01:00 [DBG] MessageAck received: ClientId=d73f5e90-bf31-4c70-9afa-f314b65d3d36 ServerId=12
+2025-12-11 20:46:08.580 +01:00 [DBG] Sending message: yse
+2025-12-11 20:46:08.581 +01:00 [DBG] Sending message to room: 1 with clientId: 2f2c6827-4c20-400d-8e61-f86c6fc8a5b3
+2025-12-11 20:46:08.581 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:08.598 +01:00 [DBG] MessageAck received: ClientId=2f2c6827-4c20-400d-8e61-f86c6fc8a5b3 ServerId=13
+2025-12-11 20:46:09.969 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:09.970 +01:00 [DBG] Sending message to room: 1 with clientId: 4b4cb2b4-748f-433d-94e6-2cf51992c947
+2025-12-11 20:46:09.970 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:09.989 +01:00 [DBG] MessageAck received: ClientId=4b4cb2b4-748f-433d-94e6-2cf51992c947 ServerId=14
+2025-12-11 20:46:10.860 +01:00 [DBG] Sending message: yes
+2025-12-11 20:46:10.860 +01:00 [DBG] Sending message to room: 1 with clientId: 0a0d967a-091f-4f6c-98a4-c98f5b714a1f
+2025-12-11 20:46:10.860 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 20:46:10.876 +01:00 [DBG] MessageAck received: ClientId=0a0d967a-091f-4f6c-98a4-c98f5b714a1f ServerId=15
+2025-12-11 20:46:32.029 +01:00 [INF] Application starting up
+2025-12-11 20:46:32.122 +01:00 [INF] NavigationService initialized
+2025-12-11 20:46:32.124 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:46:32.152 +01:00 [INF] Starting application initialization
+2025-12-11 20:46:32.153 +01:00 [INF] Starting hub connection
+2025-12-11 20:46:32.153 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:46:32.258 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:46:32.260 +01:00 [INF] Hub connection started
+2025-12-11 20:46:32.300 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:46:32.300 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:46:32.300 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:46:32.302 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:46:32.402 +01:00 [INF] Refresh token login successful
+2025-12-11 20:46:32.407 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:46:32.407 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:46:32.422 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:46:32.422 +01:00 [INF] Auto-login successful
+2025-12-11 20:46:32.423 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:46:32.423 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:32.424 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:32.424 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:32.440 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:32.443 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:32.444 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:46:32.444 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:46:32.444 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:46:32.445 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:46:32.445 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:32.445 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:32.445 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:32.447 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:32.448 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:32.448 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:46:32.449 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:46:32.449 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:46:32.463 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:46:32.465 +01:00 [INF] Raising Navigated event
+2025-12-11 20:46:32.465 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:46:32.525 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:46:32.525 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:46:51.521 +01:00 [INF] Application starting up
+2025-12-11 20:46:51.616 +01:00 [INF] NavigationService initialized
+2025-12-11 20:46:51.618 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:46:51.638 +01:00 [INF] Starting application initialization
+2025-12-11 20:46:51.639 +01:00 [INF] Starting hub connection
+2025-12-11 20:46:51.639 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:46:51.766 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:46:51.768 +01:00 [INF] Hub connection started
+2025-12-11 20:46:51.815 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:46:51.815 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:46:51.815 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:46:51.817 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:46:51.923 +01:00 [INF] Refresh token login successful
+2025-12-11 20:46:51.928 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:46:51.928 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:46:51.967 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:46:51.967 +01:00 [INF] Auto-login successful
+2025-12-11 20:46:51.967 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:46:51.968 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:51.968 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:51.968 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:51.995 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:51.996 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:51.997 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:46:51.998 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:46:51.998 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:46:51.998 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:46:51.999 +01:00 [INF] Loading rooms...
+2025-12-11 20:46:51.999 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:46:51.999 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:46:52.002 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:46:52.002 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:46:52.002 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:46:52.003 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:46:52.003 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:46:52.017 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:46:52.026 +01:00 [INF] Raising Navigated event
+2025-12-11 20:46:52.027 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:46:52.097 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:46:52.097 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:48:14.988 +01:00 [INF] Application starting up
+2025-12-11 20:48:15.079 +01:00 [INF] NavigationService initialized
+2025-12-11 20:48:15.079 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:48:15.100 +01:00 [INF] Starting application initialization
+2025-12-11 20:48:15.100 +01:00 [INF] Starting hub connection
+2025-12-11 20:48:15.100 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:48:15.226 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:48:15.228 +01:00 [INF] Hub connection started
+2025-12-11 20:48:15.269 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:48:15.269 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:48:15.269 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:48:15.271 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:48:15.514 +01:00 [INF] Refresh token login successful
+2025-12-11 20:48:15.517 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:48:15.517 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:48:15.520 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:48:15.520 +01:00 [INF] Auto-login successful
+2025-12-11 20:48:15.520 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:48:15.521 +01:00 [INF] Loading rooms...
+2025-12-11 20:48:15.521 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:48:15.521 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:48:15.536 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:48:15.537 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:48:15.538 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:48:15.538 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:48:15.539 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:48:15.539 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:48:15.540 +01:00 [INF] Loading rooms...
+2025-12-11 20:48:15.540 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:48:15.540 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:48:15.545 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:48:15.545 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:48:15.546 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:48:15.546 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:48:15.546 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:48:15.588 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:48:15.591 +01:00 [INF] Raising Navigated event
+2025-12-11 20:48:15.592 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:48:15.645 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:48:15.645 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:48:31.422 +01:00 [INF] Application starting up
+2025-12-11 20:48:31.516 +01:00 [INF] NavigationService initialized
+2025-12-11 20:48:31.516 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:48:31.538 +01:00 [INF] Starting application initialization
+2025-12-11 20:48:31.538 +01:00 [INF] Starting hub connection
+2025-12-11 20:48:31.539 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:48:31.667 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:48:31.669 +01:00 [INF] Hub connection started
+2025-12-11 20:48:31.711 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:48:31.711 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:48:31.711 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:48:31.713 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:48:31.815 +01:00 [INF] Refresh token login successful
+2025-12-11 20:48:31.818 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:48:31.819 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:48:31.829 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:48:31.830 +01:00 [INF] Auto-login successful
+2025-12-11 20:48:31.830 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:48:31.831 +01:00 [INF] Loading rooms...
+2025-12-11 20:48:31.831 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:48:31.831 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:48:31.854 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:48:31.855 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:48:31.856 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:48:31.856 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:48:31.856 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:48:31.857 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:48:31.857 +01:00 [INF] Loading rooms...
+2025-12-11 20:48:31.857 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:48:31.857 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:48:31.864 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:48:31.864 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:48:31.865 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:48:31.865 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:48:31.865 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:48:31.886 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:48:31.890 +01:00 [INF] Raising Navigated event
+2025-12-11 20:48:31.890 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:48:31.948 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:48:31.948 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:55:29.575 +01:00 [INF] Application starting up
+2025-12-11 20:55:29.701 +01:00 [INF] NavigationService initialized
+2025-12-11 20:55:29.702 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:55:29.721 +01:00 [INF] Starting application initialization
+2025-12-11 20:55:29.722 +01:00 [INF] Starting hub connection
+2025-12-11 20:55:29.722 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:55:29.893 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:55:29.895 +01:00 [INF] Hub connection started
+2025-12-11 20:55:29.932 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:55:29.932 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:55:29.932 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:55:29.934 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:55:30.225 +01:00 [INF] Refresh token login successful
+2025-12-11 20:55:30.229 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:55:30.229 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:55:30.232 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:55:30.232 +01:00 [INF] Auto-login successful
+2025-12-11 20:55:30.232 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:55:30.233 +01:00 [INF] Loading rooms...
+2025-12-11 20:55:30.233 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:55:30.233 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:55:30.245 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:55:30.246 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:55:30.247 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:55:30.247 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:55:30.247 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:55:30.247 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:55:30.248 +01:00 [INF] Loading rooms...
+2025-12-11 20:55:30.248 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:55:30.248 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:55:30.250 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:55:30.250 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:55:30.250 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:55:30.251 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:55:30.251 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:55:30.267 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:55:30.269 +01:00 [INF] Raising Navigated event
+2025-12-11 20:55:30.269 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:55:30.325 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:55:30.325 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:57:19.268 +01:00 [INF] Application starting up
+2025-12-11 20:57:19.364 +01:00 [INF] NavigationService initialized
+2025-12-11 20:57:19.365 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:57:19.385 +01:00 [INF] Starting application initialization
+2025-12-11 20:57:19.386 +01:00 [INF] Starting hub connection
+2025-12-11 20:57:19.386 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:57:19.537 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:57:19.540 +01:00 [INF] Hub connection started
+2025-12-11 20:57:19.592 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:57:19.592 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:57:19.592 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:57:19.594 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:57:19.685 +01:00 [INF] Refresh token login successful
+2025-12-11 20:57:19.690 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:57:19.691 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:57:19.732 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:57:19.732 +01:00 [INF] Auto-login successful
+2025-12-11 20:57:19.732 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:57:19.734 +01:00 [INF] Loading rooms...
+2025-12-11 20:57:19.734 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:57:19.734 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:57:19.865 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:57:19.867 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:57:19.868 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:57:19.868 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:57:19.868 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:57:19.869 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:57:19.869 +01:00 [INF] Loading rooms...
+2025-12-11 20:57:19.869 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:57:19.869 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:57:19.879 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:57:19.879 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:57:19.880 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:57:19.880 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:57:19.880 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:57:19.954 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:57:19.972 +01:00 [INF] Raising Navigated event
+2025-12-11 20:57:19.972 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:57:20.043 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:57:20.044 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 20:59:47.579 +01:00 [INF] Application starting up
+2025-12-11 20:59:47.673 +01:00 [INF] NavigationService initialized
+2025-12-11 20:59:47.674 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 20:59:47.693 +01:00 [INF] Starting application initialization
+2025-12-11 20:59:47.694 +01:00 [INF] Starting hub connection
+2025-12-11 20:59:47.694 +01:00 [INF] Starting SignalR connection
+2025-12-11 20:59:47.950 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 20:59:47.952 +01:00 [INF] Hub connection started
+2025-12-11 20:59:48.011 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 20:59:48.011 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 20:59:48.012 +01:00 [INF] Attempting refresh token login
+2025-12-11 20:59:48.014 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 20:59:48.074 +01:00 [INF] Refresh token login successful
+2025-12-11 20:59:48.078 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 20:59:48.079 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 20:59:48.084 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 20:59:48.084 +01:00 [INF] Auto-login successful
+2025-12-11 20:59:48.084 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 20:59:48.085 +01:00 [INF] Loading rooms...
+2025-12-11 20:59:48.086 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:59:48.086 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:59:48.112 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:59:48.115 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:59:48.116 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 20:59:48.117 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 20:59:48.117 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 20:59:48.117 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 20:59:48.118 +01:00 [INF] Loading rooms...
+2025-12-11 20:59:48.118 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 20:59:48.118 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 20:59:48.125 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 20:59:48.125 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 20:59:48.126 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 20:59:48.127 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 20:59:48.127 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 20:59:48.150 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 20:59:48.153 +01:00 [INF] Raising Navigated event
+2025-12-11 20:59:48.154 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 20:59:48.217 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 20:59:48.217 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:02:49.346 +01:00 [INF] Application starting up
+2025-12-11 21:02:49.442 +01:00 [INF] NavigationService initialized
+2025-12-11 21:02:49.443 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:02:49.463 +01:00 [INF] Starting application initialization
+2025-12-11 21:02:49.463 +01:00 [INF] Starting hub connection
+2025-12-11 21:02:49.464 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:02:49.613 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:02:49.615 +01:00 [INF] Hub connection started
+2025-12-11 21:02:49.659 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 21:02:49.659 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:02:49.660 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:02:49.662 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:02:49.780 +01:00 [INF] Refresh token login successful
+2025-12-11 21:02:49.783 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 21:02:49.784 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:02:49.806 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:02:49.806 +01:00 [INF] Auto-login successful
+2025-12-11 21:02:49.806 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 21:02:49.809 +01:00 [INF] Loading rooms...
+2025-12-11 21:02:49.809 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:02:49.809 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:02:49.847 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:02:49.849 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:02:49.850 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:02:49.850 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:02:49.850 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:02:49.851 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:02:49.851 +01:00 [INF] Loading rooms...
+2025-12-11 21:02:49.852 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:02:49.852 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:02:49.856 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:02:49.856 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:02:49.857 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:02:49.858 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 21:02:49.858 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:02:49.885 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:02:49.889 +01:00 [INF] Raising Navigated event
+2025-12-11 21:02:49.889 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:02:49.949 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:02:49.949 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:04:05.142 +01:00 [INF] Application starting up
+2025-12-11 21:04:05.233 +01:00 [INF] NavigationService initialized
+2025-12-11 21:04:05.234 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:04:05.253 +01:00 [INF] Starting application initialization
+2025-12-11 21:04:05.254 +01:00 [INF] Starting hub connection
+2025-12-11 21:04:05.254 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:04:05.367 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:04:05.368 +01:00 [INF] Hub connection started
+2025-12-11 21:04:05.406 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 21:04:05.406 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:04:05.406 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:04:05.408 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:04:05.545 +01:00 [INF] Refresh token login successful
+2025-12-11 21:04:05.566 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 21:04:05.567 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:04:05.611 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:04:05.611 +01:00 [INF] Auto-login successful
+2025-12-11 21:04:05.611 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 21:04:05.612 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:05.612 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:05.612 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:05.641 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:05.642 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:05.643 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:04:05.643 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:04:05.644 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:04:05.644 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:04:05.645 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:05.645 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:05.645 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:05.648 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:05.648 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:05.649 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:04:05.649 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 21:04:05.649 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:04:05.666 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:04:05.669 +01:00 [INF] Raising Navigated event
+2025-12-11 21:04:05.669 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:04:05.732 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:04:05.732 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:04:26.959 +01:00 [INF] Application starting up
+2025-12-11 21:04:27.058 +01:00 [INF] NavigationService initialized
+2025-12-11 21:04:27.058 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:04:27.079 +01:00 [INF] Starting application initialization
+2025-12-11 21:04:27.079 +01:00 [INF] Starting hub connection
+2025-12-11 21:04:27.080 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:04:27.216 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:04:27.218 +01:00 [INF] Hub connection started
+2025-12-11 21:04:27.261 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 21:04:27.261 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:04:27.261 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:04:27.263 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:04:27.358 +01:00 [INF] Refresh token login successful
+2025-12-11 21:04:27.362 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 21:04:27.363 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:04:27.384 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:04:27.384 +01:00 [INF] Auto-login successful
+2025-12-11 21:04:27.384 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 21:04:27.385 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:27.386 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:27.386 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:27.407 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:27.408 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:27.410 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:04:27.410 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:04:27.411 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:04:27.412 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:04:27.413 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:27.413 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:27.413 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:27.417 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:27.417 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:27.418 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:04:27.419 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 21:04:27.419 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:04:27.436 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:04:27.440 +01:00 [INF] Raising Navigated event
+2025-12-11 21:04:27.441 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:04:27.507 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:04:27.507 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:04:59.275 +01:00 [INF] Application starting up
+2025-12-11 21:04:59.367 +01:00 [INF] NavigationService initialized
+2025-12-11 21:04:59.367 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:04:59.386 +01:00 [INF] Starting application initialization
+2025-12-11 21:04:59.387 +01:00 [INF] Starting hub connection
+2025-12-11 21:04:59.387 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:04:59.501 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:04:59.502 +01:00 [INF] Hub connection started
+2025-12-11 21:04:59.539 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 21:04:59.539 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:04:59.539 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:04:59.541 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:04:59.639 +01:00 [INF] Refresh token login successful
+2025-12-11 21:04:59.642 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 21:04:59.642 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:04:59.648 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:04:59.649 +01:00 [INF] Auto-login successful
+2025-12-11 21:04:59.649 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 21:04:59.650 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:59.651 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:59.651 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:59.673 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:59.674 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:59.676 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:04:59.676 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:04:59.676 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:04:59.676 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:04:59.677 +01:00 [INF] Loading rooms...
+2025-12-11 21:04:59.677 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:04:59.677 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:04:59.683 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:04:59.684 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:04:59.684 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:04:59.686 +01:00 [DBG] Fetching messages for room: 1
+2025-12-11 21:04:59.686 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:04:59.712 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:04:59.717 +01:00 [INF] Raising Navigated event
+2025-12-11 21:04:59.717 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:04:59.775 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:04:59.775 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:09:57.775 +01:00 [INF] Application starting up
+2025-12-11 21:09:57.884 +01:00 [INF] NavigationService initialized
+2025-12-11 21:09:57.886 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:09:57.915 +01:00 [INF] Starting application initialization
+2025-12-11 21:09:57.916 +01:00 [INF] Starting hub connection
+2025-12-11 21:09:57.916 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:09:58.070 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:09:58.074 +01:00 [INF] Hub connection started
+2025-12-11 21:09:58.112 +01:00 [DBG] Session loaded for user: cindy
+2025-12-11 21:09:58.113 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:09:58.113 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:09:58.114 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:09:58.245 +01:00 [INF] Refresh token login successful
+2025-12-11 21:09:58.249 +01:00 [DBG] Session saved for user: cindy
+2025-12-11 21:09:58.250 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:09:58.256 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:09:58.256 +01:00 [INF] Auto-login successful
+2025-12-11 21:09:58.256 +01:00 [INF] Auto-login successful for cindy, loading rooms
+2025-12-11 21:09:58.257 +01:00 [INF] Loading rooms...
+2025-12-11 21:09:58.258 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:09:58.258 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:09:58.294 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:09:58.295 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:09:58.296 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:09:58.296 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:09:58.296 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:09:58.297 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:09:58.297 +01:00 [INF] Loading rooms...
+2025-12-11 21:09:58.297 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:09:58.297 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:09:58.300 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:09:58.300 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:09:58.301 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:09:58.302 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:09:58.302 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:09:58.329 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:09:58.333 +01:00 [INF] Raising Navigated event
+2025-12-11 21:09:58.333 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:09:58.392 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:09:58.392 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:10:19.684 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=16
+2025-12-11 21:10:19.882 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=17
+2025-12-11 21:10:20.071 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=18
+2025-12-11 21:10:20.258 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=19
+2025-12-11 21:10:20.441 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=20
+2025-12-11 21:10:20.621 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=21
+2025-12-11 21:10:20.836 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=22
+2025-12-11 21:10:21.050 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=23
+2025-12-11 21:10:21.232 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=24
+2025-12-11 21:10:21.427 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=25
+2025-12-11 21:10:21.635 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=26
+2025-12-11 21:10:21.871 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=27
+2025-12-11 21:10:22.042 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=28
+2025-12-11 21:10:22.255 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=29
+2025-12-11 21:10:22.460 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=30
+2025-12-11 21:10:22.660 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=31
+2025-12-11 21:10:22.885 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=32
+2025-12-11 21:10:23.088 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=33
+2025-12-11 21:10:23.302 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=34
+2025-12-11 21:10:23.505 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=35
+2025-12-11 21:10:23.706 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=36
+2025-12-11 21:10:23.909 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=37
+2025-12-11 21:10:24.088 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=38
+2025-12-11 21:10:24.309 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=39
+2025-12-11 21:10:24.524 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=40
+2025-12-11 21:10:24.757 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=41
+2025-12-11 21:10:24.960 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=42
+2025-12-11 21:10:25.160 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=43
+2025-12-11 21:10:25.378 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=44
+2025-12-11 21:10:25.589 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=45
+2025-12-11 21:10:25.800 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=46
+2025-12-11 21:10:26.025 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=47
+2025-12-11 21:10:26.233 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=48
+2025-12-11 21:10:26.446 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=49
+2025-12-11 21:10:26.659 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=50
+2025-12-11 21:10:26.855 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=51
+2025-12-11 21:10:27.057 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=52
+2025-12-11 21:10:27.286 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=53
+2025-12-11 21:10:27.496 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=54
+2025-12-11 21:10:27.701 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=55
+2025-12-11 21:10:27.921 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=56
+2025-12-11 21:10:28.102 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=57
+2025-12-11 21:10:28.295 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=58
+2025-12-11 21:10:28.491 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=59
+2025-12-11 21:10:28.676 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=60
+2025-12-11 21:10:28.872 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=61
+2025-12-11 21:10:29.052 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=62
+2025-12-11 21:10:29.239 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=63
+2025-12-11 21:10:29.423 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=64
+2025-12-11 21:10:29.601 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=65
+2025-12-11 21:10:29.784 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=66
+2025-12-11 21:10:29.955 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=67
+2025-12-11 21:10:30.120 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=68
+:10:08.687 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:10:08.687 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:10:08.700 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:10:08.701 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:10:08.702 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:10:08.702 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:10:08.702 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:10:08.703 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:10:08.704 +01:00 [INF] Loading rooms...
+2025-12-11 21:10:08.705 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:10:08.705 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:10:08.709 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:10:08.709 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:10:08.710 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:10:08.711 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:10:08.711 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:10:08.732 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:10:08.737 +01:00 [INF] Raising Navigated event
+2025-12-11 21:10:08.737 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:10:08.797 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:10:08.797 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:10:19.664 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:19.665 +01:00 [DBG] Sending message to room: 1 with clientId: 0dbd3e1c-0337-4b27-8061-1804a9c98b06
+2025-12-11 21:10:19.665 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:19.689 +01:00 [DBG] MessageAck received: ClientId=0dbd3e1c-0337-4b27-8061-1804a9c98b06 ServerId=16
+2025-12-11 21:10:19.862 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:19.862 +01:00 [DBG] Sending message to room: 1 with clientId: f43106ed-ec8f-4430-8528-d7d234b96b44
+2025-12-11 21:10:19.862 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:19.878 +01:00 [DBG] MessageAck received: ClientId=f43106ed-ec8f-4430-8528-d7d234b96b44 ServerId=17
+2025-12-11 21:10:20.064 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:20.064 +01:00 [DBG] Sending message to room: 1 with clientId: 243b47a7-5b27-47ae-97d3-c4aa6da31c6e
+2025-12-11 21:10:20.064 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:20.070 +01:00 [DBG] MessageAck received: ClientId=243b47a7-5b27-47ae-97d3-c4aa6da31c6e ServerId=18
+2025-12-11 21:10:20.254 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:20.254 +01:00 [DBG] Sending message to room: 1 with clientId: bcad1c97-391d-41c5-90b9-1a347cd34335
+2025-12-11 21:10:20.254 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:20.257 +01:00 [DBG] MessageAck received: ClientId=bcad1c97-391d-41c5-90b9-1a347cd34335 ServerId=19
+2025-12-11 21:10:20.438 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:20.438 +01:00 [DBG] Sending message to room: 1 with clientId: f8f2d055-2e9a-4532-8f3d-e63e7a093643
+2025-12-11 21:10:20.438 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:20.441 +01:00 [DBG] MessageAck received: ClientId=f8f2d055-2e9a-4532-8f3d-e63e7a093643 ServerId=20
+2025-12-11 21:10:20.618 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:20.618 +01:00 [DBG] Sending message to room: 1 with clientId: 0093a3d2-c712-432a-8d72-df6cbf826978
+2025-12-11 21:10:20.618 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:20.621 +01:00 [DBG] MessageAck received: ClientId=0093a3d2-c712-432a-8d72-df6cbf826978 ServerId=21
+2025-12-11 21:10:20.832 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:20.832 +01:00 [DBG] Sending message to room: 1 with clientId: 1ba9e215-019f-41b6-b26f-952304d33972
+2025-12-11 21:10:20.832 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:20.836 +01:00 [DBG] MessageAck received: ClientId=1ba9e215-019f-41b6-b26f-952304d33972 ServerId=22
+2025-12-11 21:10:21.045 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:21.045 +01:00 [DBG] Sending message to room: 1 with clientId: cbc72ba8-b747-4ac4-8120-58d928b85064
+2025-12-11 21:10:21.045 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:21.049 +01:00 [DBG] MessageAck received: ClientId=cbc72ba8-b747-4ac4-8120-58d928b85064 ServerId=23
+2025-12-11 21:10:21.229 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:21.229 +01:00 [DBG] Sending message to room: 1 with clientId: 93c69c78-3c02-4943-a2c5-023a709364dc
+2025-12-11 21:10:21.229 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:21.231 +01:00 [DBG] MessageAck received: ClientId=93c69c78-3c02-4943-a2c5-023a709364dc ServerId=24
+2025-12-11 21:10:21.425 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:21.425 +01:00 [DBG] Sending message to room: 1 with clientId: ddee5c69-8a35-41eb-b2e1-a2faf54126ca
+2025-12-11 21:10:21.425 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:21.427 +01:00 [DBG] MessageAck received: ClientId=ddee5c69-8a35-41eb-b2e1-a2faf54126ca ServerId=25
+2025-12-11 21:10:21.629 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:21.629 +01:00 [DBG] Sending message to room: 1 with clientId: d65671ac-3366-4063-bd12-9bdae0d6558e
+2025-12-11 21:10:21.629 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:21.635 +01:00 [DBG] MessageAck received: ClientId=d65671ac-3366-4063-bd12-9bdae0d6558e ServerId=26
+2025-12-11 21:10:21.830 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:21.830 +01:00 [DBG] Sending message to room: 1 with clientId: f38cb4f3-a60a-483c-a63e-752924c51af1
+2025-12-11 21:10:21.830 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:21.863 +01:00 [DBG] MessageAck received: ClientId=f38cb4f3-a60a-483c-a63e-752924c51af1 ServerId=27
+2025-12-11 21:10:22.035 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:22.037 +01:00 [DBG] Sending message to room: 1 with clientId: 4b03115a-7bbd-46c8-b65b-918653ca1a35
+2025-12-11 21:10:22.037 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:22.042 +01:00 [DBG] MessageAck received: ClientId=4b03115a-7bbd-46c8-b65b-918653ca1a35 ServerId=28
+2025-12-11 21:10:22.248 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:22.249 +01:00 [DBG] Sending message to room: 1 with clientId: 047de044-b44e-4934-8e87-97a6477aa317
+2025-12-11 21:10:22.249 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:22.254 +01:00 [DBG] MessageAck received: ClientId=047de044-b44e-4934-8e87-97a6477aa317 ServerId=29
+2025-12-11 21:10:22.456 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:22.457 +01:00 [DBG] Sending message to room: 1 with clientId: 3cf3a96a-a1ec-4719-a9fd-5d1f053e68f5
+2025-12-11 21:10:22.457 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:22.459 +01:00 [DBG] MessageAck received: ClientId=3cf3a96a-a1ec-4719-a9fd-5d1f053e68f5 ServerId=30
+2025-12-11 21:10:22.656 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:22.656 +01:00 [DBG] Sending message to room: 1 with clientId: 10211c7b-a70b-4e50-a7d2-cde3ba56a9e4
+2025-12-11 21:10:22.657 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:22.659 +01:00 [DBG] MessageAck received: ClientId=10211c7b-a70b-4e50-a7d2-cde3ba56a9e4 ServerId=31
+2025-12-11 21:10:22.880 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:22.880 +01:00 [DBG] Sending message to room: 1 with clientId: 895a4a15-cac8-4d3a-a8f8-af982addf36a
+2025-12-11 21:10:22.880 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:22.884 +01:00 [DBG] MessageAck received: ClientId=895a4a15-cac8-4d3a-a8f8-af982addf36a ServerId=32
+2025-12-11 21:10:23.082 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:23.082 +01:00 [DBG] Sending message to room: 1 with clientId: 8c654d7e-458f-4716-a5f3-3be988c060a3
+2025-12-11 21:10:23.082 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:23.087 +01:00 [DBG] MessageAck received: ClientId=8c654d7e-458f-4716-a5f3-3be988c060a3 ServerId=33
+2025-12-11 21:10:23.298 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:23.298 +01:00 [DBG] Sending message to room: 1 with clientId: 7e9e86b7-9d3d-4695-bdea-d07c202e5f2f
+2025-12-11 21:10:23.298 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:23.300 +01:00 [DBG] MessageAck received: ClientId=7e9e86b7-9d3d-4695-bdea-d07c202e5f2f ServerId=34
+2025-12-11 21:10:23.503 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:23.503 +01:00 [DBG] Sending message to room: 1 with clientId: 95dcd70e-b14c-44a2-88a6-1011de9658a2
+2025-12-11 21:10:23.503 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:23.505 +01:00 [DBG] MessageAck received: ClientId=95dcd70e-b14c-44a2-88a6-1011de9658a2 ServerId=35
+2025-12-11 21:10:23.702 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:23.703 +01:00 [DBG] Sending message to room: 1 with clientId: 715eb05d-fa11-4c49-91c6-efe721db3673
+2025-12-11 21:10:23.703 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:23.706 +01:00 [DBG] MessageAck received: ClientId=715eb05d-fa11-4c49-91c6-efe721db3673 ServerId=36
+2025-12-11 21:10:23.896 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:23.897 +01:00 [DBG] Sending message to room: 1 with clientId: 028ee19a-7f05-432b-9b42-f9794e23bda8
+2025-12-11 21:10:23.897 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:23.907 +01:00 [DBG] MessageAck received: ClientId=028ee19a-7f05-432b-9b42-f9794e23bda8 ServerId=37
+2025-12-11 21:10:24.085 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:24.085 +01:00 [DBG] Sending message to room: 1 with clientId: b631700b-0b3d-41b2-8a5f-a5de9242af41
+2025-12-11 21:10:24.085 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:24.088 +01:00 [DBG] MessageAck received: ClientId=b631700b-0b3d-41b2-8a5f-a5de9242af41 ServerId=38
+2025-12-11 21:10:24.302 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:24.303 +01:00 [DBG] Sending message to room: 1 with clientId: d1d9c09b-a368-4278-91e3-3e0ce15eb465
+2025-12-11 21:10:24.303 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:24.306 +01:00 [DBG] MessageAck received: ClientId=d1d9c09b-a368-4278-91e3-3e0ce15eb465 ServerId=39
+2025-12-11 21:10:24.520 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:24.521 +01:00 [DBG] Sending message to room: 1 with clientId: 174ce898-3ad0-4a76-88c2-9b9c1d5292a4
+2025-12-11 21:10:24.521 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:24.524 +01:00 [DBG] MessageAck received: ClientId=174ce898-3ad0-4a76-88c2-9b9c1d5292a4 ServerId=40
+2025-12-11 21:10:24.752 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:24.752 +01:00 [DBG] Sending message to room: 1 with clientId: 45f511fe-1375-4a63-a96d-bbd0159a0079
+2025-12-11 21:10:24.752 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:24.756 +01:00 [DBG] MessageAck received: ClientId=45f511fe-1375-4a63-a96d-bbd0159a0079 ServerId=41
+2025-12-11 21:10:24.957 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:24.957 +01:00 [DBG] Sending message to room: 1 with clientId: dc6f2bb6-e4a6-4511-b4c3-94d04344400d
+2025-12-11 21:10:24.957 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:24.960 +01:00 [DBG] MessageAck received: ClientId=dc6f2bb6-e4a6-4511-b4c3-94d04344400d ServerId=42
+2025-12-11 21:10:25.157 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:25.157 +01:00 [DBG] Sending message to room: 1 with clientId: 2aee3f8c-3569-4545-9c21-1e161a00880e
+2025-12-11 21:10:25.157 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:25.160 +01:00 [DBG] MessageAck received: ClientId=2aee3f8c-3569-4545-9c21-1e161a00880e ServerId=43
+2025-12-11 21:10:25.375 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:25.375 +01:00 [DBG] Sending message to room: 1 with clientId: 3794f6ce-64f4-4475-8bbf-51e8a3e14138
+2025-12-11 21:10:25.375 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:25.377 +01:00 [DBG] MessageAck received: ClientId=3794f6ce-64f4-4475-8bbf-51e8a3e14138 ServerId=44
+2025-12-11 21:10:25.586 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:25.586 +01:00 [DBG] Sending message to room: 1 with clientId: 48300987-2c81-4887-b5db-9a04e173e30b
+2025-12-11 21:10:25.586 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:25.589 +01:00 [DBG] MessageAck received: ClientId=48300987-2c81-4887-b5db-9a04e173e30b ServerId=45
+2025-12-11 21:10:25.798 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:25.798 +01:00 [DBG] Sending message to room: 1 with clientId: ab45a85a-0b0b-4a5f-9015-288805d3b3e6
+2025-12-11 21:10:25.798 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:25.800 +01:00 [DBG] MessageAck received: ClientId=ab45a85a-0b0b-4a5f-9015-288805d3b3e6 ServerId=46
+2025-12-11 21:10:26.022 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:26.022 +01:00 [DBG] Sending message to room: 1 with clientId: f22738d4-d25c-4944-a1c2-9bd6cc804b9b
+2025-12-11 21:10:26.022 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:26.025 +01:00 [DBG] MessageAck received: ClientId=f22738d4-d25c-4944-a1c2-9bd6cc804b9b ServerId=47
+2025-12-11 21:10:26.230 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:26.230 +01:00 [DBG] Sending message to room: 1 with clientId: f7869ab9-646a-4bc3-a4ea-c65f8de6a39f
+2025-12-11 21:10:26.230 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:26.233 +01:00 [DBG] MessageAck received: ClientId=f7869ab9-646a-4bc3-a4ea-c65f8de6a39f ServerId=48
+2025-12-11 21:10:26.441 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:26.441 +01:00 [DBG] Sending message to room: 1 with clientId: af6a3508-e8e5-481c-a30d-0c3cafd8efe9
+2025-12-11 21:10:26.441 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:26.445 +01:00 [DBG] MessageAck received: ClientId=af6a3508-e8e5-481c-a30d-0c3cafd8efe9 ServerId=49
+2025-12-11 21:10:26.656 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:26.656 +01:00 [DBG] Sending message to room: 1 with clientId: 90aadd64-2cd7-4f50-91f2-8717d1596545
+2025-12-11 21:10:26.657 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:26.659 +01:00 [DBG] MessageAck received: ClientId=90aadd64-2cd7-4f50-91f2-8717d1596545 ServerId=50
+2025-12-11 21:10:26.852 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:26.852 +01:00 [DBG] Sending message to room: 1 with clientId: 26889ee1-b232-42a5-9a73-209e12a8e541
+2025-12-11 21:10:26.852 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:26.855 +01:00 [DBG] MessageAck received: ClientId=26889ee1-b232-42a5-9a73-209e12a8e541 ServerId=51
+2025-12-11 21:10:27.054 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:27.054 +01:00 [DBG] Sending message to room: 1 with clientId: ab343ee8-5561-49d0-95b5-7f23cd76aae4
+2025-12-11 21:10:27.054 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:27.057 +01:00 [DBG] MessageAck received: ClientId=ab343ee8-5561-49d0-95b5-7f23cd76aae4 ServerId=52
+2025-12-11 21:10:27.280 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:27.280 +01:00 [DBG] Sending message to room: 1 with clientId: d8a625b1-9a04-4a02-a121-34ae0a11cabe
+2025-12-11 21:10:27.280 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:27.286 +01:00 [DBG] MessageAck received: ClientId=d8a625b1-9a04-4a02-a121-34ae0a11cabe ServerId=53
+2025-12-11 21:10:27.491 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:27.491 +01:00 [DBG] Sending message to room: 1 with clientId: 2ec42e42-ffb9-43c1-ae42-166f4aab9035
+2025-12-11 21:10:27.491 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:27.496 +01:00 [DBG] MessageAck received: ClientId=2ec42e42-ffb9-43c1-ae42-166f4aab9035 ServerId=54
+2025-12-11 21:10:27.698 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:27.698 +01:00 [DBG] Sending message to room: 1 with clientId: 95c00d77-4857-41a5-acba-f67992c773b5
+2025-12-11 21:10:27.698 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:27.700 +01:00 [DBG] MessageAck received: ClientId=95c00d77-4857-41a5-acba-f67992c773b5 ServerId=55
+2025-12-11 21:10:27.917 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:27.918 +01:00 [DBG] Sending message to room: 1 with clientId: d9942dc3-a09e-4811-9e38-24eddbd55c06
+2025-12-11 21:10:27.918 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:27.921 +01:00 [DBG] MessageAck received: ClientId=d9942dc3-a09e-4811-9e38-24eddbd55c06 ServerId=56
+2025-12-11 21:10:28.098 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:28.098 +01:00 [DBG] Sending message to room: 1 with clientId: dc13674c-80d3-450f-a6d0-e1678be9b1b7
+2025-12-11 21:10:28.098 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:28.102 +01:00 [DBG] MessageAck received: ClientId=dc13674c-80d3-450f-a6d0-e1678be9b1b7 ServerId=57
+2025-12-11 21:10:28.290 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:28.291 +01:00 [DBG] Sending message to room: 1 with clientId: abcc6e40-a52a-4ac8-8e87-dcfdaf9ee001
+2025-12-11 21:10:28.291 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:28.295 +01:00 [DBG] MessageAck received: ClientId=abcc6e40-a52a-4ac8-8e87-dcfdaf9ee001 ServerId=58
+2025-12-11 21:10:28.488 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:28.488 +01:00 [DBG] Sending message to room: 1 with clientId: 17ad9048-51e7-434c-9dcd-6bc5e1a2c932
+2025-12-11 21:10:28.488 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:28.491 +01:00 [DBG] MessageAck received: ClientId=17ad9048-51e7-434c-9dcd-6bc5e1a2c932 ServerId=59
+2025-12-11 21:10:28.672 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:28.673 +01:00 [DBG] Sending message to room: 1 with clientId: f9607069-b9f8-4118-9b5b-8ff267d152e5
+2025-12-11 21:10:28.673 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:28.675 +01:00 [DBG] MessageAck received: ClientId=f9607069-b9f8-4118-9b5b-8ff267d152e5 ServerId=60
+2025-12-11 21:10:28.869 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:28.869 +01:00 [DBG] Sending message to room: 1 with clientId: 432a1b39-f388-402e-b7f8-88d853b8ec63
+2025-12-11 21:10:28.869 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:28.872 +01:00 [DBG] MessageAck received: ClientId=432a1b39-f388-402e-b7f8-88d853b8ec63 ServerId=61
+2025-12-11 21:10:29.048 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.048 +01:00 [DBG] Sending message to room: 1 with clientId: 82d2cc34-c796-4348-be55-c90c427bd312
+2025-12-11 21:10:29.049 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.052 +01:00 [DBG] MessageAck received: ClientId=82d2cc34-c796-4348-be55-c90c427bd312 ServerId=62
+2025-12-11 21:10:29.235 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.236 +01:00 [DBG] Sending message to room: 1 with clientId: 059944f8-7a0c-4a28-a450-ab3150781bdd
+2025-12-11 21:10:29.236 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.238 +01:00 [DBG] MessageAck received: ClientId=059944f8-7a0c-4a28-a450-ab3150781bdd ServerId=63
+2025-12-11 21:10:29.420 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.420 +01:00 [DBG] Sending message to room: 1 with clientId: 27de0204-a815-497e-b84c-a263e12df474
+2025-12-11 21:10:29.420 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.423 +01:00 [DBG] MessageAck received: ClientId=27de0204-a815-497e-b84c-a263e12df474 ServerId=64
+2025-12-11 21:10:29.596 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.596 +01:00 [DBG] Sending message to room: 1 with clientId: 34e078ad-be3c-4456-a19c-5bb831490dfe
+2025-12-11 21:10:29.597 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.600 +01:00 [DBG] MessageAck received: ClientId=34e078ad-be3c-4456-a19c-5bb831490dfe ServerId=65
+2025-12-11 21:10:29.780 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.780 +01:00 [DBG] Sending message to room: 1 with clientId: 2aebc325-83b3-4cd8-8ba1-40d008f6f805
+2025-12-11 21:10:29.781 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.783 +01:00 [DBG] MessageAck received: ClientId=2aebc325-83b3-4cd8-8ba1-40d008f6f805 ServerId=66
+2025-12-11 21:10:29.952 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:29.952 +01:00 [DBG] Sending message to room: 1 with clientId: e4390459-6fda-4dc2-badb-1cb4f84b36bc
+2025-12-11 21:10:29.952 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:29.955 +01:00 [DBG] MessageAck received: ClientId=e4390459-6fda-4dc2-badb-1cb4f84b36bc ServerId=67
+2025-12-11 21:10:30.116 +01:00 [DBG] Sending message: в
+2025-12-11 21:10:30.116 +01:00 [DBG] Sending message to room: 1 with clientId: de783f45-3669-470e-a424-988d48818291
+2025-12-11 21:10:30.116 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:10:30.119 +01:00 [DBG] MessageAck received: ClientId=de783f45-3669-470e-a424-988d48818291 ServerId=68
+2025-12-11 21:10:33.665 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Settings.ViewModels.SettingsViewModel
+2025-12-11 21:10:33.665 +01:00 [INF] Type found, resolving from DI: SettingsViewModel
+2025-12-11 21:10:33.666 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:10:33.666 +01:00 [INF] NavigateToInternal called with SettingsViewModel
+2025-12-11 21:10:33.667 +01:00 [INF] Raising Navigated event
+2025-12-11 21:10:33.667 +01:00 [INF] OnNavigated called with ViewModel: SettingsViewModel
+2025-12-11 21:10:33.709 +01:00 [INF] CurrentView updated to: SettingsViewModel
+2025-12-11 21:10:33.709 +01:00 [INF] Navigation completed successfully to SettingsViewModel
+2025-12-11 21:10:35.748 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:10:35.748 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:10:35.749 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:10:35.749 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:10:35.749 +01:00 [INF] Loading rooms...
+2025-12-11 21:10:35.749 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:10:35.749 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:10:35.757 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:10:35.757 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:10:35.759 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:10:35.759 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:10:35.759 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:10:35.778 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:10:35.782 +01:00 [INF] Raising Navigated event
+2025-12-11 21:10:35.782 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:10:35.785 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:10:35.785 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:10:38.398 +01:00 [DBG] Loading more messages before messageId: 19
+2025-12-11 21:10:38.398 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 19
+2025-12-11 21:10:38.398 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:10:38.417 +01:00 [DBG] Loaded 14 more messages
+2025-12-11 21:10:47.732 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Settings.ViewModels.SettingsViewModel
+2025-12-11 21:10:47.733 +01:00 [INF] Type found, resolving from DI: SettingsViewModel
+2025-12-11 21:10:47.734 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:10:47.734 +01:00 [INF] NavigateToInternal called with SettingsViewModel
+2025-12-11 21:10:47.735 +01:00 [INF] Raising Navigated event
+2025-12-11 21:10:47.735 +01:00 [INF] OnNavigated called with ViewModel: SettingsViewModel
+2025-12-11 21:10:47.758 +01:00 [INF] CurrentView updated to: SettingsViewModel
+2025-12-11 21:10:47.758 +01:00 [INF] Navigation completed successfully to SettingsViewModel
+2025-12-11 21:10:48.480 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:10:48.480 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:10:48.481 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:10:48.481 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:10:48.481 +01:00 [INF] Loading rooms...
+2025-12-11 21:10:48.481 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:10:48.481 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:10:48.493 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:10:48.493 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:10:48.493 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:10:48.493 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:10:48.493 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:10:48.499 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:10:48.504 +01:00 [INF] Raising Navigated event
+2025-12-11 21:10:48.504 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:10:48.506 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:10:48.506 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:10:54.903 +01:00 [DBG] Loading more messages before messageId: 19
+2025-12-11 21:10:54.903 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 19
+2025-12-11 21:10:54.903 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:10:54.914 +01:00 [DBG] Loaded 14 more messages
+2025-12-11 21:18:43.567 +01:00 [DBG] MessageAck received: ClientId=935939f8-bc10-49eb-863d-4cfb2f049f49 ServerId=69
+2025-12-11 21:18:43.576 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=69
+2025-12-11 21:18:43.685 +01:00 [DBG] MessageAck received: ClientId=6586b64e-220b-4f42-9738-118c8d7e07ba ServerId=70
+2025-12-11 21:18:43.686 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=70
+2025-12-11 21:18:43.853 +01:00 [DBG] MessageAck received: ClientId=3f81f725-eee5-4843-bbc7-f532e640ae20 ServerId=71
+2025-12-11 21:18:43.853 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=71
+2025-12-11 21:18:44.021 +01:00 [DBG] MessageAck received: ClientId=63235a01-c207-4313-8cc6-962cfa3125db ServerId=72
+2025-12-11 21:18:44.021 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=72
+2025-12-11 21:18:44.188 +01:00 [DBG] MessageAck received: ClientId=e891e5e4-3aed-4c33-af0a-0f452feed957 ServerId=73
+2025-12-11 21:18:44.188 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=73
+2025-12-11 21:18:44.359 +01:00 [DBG] MessageAck received: ClientId=f8d87f3c-d122-4565-bb0c-f24ca4a72417 ServerId=74
+2025-12-11 21:18:44.359 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=74
+2025-12-11 21:18:44.542 +01:00 [DBG] MessageAck received: ClientId=646f5cc8-bcb4-4c23-a8af-54ed6dace3f2 ServerId=75
+2025-12-11 21:18:44.542 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=75
+2025-12-11 21:18:44.734 +01:00 [DBG] MessageAck received: ClientId=47d2741f-c68e-4bae-9117-2f3cf4f0e713 ServerId=76
+2025-12-11 21:18:44.735 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=76
+2025-12-11 21:18:44.906 +01:00 [DBG] MessageAck received: ClientId=060b0520-ded9-4faa-9f24-fabb6a1df1b4 ServerId=77
+2025-12-11 21:18:44.907 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=77
+2025-12-11 21:18:45.102 +01:00 [DBG] MessageAck received: ClientId=bb6cac39-a803-4f68-a1b9-3e31e14c60bd ServerId=78
+2025-12-11 21:18:45.102 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=78
+2025-12-11 21:18:45.297 +01:00 [DBG] MessageAck received: ClientId=92149f50-c58f-4117-894f-ac48627c7601 ServerId=79
+2025-12-11 21:18:45.297 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=79
+2025-12-11 21:18:45.499 +01:00 [DBG] MessageAck received: ClientId=80f4a014-826f-414d-be98-9665e3afb045 ServerId=80
+2025-12-11 21:18:45.499 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=80
+2025-12-11 21:18:45.672 +01:00 [DBG] MessageAck received: ClientId=0000b75b-3220-4d07-a646-4b4bef708c9c ServerId=81
+2025-12-11 21:18:45.673 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=81
+2025-12-11 21:18:45.871 +01:00 [DBG] MessageAck received: ClientId=495058e2-be3c-4f9c-b1ee-02d9bd11c70e ServerId=82
+2025-12-11 21:18:45.871 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=82
+2025-12-11 21:18:46.013 +01:00 [DBG] MessageAck received: ClientId=0d1e0553-a2af-4598-9e70-7bf57a4c5b8c ServerId=83
+2025-12-11 21:18:46.013 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=83
+2025-12-11 21:18:46.219 +01:00 [DBG] MessageAck received: ClientId=f6b698f7-684e-49d8-ba98-df9c7138691c ServerId=84
+2025-12-11 21:18:46.219 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=84
+2025-12-11 21:18:46.530 +01:00 [DBG] MessageAck received: ClientId=cb6c8158-6756-4be6-b6c0-44669ad7ceff ServerId=85
+2025-12-11 21:18:46.530 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=85
+2025-12-11 21:18:46.757 +01:00 [DBG] MessageAck received: ClientId=9f1c437a-5760-46f1-a830-109bdc8fad4a ServerId=86
+2025-12-11 21:18:46.757 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=86
+2025-12-11 21:18:46.919 +01:00 [DBG] MessageAck received: ClientId=c98cf8fa-31b3-4f20-8f8a-304212347dbb ServerId=87
+2025-12-11 21:18:46.919 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=87
+2025-12-11 21:18:47.087 +01:00 [DBG] MessageAck received: ClientId=d84cc639-d1fc-47c8-9b7d-dc3a04cedd2e ServerId=88
+2025-12-11 21:18:47.087 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=88
+2025-12-11 21:18:47.263 +01:00 [DBG] MessageAck received: ClientId=fed54b92-ee10-4ccd-b6f4-0314e0b77c18 ServerId=89
+2025-12-11 21:18:47.263 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=89
+2025-12-11 21:18:47.453 +01:00 [DBG] MessageAck received: ClientId=016c2d45-9700-4dd3-b8e2-24a9b342433f ServerId=90
+2025-12-11 21:18:47.453 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=90
+2025-12-11 21:18:47.649 +01:00 [DBG] MessageAck received: ClientId=d06474f2-d12c-487e-8eef-4388863cca61 ServerId=91
+2025-12-11 21:18:47.649 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=91
+2025-12-11 21:18:47.847 +01:00 [DBG] MessageAck received: ClientId=4a54ce0a-d040-4167-9b6f-41c1737d9c0b ServerId=92
+2025-12-11 21:18:47.848 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=92
+2025-12-11 21:18:48.098 +01:00 [DBG] MessageAck received: ClientId=9c21a71b-e43e-4f79-80fc-e51878402ee6 ServerId=93
+2025-12-11 21:18:48.098 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=93
+2025-12-11 21:18:48.291 +01:00 [DBG] MessageAck received: ClientId=d04af8e1-230e-445a-b07a-8cf29183429c ServerId=94
+2025-12-11 21:18:48.291 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=94
+2025-12-11 21:18:48.484 +01:00 [DBG] MessageAck received: ClientId=bab0aeaf-fc41-43f5-b094-eec420d59322 ServerId=95
+2025-12-11 21:18:48.484 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=95
+2025-12-11 21:18:48.701 +01:00 [DBG] MessageAck received: ClientId=eed944b2-f5c9-4ac2-8c33-509605697646 ServerId=96
+2025-12-11 21:18:48.701 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=96
+2025-12-11 21:18:48.892 +01:00 [DBG] MessageAck received: ClientId=6e493dea-44ce-41e9-96b9-181714906e71 ServerId=97
+2025-12-11 21:18:48.892 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=97
+2025-12-11 21:18:49.082 +01:00 [DBG] MessageAck received: ClientId=c0a6a4b4-aebd-4a6e-bc72-9c85736d5c3a ServerId=98
+2025-12-11 21:18:49.082 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=98
+2025-12-11 21:18:49.282 +01:00 [DBG] MessageAck received: ClientId=4ed9540b-7255-4f28-8233-d086a332caa1 ServerId=99
+2025-12-11 21:18:49.282 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=99
+2025-12-11 21:18:49.466 +01:00 [DBG] MessageAck received: ClientId=cd62a940-3aaf-4678-90bf-ec3a145e6d9a ServerId=100
+2025-12-11 21:18:49.466 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=100
+2025-12-11 21:18:49.635 +01:00 [DBG] MessageAck received: ClientId=1e094baa-cfbe-4015-915d-2f9f1139bf10 ServerId=101
+2025-12-11 21:18:49.635 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=101
+2025-12-11 21:18:49.831 +01:00 [DBG] MessageAck received: ClientId=a4d74e62-f5ad-488a-9147-b3b21e79d71b ServerId=102
+2025-12-11 21:18:49.831 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=102
+2025-12-11 21:18:50.264 +01:00 [DBG] MessageAck received: ClientId=ef29d46f-9fa9-491e-b1d2-1a48eb1a42d2 ServerId=103
+2025-12-11 21:18:50.264 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=103
+2025-12-11 21:18:50.434 +01:00 [DBG] MessageAck received: ClientId=25cd1f08-957a-4b61-975e-77cdcbcce9c9 ServerId=104
+2025-12-11 21:18:50.434 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=104
+2025-12-11 21:18:50.619 +01:00 [DBG] MessageAck received: ClientId=02cb9b54-44d3-4c7e-af08-e2597c1a7c33 ServerId=105
+2025-12-11 21:18:50.620 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=105
+2025-12-11 21:18:50.788 +01:00 [DBG] MessageAck received: ClientId=77f60b3f-5272-42bf-8b6e-339380d1adf7 ServerId=106
+2025-12-11 21:18:50.788 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=106
+2025-12-11 21:18:50.967 +01:00 [DBG] MessageAck received: ClientId=60b54042-618d-45c6-b75d-ce53f17acfe3 ServerId=107
+2025-12-11 21:18:50.967 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=107
+2025-12-11 21:18:51.127 +01:00 [DBG] MessageAck received: ClientId=9735c782-3578-4f26-ac08-297f473ea19b ServerId=108
+2025-12-11 21:18:51.127 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=108
+2025-12-11 21:18:51.301 +01:00 [DBG] MessageAck received: ClientId=268b7a0f-18f3-4923-806c-16dbd7f4dedc ServerId=109
+2025-12-11 21:18:51.301 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=109
+2025-12-11 21:18:51.452 +01:00 [DBG] MessageAck received: ClientId=3694bd41-cc85-4214-a77c-e58d4fe15f50 ServerId=110
+2025-12-11 21:18:51.452 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=110
+2025-12-11 21:18:51.617 +01:00 [DBG] MessageAck received: ClientId=7e754eac-89ec-4831-8895-ac8f6da4beba ServerId=111
+2025-12-11 21:18:51.617 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=111
+2025-12-11 21:18:51.783 +01:00 [DBG] MessageAck received: ClientId=0f8dd64d-3e94-42b2-aa63-67796ab5a532 ServerId=112
+2025-12-11 21:18:51.783 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=112
+2025-12-11 21:18:51.950 +01:00 [DBG] MessageAck received: ClientId=009584ca-7f85-42bb-b9e9-1fcb7654959f ServerId=113
+2025-12-11 21:18:51.950 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=113
+2025-12-11 21:18:52.108 +01:00 [DBG] MessageAck received: ClientId=d9402455-c667-43ce-9658-97ea22d6baea ServerId=114
+2025-12-11 21:18:52.108 +01:00 [DBG] MessageReceived event: RoomId=1 MessageId=114
+1:00 [DBG] Sending message to room: 1 with clientId: cb6c8158-6756-4be6-b6c0-44669ad7ceff
+2025-12-11 21:18:46.450 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:46.564 +01:00 [DBG] MessageAck received: ClientId=cb6c8158-6756-4be6-b6c0-44669ad7ceff ServerId=85
+2025-12-11 21:18:46.754 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:46.754 +01:00 [DBG] Sending message to room: 1 with clientId: 9f1c437a-5760-46f1-a830-109bdc8fad4a
+2025-12-11 21:18:46.754 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:46.757 +01:00 [DBG] MessageAck received: ClientId=9f1c437a-5760-46f1-a830-109bdc8fad4a ServerId=86
+2025-12-11 21:18:46.917 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:46.917 +01:00 [DBG] Sending message to room: 1 with clientId: c98cf8fa-31b3-4f20-8f8a-304212347dbb
+2025-12-11 21:18:46.917 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:46.919 +01:00 [DBG] MessageAck received: ClientId=c98cf8fa-31b3-4f20-8f8a-304212347dbb ServerId=87
+2025-12-11 21:18:47.084 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:47.084 +01:00 [DBG] Sending message to room: 1 with clientId: d84cc639-d1fc-47c8-9b7d-dc3a04cedd2e
+2025-12-11 21:18:47.084 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:47.087 +01:00 [DBG] MessageAck received: ClientId=d84cc639-d1fc-47c8-9b7d-dc3a04cedd2e ServerId=88
+2025-12-11 21:18:47.260 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:47.260 +01:00 [DBG] Sending message to room: 1 with clientId: fed54b92-ee10-4ccd-b6f4-0314e0b77c18
+2025-12-11 21:18:47.260 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:47.263 +01:00 [DBG] MessageAck received: ClientId=fed54b92-ee10-4ccd-b6f4-0314e0b77c18 ServerId=89
+2025-12-11 21:18:47.449 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:47.449 +01:00 [DBG] Sending message to room: 1 with clientId: 016c2d45-9700-4dd3-b8e2-24a9b342433f
+2025-12-11 21:18:47.449 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:47.453 +01:00 [DBG] MessageAck received: ClientId=016c2d45-9700-4dd3-b8e2-24a9b342433f ServerId=90
+2025-12-11 21:18:47.646 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:47.646 +01:00 [DBG] Sending message to room: 1 with clientId: d06474f2-d12c-487e-8eef-4388863cca61
+2025-12-11 21:18:47.646 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:47.649 +01:00 [DBG] MessageAck received: ClientId=d06474f2-d12c-487e-8eef-4388863cca61 ServerId=91
+2025-12-11 21:18:47.843 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:47.843 +01:00 [DBG] Sending message to room: 1 with clientId: 4a54ce0a-d040-4167-9b6f-41c1737d9c0b
+2025-12-11 21:18:47.843 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:47.848 +01:00 [DBG] MessageAck received: ClientId=4a54ce0a-d040-4167-9b6f-41c1737d9c0b ServerId=92
+2025-12-11 21:18:48.095 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:48.095 +01:00 [DBG] Sending message to room: 1 with clientId: 9c21a71b-e43e-4f79-80fc-e51878402ee6
+2025-12-11 21:18:48.095 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:48.098 +01:00 [DBG] MessageAck received: ClientId=9c21a71b-e43e-4f79-80fc-e51878402ee6 ServerId=93
+2025-12-11 21:18:48.287 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:48.287 +01:00 [DBG] Sending message to room: 1 with clientId: d04af8e1-230e-445a-b07a-8cf29183429c
+2025-12-11 21:18:48.287 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:48.291 +01:00 [DBG] MessageAck received: ClientId=d04af8e1-230e-445a-b07a-8cf29183429c ServerId=94
+2025-12-11 21:18:48.481 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:48.481 +01:00 [DBG] Sending message to room: 1 with clientId: bab0aeaf-fc41-43f5-b094-eec420d59322
+2025-12-11 21:18:48.481 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:48.484 +01:00 [DBG] MessageAck received: ClientId=bab0aeaf-fc41-43f5-b094-eec420d59322 ServerId=95
+2025-12-11 21:18:48.698 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:48.698 +01:00 [DBG] Sending message to room: 1 with clientId: eed944b2-f5c9-4ac2-8c33-509605697646
+2025-12-11 21:18:48.698 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:48.701 +01:00 [DBG] MessageAck received: ClientId=eed944b2-f5c9-4ac2-8c33-509605697646 ServerId=96
+2025-12-11 21:18:48.881 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:48.881 +01:00 [DBG] Sending message to room: 1 with clientId: 6e493dea-44ce-41e9-96b9-181714906e71
+2025-12-11 21:18:48.881 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:48.886 +01:00 [DBG] MessageAck received: ClientId=6e493dea-44ce-41e9-96b9-181714906e71 ServerId=97
+2025-12-11 21:18:49.079 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:49.079 +01:00 [DBG] Sending message to room: 1 with clientId: c0a6a4b4-aebd-4a6e-bc72-9c85736d5c3a
+2025-12-11 21:18:49.079 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:49.082 +01:00 [DBG] MessageAck received: ClientId=c0a6a4b4-aebd-4a6e-bc72-9c85736d5c3a ServerId=98
+2025-12-11 21:18:49.280 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:49.280 +01:00 [DBG] Sending message to room: 1 with clientId: 4ed9540b-7255-4f28-8233-d086a332caa1
+2025-12-11 21:18:49.280 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:49.282 +01:00 [DBG] MessageAck received: ClientId=4ed9540b-7255-4f28-8233-d086a332caa1 ServerId=99
+2025-12-11 21:18:49.463 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:49.463 +01:00 [DBG] Sending message to room: 1 with clientId: cd62a940-3aaf-4678-90bf-ec3a145e6d9a
+2025-12-11 21:18:49.463 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:49.466 +01:00 [DBG] MessageAck received: ClientId=cd62a940-3aaf-4678-90bf-ec3a145e6d9a ServerId=100
+2025-12-11 21:18:49.633 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:49.633 +01:00 [DBG] Sending message to room: 1 with clientId: 1e094baa-cfbe-4015-915d-2f9f1139bf10
+2025-12-11 21:18:49.633 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:49.635 +01:00 [DBG] MessageAck received: ClientId=1e094baa-cfbe-4015-915d-2f9f1139bf10 ServerId=101
+2025-12-11 21:18:49.826 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:49.826 +01:00 [DBG] Sending message to room: 1 with clientId: a4d74e62-f5ad-488a-9147-b3b21e79d71b
+2025-12-11 21:18:49.826 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:49.831 +01:00 [DBG] MessageAck received: ClientId=a4d74e62-f5ad-488a-9147-b3b21e79d71b ServerId=102
+2025-12-11 21:18:50.261 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:50.261 +01:00 [DBG] Sending message to room: 1 with clientId: ef29d46f-9fa9-491e-b1d2-1a48eb1a42d2
+2025-12-11 21:18:50.261 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:50.264 +01:00 [DBG] MessageAck received: ClientId=ef29d46f-9fa9-491e-b1d2-1a48eb1a42d2 ServerId=103
+2025-12-11 21:18:50.429 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:50.429 +01:00 [DBG] Sending message to room: 1 with clientId: 25cd1f08-957a-4b61-975e-77cdcbcce9c9
+2025-12-11 21:18:50.430 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:50.434 +01:00 [DBG] MessageAck received: ClientId=25cd1f08-957a-4b61-975e-77cdcbcce9c9 ServerId=104
+2025-12-11 21:18:50.615 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:50.615 +01:00 [DBG] Sending message to room: 1 with clientId: 02cb9b54-44d3-4c7e-af08-e2597c1a7c33
+2025-12-11 21:18:50.615 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:50.619 +01:00 [DBG] MessageAck received: ClientId=02cb9b54-44d3-4c7e-af08-e2597c1a7c33 ServerId=105
+2025-12-11 21:18:50.783 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:50.784 +01:00 [DBG] Sending message to room: 1 with clientId: 77f60b3f-5272-42bf-8b6e-339380d1adf7
+2025-12-11 21:18:50.784 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:50.789 +01:00 [DBG] MessageAck received: ClientId=77f60b3f-5272-42bf-8b6e-339380d1adf7 ServerId=106
+2025-12-11 21:18:50.962 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:50.962 +01:00 [DBG] Sending message to room: 1 with clientId: 60b54042-618d-45c6-b75d-ce53f17acfe3
+2025-12-11 21:18:50.962 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:50.967 +01:00 [DBG] MessageAck received: ClientId=60b54042-618d-45c6-b75d-ce53f17acfe3 ServerId=107
+2025-12-11 21:18:51.124 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.124 +01:00 [DBG] Sending message to room: 1 with clientId: 9735c782-3578-4f26-ac08-297f473ea19b
+2025-12-11 21:18:51.124 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.127 +01:00 [DBG] MessageAck received: ClientId=9735c782-3578-4f26-ac08-297f473ea19b ServerId=108
+2025-12-11 21:18:51.287 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.290 +01:00 [DBG] Sending message to room: 1 with clientId: 268b7a0f-18f3-4923-806c-16dbd7f4dedc
+2025-12-11 21:18:51.291 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.301 +01:00 [DBG] MessageAck received: ClientId=268b7a0f-18f3-4923-806c-16dbd7f4dedc ServerId=109
+2025-12-11 21:18:51.447 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.447 +01:00 [DBG] Sending message to room: 1 with clientId: 3694bd41-cc85-4214-a77c-e58d4fe15f50
+2025-12-11 21:18:51.448 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.453 +01:00 [DBG] MessageAck received: ClientId=3694bd41-cc85-4214-a77c-e58d4fe15f50 ServerId=110
+2025-12-11 21:18:51.612 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.613 +01:00 [DBG] Sending message to room: 1 with clientId: 7e754eac-89ec-4831-8895-ac8f6da4beba
+2025-12-11 21:18:51.613 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.617 +01:00 [DBG] MessageAck received: ClientId=7e754eac-89ec-4831-8895-ac8f6da4beba ServerId=111
+2025-12-11 21:18:51.779 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.780 +01:00 [DBG] Sending message to room: 1 with clientId: 0f8dd64d-3e94-42b2-aa63-67796ab5a532
+2025-12-11 21:18:51.780 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.783 +01:00 [DBG] MessageAck received: ClientId=0f8dd64d-3e94-42b2-aa63-67796ab5a532 ServerId=112
+2025-12-11 21:18:51.948 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:51.948 +01:00 [DBG] Sending message to room: 1 with clientId: 009584ca-7f85-42bb-b9e9-1fcb7654959f
+2025-12-11 21:18:51.948 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:51.950 +01:00 [DBG] MessageAck received: ClientId=009584ca-7f85-42bb-b9e9-1fcb7654959f ServerId=113
+2025-12-11 21:18:52.105 +01:00 [DBG] Sending message: a
+2025-12-11 21:18:52.105 +01:00 [DBG] Sending message to room: 1 with clientId: d9402455-c667-43ce-9658-97ea22d6baea
+2025-12-11 21:18:52.105 +01:00 [DBG] Invoking SignalR method: SendMessage
+2025-12-11 21:18:52.108 +01:00 [DBG] MessageAck received: ClientId=d9402455-c667-43ce-9658-97ea22d6baea ServerId=114
+2025-12-11 21:18:53.915 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Settings.ViewModels.SettingsViewModel
+2025-12-11 21:18:53.915 +01:00 [INF] Type found, resolving from DI: SettingsViewModel
+2025-12-11 21:18:53.916 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:18:53.916 +01:00 [INF] NavigateToInternal called with SettingsViewModel
+2025-12-11 21:18:53.917 +01:00 [INF] Raising Navigated event
+2025-12-11 21:18:53.917 +01:00 [INF] OnNavigated called with ViewModel: SettingsViewModel
+2025-12-11 21:18:53.965 +01:00 [INF] CurrentView updated to: SettingsViewModel
+2025-12-11 21:18:53.965 +01:00 [INF] Navigation completed successfully to SettingsViewModel
+2025-12-11 21:18:59.660 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:18:59.660 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:18:59.661 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:18:59.661 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:18:59.661 +01:00 [INF] Loading rooms...
+2025-12-11 21:18:59.661 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:18:59.661 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:18:59.666 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:18:59.666 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:18:59.668 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:18:59.668 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:18:59.669 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:18:59.692 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:18:59.696 +01:00 [INF] Raising Navigated event
+2025-12-11 21:18:59.696 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:18:59.700 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:18:59.700 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:19:09.131 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:19:09.133 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:19:09.133 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:19:09.143 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:19:09.175 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:19:09.176 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:19:09.176 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:19:09.191 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:23:49.282 +01:00 [INF] Application starting up
+2025-12-11 21:23:49.395 +01:00 [INF] NavigationService initialized
+2025-12-11 21:23:49.395 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:23:49.417 +01:00 [INF] Starting application initialization
+2025-12-11 21:23:49.418 +01:00 [INF] Starting hub connection
+2025-12-11 21:23:49.418 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:23:49.657 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:23:49.660 +01:00 [INF] Hub connection started
+2025-12-11 21:23:49.712 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:23:49.713 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:23:49.713 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:23:49.715 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:23:49.940 +01:00 [INF] Refresh token login successful
+2025-12-11 21:23:49.951 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:23:49.951 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:23:49.953 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:23:49.953 +01:00 [INF] Auto-login successful
+2025-12-11 21:23:49.954 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:23:49.955 +01:00 [INF] Loading rooms...
+2025-12-11 21:23:49.955 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:23:49.955 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:23:49.972 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:23:49.974 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:23:49.975 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:23:49.975 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:23:49.980 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:23:49.981 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:23:49.981 +01:00 [INF] Loading rooms...
+2025-12-11 21:23:49.981 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:23:49.981 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:23:49.990 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:23:49.990 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:23:49.990 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:23:49.991 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:23:49.991 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:23:50.011 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:23:50.013 +01:00 [INF] Raising Navigated event
+2025-12-11 21:23:50.013 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:23:50.071 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:23:50.071 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:23:54.481 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:23:54.482 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:23:54.482 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:23:54.502 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:23:55.343 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:23:55.343 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:23:55.343 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:23:55.353 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:25:33.419 +01:00 [INF] Application starting up
+2025-12-11 21:25:33.531 +01:00 [INF] NavigationService initialized
+2025-12-11 21:25:33.532 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:25:33.553 +01:00 [INF] Starting application initialization
+2025-12-11 21:25:33.554 +01:00 [INF] Starting hub connection
+2025-12-11 21:25:33.554 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:25:33.656 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:25:33.658 +01:00 [INF] Hub connection started
+2025-12-11 21:25:33.719 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:25:33.720 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:25:33.720 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:25:33.721 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:25:33.834 +01:00 [INF] Refresh token login successful
+2025-12-11 21:25:33.838 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:25:33.838 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:25:33.852 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:25:33.852 +01:00 [INF] Auto-login successful
+2025-12-11 21:25:33.853 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:25:33.854 +01:00 [INF] Loading rooms...
+2025-12-11 21:25:33.854 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:25:33.854 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:25:33.877 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:25:33.878 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:25:33.879 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:25:33.879 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:25:33.879 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:25:33.880 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:25:33.880 +01:00 [INF] Loading rooms...
+2025-12-11 21:25:33.880 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:25:33.880 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:25:33.883 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:25:33.883 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:25:33.884 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:25:33.885 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:25:33.885 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:25:33.902 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:25:33.904 +01:00 [INF] Raising Navigated event
+2025-12-11 21:25:33.905 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:25:33.962 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:25:33.962 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:25:39.345 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:25:39.346 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:25:39.346 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:25:39.374 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:25:39.451 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:25:39.451 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:25:39.451 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:25:39.458 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:29:24.183 +01:00 [INF] Application starting up
+2025-12-11 21:29:24.294 +01:00 [INF] NavigationService initialized
+2025-12-11 21:29:24.295 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:29:24.315 +01:00 [INF] Starting application initialization
+2025-12-11 21:29:24.316 +01:00 [INF] Starting hub connection
+2025-12-11 21:29:24.316 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:29:24.465 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:29:24.466 +01:00 [INF] Hub connection started
+2025-12-11 21:29:24.511 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:29:24.511 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:29:24.511 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:29:24.512 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:29:24.647 +01:00 [INF] Refresh token login successful
+2025-12-11 21:29:24.653 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:29:24.654 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:29:24.779 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:29:24.779 +01:00 [INF] Auto-login successful
+2025-12-11 21:29:24.779 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:29:24.780 +01:00 [INF] Loading rooms...
+2025-12-11 21:29:24.781 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:29:24.781 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:29:24.858 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:29:24.860 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:29:24.861 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:29:24.861 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:29:24.862 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:29:24.862 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:29:24.863 +01:00 [INF] Loading rooms...
+2025-12-11 21:29:24.863 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:29:24.863 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:29:24.899 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:29:24.900 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:29:24.900 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:29:24.901 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:29:24.901 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:29:24.925 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:29:24.927 +01:00 [INF] Raising Navigated event
+2025-12-11 21:29:24.927 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:29:24.984 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:29:24.984 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:29:30.293 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:29:30.293 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:29:30.293 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:29:30.308 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:29:30.377 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:29:30.377 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:29:30.378 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:29:30.383 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:33:04.915 +01:00 [INF] Application starting up
+2025-12-11 21:33:05.047 +01:00 [INF] NavigationService initialized
+2025-12-11 21:33:05.048 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:33:05.069 +01:00 [INF] Starting application initialization
+2025-12-11 21:33:05.069 +01:00 [INF] Starting hub connection
+2025-12-11 21:33:05.070 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:33:05.218 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:33:05.219 +01:00 [INF] Hub connection started
+2025-12-11 21:33:05.271 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:33:05.284 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:33:05.285 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:33:05.287 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:33:05.450 +01:00 [INF] Refresh token login successful
+2025-12-11 21:33:05.455 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:33:05.455 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:33:05.487 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:33:05.487 +01:00 [INF] Auto-login successful
+2025-12-11 21:33:05.487 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:33:05.489 +01:00 [INF] Loading rooms...
+2025-12-11 21:33:05.489 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:33:05.489 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:33:05.519 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:33:05.520 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:33:05.528 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:33:05.528 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:33:05.528 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:33:05.529 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:33:05.530 +01:00 [INF] Loading rooms...
+2025-12-11 21:33:05.530 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:33:05.530 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:33:05.534 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:33:05.534 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:33:05.534 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:33:05.535 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:33:05.535 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:33:05.578 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:33:05.582 +01:00 [INF] Raising Navigated event
+2025-12-11 21:33:05.582 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:33:05.641 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:33:05.641 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:33:11.000 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:33:11.000 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:33:11.001 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:33:11.022 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:33:11.102 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:33:11.102 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:33:11.102 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:33:11.107 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:35:38.834 +01:00 [INF] Application starting up
+2025-12-11 21:35:38.931 +01:00 [INF] NavigationService initialized
+2025-12-11 21:35:38.932 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:35:38.950 +01:00 [INF] Starting application initialization
+2025-12-11 21:35:38.951 +01:00 [INF] Starting hub connection
+2025-12-11 21:35:38.951 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:35:39.059 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:35:39.061 +01:00 [INF] Hub connection started
+2025-12-11 21:35:39.103 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:35:39.103 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:35:39.104 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:35:39.106 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:35:39.214 +01:00 [INF] Refresh token login successful
+2025-12-11 21:35:39.218 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:35:39.218 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:35:39.229 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:35:39.229 +01:00 [INF] Auto-login successful
+2025-12-11 21:35:39.230 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:35:39.231 +01:00 [INF] Loading rooms...
+2025-12-11 21:35:39.232 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:35:39.233 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:35:39.290 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:35:39.291 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:35:39.293 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:35:39.293 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:35:39.293 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:35:39.294 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:35:39.294 +01:00 [INF] Loading rooms...
+2025-12-11 21:35:39.294 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:35:39.295 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:35:39.300 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:35:39.300 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:35:39.301 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:35:39.301 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:35:39.302 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:35:39.330 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:35:39.334 +01:00 [INF] Raising Navigated event
+2025-12-11 21:35:39.335 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:35:39.411 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:35:39.411 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:35:43.910 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:35:43.911 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:35:43.911 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:35:43.999 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:35:44.070 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:35:44.070 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:35:44.070 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:35:44.075 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:40:59.846 +01:00 [INF] Application starting up
+2025-12-11 21:40:59.947 +01:00 [INF] NavigationService initialized
+2025-12-11 21:40:59.948 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:40:59.969 +01:00 [INF] Starting application initialization
+2025-12-11 21:40:59.969 +01:00 [INF] Starting hub connection
+2025-12-11 21:40:59.970 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:41:00.119 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:41:00.121 +01:00 [INF] Hub connection started
+2025-12-11 21:41:00.160 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:41:00.160 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:41:00.160 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:41:00.161 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:41:00.491 +01:00 [INF] Refresh token login successful
+2025-12-11 21:41:00.495 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:41:00.495 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:41:00.502 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:41:00.503 +01:00 [INF] Auto-login successful
+2025-12-11 21:41:00.503 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:41:00.504 +01:00 [INF] Loading rooms...
+2025-12-11 21:41:00.504 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:41:00.504 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:41:00.587 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:41:00.589 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:41:00.591 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:41:00.591 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:41:00.591 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:41:00.592 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:41:00.593 +01:00 [INF] Loading rooms...
+2025-12-11 21:41:00.593 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:41:00.593 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:41:00.602 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:41:00.602 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:41:00.603 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:41:00.604 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:41:00.604 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:41:00.629 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:41:00.632 +01:00 [INF] Raising Navigated event
+2025-12-11 21:41:00.632 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:41:00.687 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:41:00.688 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:41:10.264 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:41:10.265 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:41:10.266 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:41:10.322 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:41:10.413 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:41:10.413 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:41:10.413 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:41:10.418 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:43:36.200 +01:00 [INF] Application starting up
+2025-12-11 21:43:36.325 +01:00 [INF] NavigationService initialized
+2025-12-11 21:43:36.326 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:43:36.351 +01:00 [INF] Starting application initialization
+2025-12-11 21:43:36.352 +01:00 [INF] Starting hub connection
+2025-12-11 21:43:36.352 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:43:36.480 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:43:36.482 +01:00 [INF] Hub connection started
+2025-12-11 21:43:36.519 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:43:36.519 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:43:36.519 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:43:36.521 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:43:36.775 +01:00 [INF] Refresh token login successful
+2025-12-11 21:43:36.779 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:43:36.779 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:43:36.796 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:43:36.796 +01:00 [INF] Auto-login successful
+2025-12-11 21:43:36.796 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:43:36.797 +01:00 [INF] Loading rooms...
+2025-12-11 21:43:36.798 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:43:36.798 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:43:36.846 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:43:36.847 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:43:36.848 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:43:36.849 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:43:36.849 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:43:36.849 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:43:36.854 +01:00 [INF] Loading rooms...
+2025-12-11 21:43:36.854 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:43:36.854 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:43:36.859 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:43:36.860 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:43:36.861 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:43:36.861 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:43:36.861 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:43:36.908 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:43:36.922 +01:00 [INF] Raising Navigated event
+2025-12-11 21:43:36.922 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:43:36.977 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:43:36.977 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:43:39.645 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:43:39.645 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:43:39.645 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:43:39.657 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:43:39.726 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:43:39.726 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:43:39.726 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:43:39.733 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:44:37.679 +01:00 [INF] Application starting up
+2025-12-11 21:44:37.781 +01:00 [INF] NavigationService initialized
+2025-12-11 21:44:37.782 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:44:37.803 +01:00 [INF] Starting application initialization
+2025-12-11 21:44:37.804 +01:00 [INF] Starting hub connection
+2025-12-11 21:44:37.804 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:44:37.951 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:44:37.952 +01:00 [INF] Hub connection started
+2025-12-11 21:44:37.992 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:44:37.992 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:44:37.992 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:44:37.993 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:44:38.076 +01:00 [INF] Refresh token login successful
+2025-12-11 21:44:38.080 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:44:38.080 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:44:38.084 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:44:38.084 +01:00 [INF] Auto-login successful
+2025-12-11 21:44:38.084 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:44:38.085 +01:00 [INF] Loading rooms...
+2025-12-11 21:44:38.085 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:44:38.086 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:44:38.116 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:44:38.117 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:44:38.118 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:44:38.118 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:44:38.119 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:44:38.120 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:44:38.121 +01:00 [INF] Loading rooms...
+2025-12-11 21:44:38.121 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:44:38.121 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:44:38.131 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:44:38.131 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:44:38.132 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:44:38.132 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:44:38.133 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:44:38.269 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:44:38.296 +01:00 [INF] Raising Navigated event
+2025-12-11 21:44:38.296 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:44:38.370 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:44:38.370 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:44:43.579 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:44:43.579 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:44:43.580 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:44:43.595 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:44:43.672 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:44:43.672 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:44:43.672 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:44:43.678 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:45:36.348 +01:00 [INF] Application starting up
+2025-12-11 21:45:36.439 +01:00 [INF] NavigationService initialized
+2025-12-11 21:45:36.440 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:45:36.459 +01:00 [INF] Starting application initialization
+2025-12-11 21:45:36.460 +01:00 [INF] Starting hub connection
+2025-12-11 21:45:36.460 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:45:36.587 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:45:36.588 +01:00 [INF] Hub connection started
+2025-12-11 21:45:36.637 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:45:36.637 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:45:36.637 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:45:36.639 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:45:36.734 +01:00 [INF] Refresh token login successful
+2025-12-11 21:45:36.738 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:45:36.738 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:45:36.770 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:45:36.770 +01:00 [INF] Auto-login successful
+2025-12-11 21:45:36.770 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:45:36.771 +01:00 [INF] Loading rooms...
+2025-12-11 21:45:36.772 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:45:36.772 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:45:36.808 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:45:36.809 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:45:36.811 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:45:36.811 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:45:36.811 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:45:36.812 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:45:36.812 +01:00 [INF] Loading rooms...
+2025-12-11 21:45:36.812 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:45:36.812 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:45:36.823 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:45:36.823 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:45:36.823 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:45:36.824 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:45:36.824 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:45:36.870 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:45:37.134 +01:00 [INF] Raising Navigated event
+2025-12-11 21:45:37.135 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:45:37.209 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:45:37.210 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:45:41.779 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:45:41.780 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:45:41.780 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:45:41.801 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:45:47.795 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:45:47.796 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:45:47.796 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:45:47.810 +01:00 [DBG] Loaded 10 more messages
+2025-12-11 21:47:14.093 +01:00 [INF] Application starting up
+2025-12-11 21:47:14.205 +01:00 [INF] NavigationService initialized
+2025-12-11 21:47:14.206 +01:00 [INF] Initializing SignalR connection to http://127.0.0.1:3000/chat
+2025-12-11 21:47:14.232 +01:00 [INF] Starting application initialization
+2025-12-11 21:47:14.233 +01:00 [INF] Starting hub connection
+2025-12-11 21:47:14.233 +01:00 [INF] Starting SignalR connection
+2025-12-11 21:47:14.480 +01:00 [INF] SignalR connection started. State: "Connected"
+2025-12-11 21:47:14.483 +01:00 [INF] Hub connection started
+2025-12-11 21:47:14.557 +01:00 [DBG] Session loaded for user: misha
+2025-12-11 21:47:14.557 +01:00 [INF] Attempting auto-login with saved session
+2025-12-11 21:47:14.558 +01:00 [INF] Attempting refresh token login
+2025-12-11 21:47:14.559 +01:00 [DBG] Invoking SignalR method: LoginWithRefreshToken
+2025-12-11 21:47:14.620 +01:00 [INF] Refresh token login successful
+2025-12-11 21:47:14.626 +01:00 [DBG] Session saved for user: misha
+2025-12-11 21:47:14.626 +01:00 [DBG] Invoking SignalR method: RegisterSession
+2025-12-11 21:47:14.649 +01:00 [INF] Session registered for realtime revocation notifications
+2025-12-11 21:47:14.649 +01:00 [INF] Auto-login successful
+2025-12-11 21:47:14.649 +01:00 [INF] Auto-login successful for misha, loading rooms
+2025-12-11 21:47:14.651 +01:00 [INF] Loading rooms...
+2025-12-11 21:47:14.652 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:47:14.652 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:47:14.680 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:47:14.682 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:47:14.683 +01:00 [INF] Attempting to navigate to: uchat_client.Core.Application.Features.Chat.ViewModels.ChatViewModel
+2025-12-11 21:47:14.683 +01:00 [INF] Type found, resolving from DI: ChatViewModel
+2025-12-11 21:47:14.683 +01:00 [INF] ViewModel resolved, navigating internally
+2025-12-11 21:47:14.684 +01:00 [INF] NavigateToInternal called with ChatViewModel
+2025-12-11 21:47:14.684 +01:00 [INF] Loading rooms...
+2025-12-11 21:47:14.684 +01:00 [DBG] Fetching accessible rooms
+2025-12-11 21:47:14.684 +01:00 [DBG] Invoking SignalR method: GetAccessibleRooms
+2025-12-11 21:47:14.731 +01:00 [INF] Rooms fetched: Count=1
+2025-12-11 21:47:14.731 +01:00 [INF] Rooms after ordering: Count=1
+2025-12-11 21:47:14.732 +01:00 [INF] Navigated to room: Global Chat (1)
+2025-12-11 21:47:14.732 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: null
+2025-12-11 21:47:14.733 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:47:15.116 +01:00 [DBG] Invoking SignalR method: JoinRoom
+2025-12-11 21:47:15.120 +01:00 [INF] Raising Navigated event
+2025-12-11 21:47:15.121 +01:00 [INF] OnNavigated called with ViewModel: ChatViewModel
+2025-12-11 21:47:15.188 +01:00 [INF] CurrentView updated to: ChatViewModel
+2025-12-11 21:47:15.188 +01:00 [INF] Navigation completed successfully to ChatViewModel
+2025-12-11 21:47:16.856 +01:00 [DBG] Loading more messages before messageId: 65
+2025-12-11 21:47:16.856 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 65
+2025-12-11 21:47:16.856 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:47:16.867 +01:00 [DBG] Loaded 50 more messages
+2025-12-11 21:47:18.660 +01:00 [DBG] Loading more messages before messageId: 15
+2025-12-11 21:47:18.660 +01:00 [DBG] Fetching messages for room: 1, beforeMessageId: 15
+2025-12-11 21:47:18.660 +01:00 [DBG] Invoking SignalR method: GetMessages
+2025-12-11 21:47:18.665 +01:00 [DBG] Loaded 10 more messages

@@ -15,6 +15,7 @@ namespace uchat_client.Core.Application.Features.Chat.ViewModels;
 
 public class ChatViewModel : NavigableViewModelBase
 {
+    private const int PageSize = 50;
     private readonly SidebarViewModel _sidebarViewModel;
     private readonly IMessageService _messageService;
     private readonly IAuthService _authService;
@@ -23,6 +24,14 @@ public class ChatViewModel : NavigableViewModelBase
     private bool _isGlobal;
     private string _outgoingMessage = string.Empty;
     private ObservableCollection<ChatMessageViewModel> _messages = new();
+    private bool _isLoadingMore;
+    private bool _hasMoreMessages = true;
+
+    public bool IsLoadingMore
+    {
+        get => _isLoadingMore;
+        private set => SetProperty(ref _isLoadingMore, value);
+    }
 
     public string RoomName
     {
@@ -50,6 +59,8 @@ public class ChatViewModel : NavigableViewModelBase
 
     public ICommand SendCommand { get; }
     public ICommand EditMessageCommand { get; }
+    public ICommand SaveEditCommand { get; }
+    public ICommand CancelEditCommand { get; }
     public ICommand DeleteMessageCommand { get; }
 
     public ChatViewModel(
@@ -65,7 +76,9 @@ public class ChatViewModel : NavigableViewModelBase
         _authService = authService;
 
         SendCommand = new RelayCommand(SendMessage);
-        EditMessageCommand = new RelayCommand<ChatMessageViewModel>(EditMessage);
+        EditMessageCommand = new RelayCommand<ChatMessageViewModel>(StartEditMessage);
+        SaveEditCommand = new RelayCommand<ChatMessageViewModel>(SaveEditMessage);
+        CancelEditCommand = new RelayCommand<ChatMessageViewModel>(CancelEditMessage);
         DeleteMessageCommand = new RelayCommand<ChatMessageViewModel>(DeleteMessage);
     }
 
@@ -73,7 +86,6 @@ public class ChatViewModel : NavigableViewModelBase
     {
         if (parameter is RoomNavigationContext room)
         {
-            // Check if we're already viewing this room - if so, skip reload
             bool isAlreadyInRoom = _roomId == room.RoomId && Messages.Count > 0;
 
             if (isAlreadyInRoom)
@@ -83,12 +95,11 @@ public class ChatViewModel : NavigableViewModelBase
                 return;
             }
 
-            // Unsubscribe from old room events if switching rooms
             if (_roomId != 0)
             {
                 _messageService.MessageReceived -= OnMessageReceived;
-                _messageService.MessageAcknowledged -= OnMessageAcknowledged;
-                _messageService.DeliveryReceiptReceived -= OnDeliveryReceiptReceived;
+                _messageService.MessageEdited -= OnMessageEdited;
+                _messageService.MessageDeleted -= OnMessageDeleted;
             }
 
             _roomId = room.RoomId;
@@ -101,16 +112,11 @@ public class ChatViewModel : NavigableViewModelBase
 
             await LoadMessagesAsync();
 
-            // Listen for live messages and delivery updates
             _messageService.MessageReceived += OnMessageReceived;
-            _messageService.MessageAcknowledged += OnMessageAcknowledged;
-            _messageService.DeliveryReceiptReceived += OnDeliveryReceiptReceived;
+            _messageService.MessageEdited += OnMessageEdited;
+            _messageService.MessageDeleted += OnMessageDeleted;
 
-            // Join the SignalR room so we receive broadcasts (not required for user-channel delivery, but harmless)
             await JoinRoomAsync();
-
-            // Mark all visible messages as read
-            await MarkVisibleMessagesAsReadAsync();
         }
 
         await base.OnNavigatedToAsync(parameter);
@@ -119,8 +125,8 @@ public class ChatViewModel : NavigableViewModelBase
     public override Task OnNavigatedFromAsync()
     {
         _messageService.MessageReceived -= OnMessageReceived;
-        _messageService.MessageAcknowledged -= OnMessageAcknowledged;
-        _messageService.DeliveryReceiptReceived -= OnDeliveryReceiptReceived;
+        _messageService.MessageEdited -= OnMessageEdited;
+        _messageService.MessageDeleted -= OnMessageDeleted;
         return base.OnNavigatedFromAsync();
     }
 
@@ -134,10 +140,72 @@ public class ChatViewModel : NavigableViewModelBase
             {
                 Messages.Add(MapMessage(msg));
             }
+
+            _hasMoreMessages = response.Data.Count == PageSize;
         }
         else
         {
             Logger.LogWarning("Failed to load messages: {Message}", response.Message);
+            _hasMoreMessages = false;
+        }
+    }
+
+    public async Task LoadMoreMessagesAsync()
+    {
+        if (IsLoadingMore || !_hasMoreMessages)
+        {
+            return;
+        }
+
+        IsLoadingMore = true;
+
+        try
+        {
+            var oldestMessageId = Messages.FirstOrDefault()?.MessageId;
+            if (oldestMessageId == null)
+            {
+                return;
+            }
+
+            Logger.LogDebug("Loading more messages before messageId: {MessageId}", oldestMessageId);
+
+            var response = await _messageService.GetMessagesAsync(_roomId, oldestMessageId);
+            if (response.Success && response.Data != null && response.Data.Count > 0)
+            {
+                var newMessages = new List<ChatMessageViewModel>();
+                foreach (var msg in response.Data)
+                {
+                    // Avoid duplicates if the server returns overlapping messages
+                    if (Messages.Any(m => m.MessageId == msg.Id))
+                    {
+                        continue;
+                    }
+
+                    newMessages.Add(MapMessage(msg));
+                }
+
+                for (int i = newMessages.Count - 1; i >= 0; i--)
+                {
+                    Messages.Insert(0, newMessages[i]);
+                }
+
+                _hasMoreMessages = response.Data.Count == PageSize;
+
+                Logger.LogDebug("Loaded {Count} more messages", response.Data.Count);
+            }
+            else
+            {
+                _hasMoreMessages = false;
+                Logger.LogDebug("No more messages to load");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading more messages");
+        }
+        finally
+        {
+            IsLoadingMore = false;
         }
     }
 
@@ -158,17 +226,13 @@ public class ChatViewModel : NavigableViewModelBase
         var isOutgoing = !string.IsNullOrWhiteSpace(dto.SenderUsername) &&
                          string.Equals(dto.SenderUsername, _authService.CurrentUsername, StringComparison.OrdinalIgnoreCase);
 
-        Logger.LogDebug("MapMessage: Id={Id}, IsOutgoing={IsOutgoing}, DeliveryStatus={Status}",
-            dto.Id, isOutgoing, dto.DeliveryStatus);
-
         return new ChatMessageViewModel
         {
             MessageId = dto.Id,
             Sender = dto.SenderUsername,
             Text = dto.Content,
             Time = dto.SentAt.ToLocalTime().ToShortTimeString(),
-            IsOutgoing = isOutgoing,
-            DeliveryStatus = dto.DeliveryStatus
+            IsOutgoing = isOutgoing
         };
     }
 
@@ -191,7 +255,6 @@ public class ChatViewModel : NavigableViewModelBase
         {
             Logger.LogWarning("Failed to send message: {Message}", response.Message);
         }
-
     }
 
     private void OnMessageReceived(object? sender, MessageDto message)
@@ -205,88 +268,117 @@ public class ChatViewModel : NavigableViewModelBase
         Messages.Add(vm);
     }
 
-    private void EditMessage(ChatMessageViewModel? message)
+    private void OnMessageEdited(object? sender, (int messageId, string newContent) edit)
+    {
+        var message = Messages.FirstOrDefault(m => m.MessageId == edit.messageId);
+        if (message != null)
+        {
+            message.Text = edit.newContent;
+            message.IsEdited = true;
+            message.IsEditing = false;
+        }
+    }
+
+    private void OnMessageDeleted(object? sender, int messageId)
+    {
+        var message = Messages.FirstOrDefault(m => m.MessageId == messageId);
+        if (message != null)
+        {
+            Messages.Remove(message);
+        }
+    }
+
+    public void ToggleContextMenu(ChatMessageViewModel? message)
+    {
+        if (message == null || !message.IsOutgoing) return;
+
+        foreach (var msg in Messages)
+        {
+            if (msg != message)
+            {
+                msg.ShowContextMenu = false;
+            }
+        }
+
+        message.ShowContextMenu = !message.ShowContextMenu;
+    }
+
+    private void StartEditMessage(ChatMessageViewModel? message)
+    {
+        if (message == null || !message.IsOutgoing) return;
+
+        message.ShowContextMenu = false;
+        message.EditedText = message.Text;
+        message.IsEditing = true;
+    }
+
+    private async void SaveEditMessage(ChatMessageViewModel? message)
+    {
+        if (message == null || string.IsNullOrWhiteSpace(message.EditedText)) return;
+
+        Logger.LogDebug("Saving edited message: {MessageId}", message.MessageId);
+
+        try
+        {
+            var response = await _messageService.EditMessageAsync(message.MessageId, message.EditedText);
+            if (response.Success)
+            {
+                message.IsEditing = false;
+            }
+            else
+            {
+                Logger.LogWarning("Failed to edit message: {Message}", response.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error editing message");
+        }
+    }
+
+    private void CancelEditMessage(ChatMessageViewModel? message)
     {
         if (message == null) return;
 
-        Logger.LogDebug("Edit message requested: {Text}", message.Text);
-        // TODO: Implement message editing via MessageService
         message.IsEditing = false;
+        message.EditedText = string.Empty;
     }
 
-    private void DeleteMessage(ChatMessageViewModel? message)
+    private async void DeleteMessage(ChatMessageViewModel? message)
     {
         if (message == null) return;
 
         Logger.LogDebug("Delete message requested: {Text}", message.Text);
-        // TODO: Implement message deletion via MessageService
-        Messages.Remove(message);
-    }
 
-    // ==================== TELEGRAM-LIKE DELIVERY TRACKING ====================
-
-    private void OnMessageAcknowledged(object? sender, MessageAckDto ack)
-    {
-        Logger.LogDebug("Message acknowledged: ClientId={ClientId} ServerId={ServerId}", ack.ClientMessageId, ack.ServerMessageId);
-        // Message was acknowledged by server - could update UI here if needed
-    }
-
-    private void OnDeliveryReceiptReceived(object? sender, DeliveryReceiptDto receipt)
-    {
-        Logger.LogDebug("Delivery receipt: MessageId={MessageId} Status={Status}", receipt.MessageId, receipt.Status);
-
-        // Update the delivery status of the message in our UI
-        var message = Messages.FirstOrDefault(m => m.MessageId == receipt.MessageId);
-        if (message != null)
+        try
         {
-            Logger.LogDebug("Updating message {MessageId} status from {OldStatus} to {NewStatus}",
-                receipt.MessageId, message.DeliveryStatus, receipt.Status);
-            message.DeliveryStatus = receipt.Status;
-        }
-        else
-        {
-            Logger.LogWarning("Message {MessageId} not found in Messages collection for delivery receipt", receipt.MessageId);
-        }
-    }
-
-    private async Task MarkVisibleMessagesAsReadAsync()
-    {
-        // Only mark messages that are not already read
-        var unreadMessages = Messages
-            .Where(m => !m.IsOutgoing && m.DeliveryStatus != uchat_common.Enums.DeliveryStatus.Read)
-            .ToList();
-
-        if (unreadMessages.Count == 0)
-        {
-            return;
-        }
-
-        Logger.LogDebug("Marking {Count} unread messages as read", unreadMessages.Count);
-
-        // Mark all unread messages (fire and forget for better UX)
-        foreach (var message in unreadMessages)
-        {
-            try
+            var response = await _messageService.DeleteMessageAsync(message.MessageId);
+            if (response.Success)
             {
-                await _messageService.MarkMessageReadAsync(message.MessageId);
+                Messages.Remove(message);
             }
-            catch (Exception ex)
+            else
             {
-                Logger.LogError(ex, "Failed to mark message as read: {MessageId}", message.MessageId);
+                Logger.LogWarning("Failed to delete message: {Message}", response.Message);
             }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error deleting message");
         }
     }
 }
 
-// Simple message ViewModel
 public class ChatMessageViewModel : ObservableObject
 {
     private string _sender = string.Empty;
     private string _text = string.Empty;
+    private string _editedText = string.Empty;
     private string _time = string.Empty;
     private bool _isOutgoing;
     private bool _isEditing;
-    private uchat_common.Enums.DeliveryStatus _deliveryStatus = uchat_common.Enums.DeliveryStatus.Pending;
+    private bool _isEdited;
+    private bool _showContextMenu;
     private int _messageId;
 
     public int MessageId
@@ -307,6 +399,12 @@ public class ChatMessageViewModel : ObservableObject
         set => SetProperty(ref _text, value);
     }
 
+    public string EditedText
+    {
+        get => _editedText;
+        set => SetProperty(ref _editedText, value);
+    }
+
     public string Time
     {
         get => _time;
@@ -325,24 +423,15 @@ public class ChatMessageViewModel : ObservableObject
         set => SetProperty(ref _isEditing, value);
     }
 
-    // Telegram-like delivery status
-    public uchat_common.Enums.DeliveryStatus DeliveryStatus
+    public bool IsEdited
     {
-        get => _deliveryStatus;
-        set
-        {
-            if (SetProperty(ref _deliveryStatus, value))
-            {
-                // Notify UI that checkmark properties have changed
-                OnPropertyChanged(nameof(ShowSingleCheckmark));
-                OnPropertyChanged(nameof(ShowDoubleCheckmark));
-                OnPropertyChanged(nameof(ShowBlueCheckmark));
-            }
-        }
+        get => _isEdited;
+        set => SetProperty(ref _isEdited, value);
     }
 
-    // Checkmark visibility properties for UI binding
-    public bool ShowSingleCheckmark => IsOutgoing && DeliveryStatus == uchat_common.Enums.DeliveryStatus.Sent;
-    public bool ShowDoubleCheckmark => IsOutgoing && DeliveryStatus == uchat_common.Enums.DeliveryStatus.Delivered;
-    public bool ShowBlueCheckmark => IsOutgoing && DeliveryStatus == uchat_common.Enums.DeliveryStatus.Read;
+    public bool ShowContextMenu
+    {
+        get => _showContextMenu;
+        set => SetProperty(ref _showContextMenu, value);
+    }
 }
